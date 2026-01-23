@@ -1,0 +1,85 @@
+
+<div style="max-width: 900px; margin: 0 auto; padding: 16px; font-family: Arial, sans-serif;">
+  <h1>BookLog</h1>
+
+  <h2 style="padding:16px;">BookLog UI is rendering</h2>
+
+  <div style="margin: 12px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+    <h3>Add book</h3>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <label>
+        Title *
+        <input [(ngModel)]="title" style="width: 100%; padding: 8px;" />
+      </label>
+
+      <label>
+        Author *
+        <input [(ngModel)]="author" style="width: 100%; padding: 8px;" />
+      </label>
+
+      <label>
+        Genre
+        <input [(ngModel)]="genre" style="width: 100%; padding: 8px;" />
+      </label>
+
+      <label>
+        Published Year
+        <input type="number" [(ngModel)]="publishedYear" style="width: 100%; padding: 8px;" />
+      </label>
+    </div>
+
+    <button (click)="createBook()" style="margin-top: 12px; padding: 8px 12px;">
+      Create
+    </button>
+
+    <div *ngIf="error" style="margin-top: 8px; color: #b00020;">
+      {{ error }}
+    </div>
+  </div>
+
+  <div style="margin: 12px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+    <h3>Filter</h3>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <label>
+        Search (title/author)
+        <input [(ngModel)]="search" (keyup.enter)="loadBooks()" style="width: 100%; padding: 8px;" />
+      </label>
+
+      <label>
+        Genre
+        <input [(ngModel)]="genreFilter" (keyup.enter)="loadBooks()" style="width: 100%; padding: 8px;" />
+      </label>
+    </div>
+
+    <button (click)="loadBooks()" style="margin-top: 12px; padding: 8px 12px;">
+      Apply
+    </button>
+  </div>
+
+  <div *ngIf="loading">Loading...</div>
+
+  <table *ngIf="!loading" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="text-align:left; border-bottom: 1px solid #ddd; padding: 8px;">Title</th>
+        <th style="text-align:left; border-bottom: 1px solid #ddd; padding: 8px;">Author</th>
+        <th style="text-align:left; border-bottom: 1px solid #ddd; padding: 8px;">Genre</th>
+        <th style="text-align:left; border-bottom: 1px solid #ddd; padding: 8px;">Year</th>
+        <th style="border-bottom: 1px solid #ddd; padding: 8px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let b of books">
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ b.title }}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ b.author }}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ b.genre || '-' }}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">{{ b.publishedYear || '-' }}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee; text-align:center;">
+          <button (click)="deleteBook(b.id)" style="padding: 6px 10px;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
