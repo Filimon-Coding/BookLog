@@ -19,11 +19,20 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] string? search, [FromQuery] string? genre)
     {
-        var books = await _db.Books.OrderBy(b => b.Title).ToListAsync();
+        IQueryable<Book> q = _db.Books;
+
+        if (!string.IsNullOrWhiteSpace(search))
+            q = q.Where(b => b.Title.Contains(search) || b.Author.Contains(search));
+
+        if (!string.IsNullOrWhiteSpace(genre))
+            q = q.Where(b => b.Genre == genre);
+
+        var books = await q.OrderBy(b => b.Title).ToListAsync();
         return Ok(books);
     }
+
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
@@ -32,20 +41,28 @@ public class BooksController : ControllerBase
         return book == null ? NotFound() : Ok(book);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Book book)
-    {
-        if (string.IsNullOrWhiteSpace(book.Title))
-            return BadRequest(new { message = "Title is required." });
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Book book)
+        {
+            if (string.IsNullOrWhiteSpace(book.Title))
+                return BadRequest(new { message = "Title is required." });
 
-        if (string.IsNullOrWhiteSpace(book.Author))
-            return BadRequest(new { message = "Author is required." });
+            if (string.IsNullOrWhiteSpace(book.Author))
+                return BadRequest(new { message = "Author is required." });
 
-        _db.Books.Add(book);
-        await _db.SaveChangesAsync();
+            try
+            {
+                _db.Books.Add(book);
+                await _db.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetById), new { id = book.Id }, book);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create book.");
+                return StatusCode(500, new { message = "Internal server error." });
+            }
+        }
 
-        return CreatedAtAction(nameof(GetById), new { id = book.Id }, book);
-    }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] Book book)

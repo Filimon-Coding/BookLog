@@ -1,5 +1,7 @@
 namespace BookLogApi.Models;
 
+
+
 public class Book
 {
     public int Id { get; set; }
@@ -8,4 +10,8 @@ public class Book
     public string Author { get; set; } = "";
     public string? Genre { get; set; }
     public int? PublishedYear { get; set; }
+
+    public List<Comment> Comments { get; set; } = new();
+
 }
+
