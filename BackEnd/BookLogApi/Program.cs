@@ -14,7 +14,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
+
+// Angular setup 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AngularDev", p =>
+        p.WithOrigins("http://localhost:4200")
+         .AllowAnyHeader()
+         .AllowAnyMethod());
+});
+
+
 var app = builder.Build();
+
+app.UseCors("AngularDev");
+
 
 if (app.Environment.IsDevelopment())
 {
