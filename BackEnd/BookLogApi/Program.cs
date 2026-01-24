@@ -3,32 +3,41 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Controllers
+// ------------------------------------------------------------
+// 1) Add services
+// ------------------------------------------------------------
+
+// Controllers (API endpoints)
 builder.Services.AddControllers();
 
-// Swagger
+// Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// DB
+// Database (SQLite)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
-
-// Angular setup 
+// CORS (React dev server)
+// Vite default: http://localhost:5173
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AngularDev", p =>
-        p.WithOrigins("http://localhost:4200")
-         .AllowAnyHeader()
-         .AllowAnyMethod());
+    options.AddPolicy("FrontendDev", policy =>
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
 });
 
-
+// ------------------------------------------------------------
+// 2) Build app
+// ------------------------------------------------------------
 var app = builder.Build();
 
-app.UseCors("AngularDev");
-
+// ------------------------------------------------------------
+// 3) Configure middleware (HTTP pipeline)
+// ------------------------------------------------------------
 
 if (app.Environment.IsDevelopment())
 {
@@ -36,9 +45,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// If you still get https redirect warning, comment this out:
+// If you keep seeing HTTPS redirect warnings while testing locally,
+// you can leave this commented out.
 // app.UseHttpsRedirection();
 
+app.UseRouting();
+
+// Apply CORS BEFORE mapping endpoints
+app.UseCors("FrontendDev");
+
+// Authorization middleware (safe even if you have no auth yet)
+app.UseAuthorization();
+
+// ------------------------------------------------------------
+// 4) Map endpoints
+// ------------------------------------------------------------
 app.MapControllers();
 
+// ------------------------------------------------------------
+// 5) Run
+// ------------------------------------------------------------
 app.Run();
