@@ -26,5 +26,10 @@ export class Registration {
     
   })
 
+
+  }
+    onSubmit(){
+    console.log(this.form.value); 
+
 }
 }

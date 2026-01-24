@@ -9,7 +9,12 @@ https://github.com/CodAffection/Angular-User-Registration-with-.Net-Core-Web-API
 
 References
 ASP.NET Core Identity Docs : https://bit.ly/465aJQi
+I am using the ASPe.Net core identiti soulation 
+
+
 IAM : https://bit.ly/468tIcN
+
+
 ASP.NET Core Middlewares : https://bit.ly/4djwFtv
 Authentication Standards : https://bit.ly/4dgMfWL
 
