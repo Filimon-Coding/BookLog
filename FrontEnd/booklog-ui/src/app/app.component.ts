@@ -2,27 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BooksService } from './services/books.service';
-import { Book } from './models/books';
-
-
-
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  books: Book[] = [];
+  books: any[] = [];
   loading = false;
   error = '';
 
+  // form fields
   title = '';
   author = '';
   genre = '';
   publishedYear: number | null = null;
 
+  // filters
   search = '';
   genreFilter = '';
 
@@ -32,7 +30,7 @@ export class AppComponent implements OnInit {
     this.loadBooks();
   }
 
-  loadBooks(): void {
+  loadBooks() {
     this.loading = true;
     this.error = '';
 
@@ -42,25 +40,22 @@ export class AppComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        console.error(err);
-        this.error = 'Could not load books. Check backend and CORS.';
+        this.error = err?.error?.message ?? 'Could not load books.';
         this.loading = false;
       }
     });
   }
 
-  createBook(): void {
+  createBook() {
     this.error = '';
 
-    if (!this.title.trim() || !this.author.trim()) {
-      this.error = 'Title and Author are required.';
-      return;
-    }
+    if (!this.title.trim()) { this.error = 'Title is required.'; return; }
+    if (!this.author.trim()) { this.error = 'Author is required.'; return; }
 
     const payload = {
-      title: this.title.trim(),
-      author: this.author.trim(),
-      genre: this.genre.trim() ? this.genre.trim() : null,
+      title: this.title,
+      author: this.author,
+      genre: this.genre || null,
       publishedYear: this.publishedYear
     };
 
@@ -73,19 +68,15 @@ export class AppComponent implements OnInit {
         this.loadBooks();
       },
       error: (err) => {
-        console.error(err);
-        this.error = 'Failed to create book.';
+        this.error = err?.error?.message ?? 'Could not create book.';
       }
     });
   }
 
-  deleteBook(id: number): void {
+  deleteBook(id: number) {
     this.booksService.delete(id).subscribe({
       next: () => this.loadBooks(),
-      error: (err) => {
-        console.error(err);
-        this.error = 'Failed to delete book.';
-      }
+      error: () => this.error = 'Could not delete book.'
     });
   }
 }
