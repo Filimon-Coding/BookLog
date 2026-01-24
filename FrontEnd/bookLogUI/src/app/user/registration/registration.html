@@ -1,1 +1,19 @@
-<p>registration works!!!</p>
+<form [formGroup]="form">
+<div class="mb-3">
+    <input class="form-control bg-body-secondary" 
+    placeholder="Full Name" formControlName="fullName">
+</div>
+<div class="mb-3">
+    <input class="form-control bg-body-secondary" 
+    placeholder="E-MAil" formControlName="eMail">
+</div>
+<div class="mb-3">
+    <input class="form-control bg-body-secondary" 
+    placeholder="Password" formControlName="password">
+</div>
+<div class="mb-3">
+    <input class="form-control bg-body-secondary" 
+    placeholder="Confirm Password" formControlName="confirmPassword">
+</div>
+
+</form>

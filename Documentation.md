@@ -16,3 +16,7 @@ Authentication Standards : https://bit.ly/4dgMfWL
 
 Main video 
 https://www.youtube.com/watch?v=nanXE4BJ1wI&list=PLjC4UKOOcfDQtElvsn1ZCAHatLtqDrTgQ&index=2 
+
+
+Reactivve forums 
+https://angular.dev/guide/forms 
