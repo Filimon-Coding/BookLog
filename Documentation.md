@@ -18,6 +18,8 @@ IAM : https://bit.ly/468tIcN
 ASP.NET Core Middlewares : https://bit.ly/4djwFtv
 Authentication Standards : https://bit.ly/4dgMfWL
 
+![alt text](image.png)
+
 
 Main video 
 https://www.youtube.com/watch?v=nanXE4BJ1wI&list=PLjC4UKOOcfDQtElvsn1ZCAHatLtqDrTgQ&index=2 
