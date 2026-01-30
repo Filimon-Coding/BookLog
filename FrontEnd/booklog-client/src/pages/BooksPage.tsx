@@ -1,82 +1,75 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { getBooksApi } from "../api/booksApi";
 import type { BookDto } from "../types/models";
-import BookCard from "../components/BookCard";
-import BookFilters from "../components/BookFilters";
 
 export default function BooksPage() {
   const [books, setBooks] = useState<BookDto[]>([]);
-  const [loading, setLoading] = useState(false);
-
   const [search, setSearch] = useState("");
   const [genre, setGenre] = useState("");
-  const [status, setStatus] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const run = async () => {
-      setLoading(true);
-      try {
-        const data = await getBooksApi();
-        setBooks(data);
-      } finally {
-        setLoading(false);
-      }
-    };
-    run();
+    getBooksApi()
+      .then(setBooks)
+      .catch((e) => setError(e?.message ?? "Failed to load books"));
   }, []);
 
   const genres = useMemo(() => {
     const set = new Set<string>();
-    books.forEach((b) => b.genre && set.add(b.genre));
-    return Array.from(set).sort();
-  }, [books]);
-
-  const statuses = useMemo(() => {
-    const set = new Set<string>();
-    books.forEach((b) => b.status && set.add(b.status));
+    for (const b of books) {
+      if ((b as any).genre) set.add((b as any).genre);
+    }
     return Array.from(set).sort();
   }, [books]);
 
   const filtered = useMemo(() => {
-    const s = search.trim().toLowerCase();
-    return books.filter((b) => {
-      const matchesSearch =
-        !s ||
-        b.title.toLowerCase().includes(s) ||
-        b.authorName.toLowerCase().includes(s);
+    const q = search.trim().toLowerCase();
 
-      const matchesGenre = !genre || b.genre === genre;
-      const matchesStatus = !status || b.status === status;
+    return books.filter((b: any) => {
+      const title = (b.title ?? "").toLowerCase();
+      const author = (b.authorName ?? b.authorUsername ?? "").toLowerCase();
+      const g = b.genre ?? "";
 
-      return matchesSearch && matchesGenre && matchesStatus;
+      const matchesText = !q || title.includes(q) || author.includes(q);
+      const matchesGenre = !genre || g === genre;
+
+      return matchesText && matchesGenre;
     });
-  }, [books, search, genre, status]);
+  }, [books, search, genre]);
 
   return (
-    <div>
-      <h2>Browse books</h2>
+    <div style={{ padding: 16 }}>
+      <h1>Browse</h1>
 
-      <BookFilters
-        search={search}
-        setSearch={setSearch}
-        genre={genre}
-        setGenre={setGenre}
-        status={status}
-        setStatus={setStatus}
-        genres={genres}
-        statuses={statuses}
-      />
+      <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search title/author..."
+          style={{ padding: 8, width: 280 }}
+        />
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div style={{ display: "grid", gap: 12 }}>
-          {filtered.map((b) => (
-            <BookCard key={b.id} book={b} />
+        <select value={genre} onChange={(e) => setGenre(e.target.value)} style={{ padding: 8 }}>
+          <option value="">All genres</option>
+          {genres.map((g) => (
+            <option key={g} value={g}>
+              {g}
+            </option>
           ))}
-          {filtered.length === 0 && <p>No books matched your filters.</p>}
-        </div>
-      )}
+        </select>
+      </div>
+
+      {error && <p style={{ color: "salmon" }}>{error}</p>}
+
+      <ul>
+        {filtered.map((b: any) => (
+          <li key={b.id} style={{ marginBottom: 8 }}>
+            <Link to={`/books/${b.id}`}>{b.title}</Link>{" "}
+            {b.authorName ? <span>- {b.authorName}</span> : null}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
