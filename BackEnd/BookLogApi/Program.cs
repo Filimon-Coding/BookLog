@@ -1,68 +1,103 @@
+using System.Text;
+using System.Text.Json.Serialization;
 using BookLogApi.Data;
+using BookLogApi.Data.Seed;
+using BookLogApi.Models;
+using BookLogApi.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ------------------------------------------------------------
-// 1) Add services
-// ------------------------------------------------------------
+// JSON enums as strings (helps frontend)
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
-// Controllers (API endpoints)
-builder.Services.AddControllers();
-
-// Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Database (SQLite)
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
-
-// CORS (React dev server)
-// Vite default: http://localhost:5173
-builder.Services.AddCors(options =>
+// EF Core (SQLite)
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
-    options.AddPolicy("FrontendDev", policy =>
-        policy
-            .WithOrigins("http://localhost:5173")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-    );
+    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// ------------------------------------------------------------
-// 2) Build app
-// ------------------------------------------------------------
+// Identity (INT keys)
+builder.Services.AddIdentityCore<ApplicationUser>(opt =>
+{
+    opt.Password.RequireDigit = true;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequiredLength = 6;
+})
+.AddRoles<IdentityRole<int>>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddSignInManager();
+
+// JWT auth
+var jwt = builder.Configuration.GetSection("Jwt");
+var key = jwt["Key"]!;
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwt["Issuer"],
+            ValidAudience = jwt["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// Optional CORS (if you ever call backend directly without proxy)
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("dev", p =>
+    {
+        p.WithOrigins("http://localhost:5173")
+         .AllowAnyHeader()
+         .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddScoped<JwtTokenService>();
+
 var app = builder.Build();
 
-// ------------------------------------------------------------
-// 3) Configure middleware (HTTP pipeline)
-// ------------------------------------------------------------
+app.UseSwagger();
+app.UseSwaggerUI();
 
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
 
-// If you keep seeing HTTPS redirect warnings while testing locally,
-// you can leave this commented out.
-// app.UseHttpsRedirection();
 
-app.UseRouting();
+app.UseCors("dev");
 
-// Apply CORS BEFORE mapping endpoints
-app.UseCors("FrontendDev");
-
-// Authorization middleware (safe even if you have no auth yet)
+app.UseAuthentication();
 app.UseAuthorization();
 
-// ------------------------------------------------------------
-// 4) Map endpoints
-// ------------------------------------------------------------
 app.MapControllers();
 
-// ------------------------------------------------------------
-// 5) Run
-// ------------------------------------------------------------
+// Create DB + seed roles/admin
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await db.Database.MigrateAsync();
+}
+await DbSeeder.SeedAsync(app.Services);
+
 app.Run();
