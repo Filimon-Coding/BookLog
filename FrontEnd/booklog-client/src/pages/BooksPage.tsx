@@ -1,6 +1,6 @@
 // src/pages/BooksPage.tsx
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getBooksApi } from "../api/booksApi";
 import { addToMyBooksApi, getMyBooksApi } from "../api/myBooksApi";
 import type { BookDto } from "../types/models";
@@ -18,6 +18,8 @@ export default function BooksPage() {
   const [myBookIds, setMyBookIds] = useState<Set<number>>(new Set());
   const [actionError, setActionError] = useState<string | null>(null);
   const [addingId, setAddingId] = useState<number | null>(null);
+  const [searchParams] = useSearchParams();
+
 
   useEffect(() => {
     (async () => {
@@ -33,6 +35,12 @@ export default function BooksPage() {
       }
     })();
   }, []);
+
+  useEffect(() => {
+  const q = searchParams.get("q") || "";
+  setQuery(q);
+}, [searchParams]);
+
 
   // Try fetch MyBooks (only works when logged in). If 401 -> ignore.
   useEffect(() => {

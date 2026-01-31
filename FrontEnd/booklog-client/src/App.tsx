@@ -3,11 +3,11 @@ import AppRouter from "./router/AppRouter";
 
 export default function App() {
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 16 }}>
+    <div>
       <NavBar />
-      <div style={{ marginTop: 16 }}>
+      <main className="container main">
         <AppRouter />
-      </div>
+      </main>
     </div>
   );
 }
