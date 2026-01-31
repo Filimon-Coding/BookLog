@@ -5,14 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/uploads")]
 public class UploadsController : ControllerBase
 {
+    public class UploadCoverRequest
+    {
+        [FromForm(Name = "file")]
+        public IFormFile File { get; set; } = default!;
+    }
+
     [HttpPost("cover")]
     [Authorize(Roles = "Admin,Author")]
-    public async Task<IActionResult> UploadCover([FromForm] IFormFile file)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadCover([FromForm] UploadCoverRequest request)
     {
+        var file = request.File;
+
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded.");
 
-        // Allow only images (simple check)
         var allowed = new[] { "image/jpeg", "image/png", "image/webp" };
         if (!allowed.Contains(file.ContentType))
             return BadRequest("Only jpg, png, webp allowed.");
@@ -22,7 +30,6 @@ public class UploadsController : ControllerBase
             return BadRequest("Invalid file extension.");
 
         var fileName = $"{Guid.NewGuid():N}{ext}";
-
         var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
         Directory.CreateDirectory(uploadsPath);
 
@@ -33,7 +40,6 @@ public class UploadsController : ControllerBase
             await file.CopyToAsync(stream);
         }
 
-        // This is the "local link" you can store on the Book
         var url = $"/uploads/{fileName}";
         return Ok(new { url });
     }
