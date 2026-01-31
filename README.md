@@ -158,8 +158,7 @@ The frontend reads the API base URL from:
 Example:
 ```env
 VITE_API_BASE_URL=http://localhost:5040/api
-
----
+```
 
 ## Authentication and Authorization
 
