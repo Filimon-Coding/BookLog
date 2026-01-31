@@ -63,9 +63,7 @@ export default function NavBar() {
 
     return allBooks
       .filter(
-        (b) =>
-          b.title.toLowerCase().includes(term) ||
-          b.authorName.toLowerCase().includes(term)
+        (b) => b.title.toLowerCase().includes(term) || b.authorName.toLowerCase().includes(term)
       )
       .slice(0, 6);
   }, [q, allBooks]);
@@ -86,8 +84,10 @@ export default function NavBar() {
     <header className="topbar">
       <div className="container topbar-inner">
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          {/* ✅ Logo + Text */}
           <Link to="/" className="brand">
-            BookLog
+            <img className="brand-logo" src="/favicon.svg" alt="BookLog logo" />
+            <span className="brand-text">BookLog</span>
           </Link>
 
           <nav className="nav-links">
@@ -121,7 +121,6 @@ export default function NavBar() {
               placeholder="Search books, authors..."
             />
 
-            {/* Suggestions dropdown */}
             {open && q.trim() && (
               <div className="nav-suggest">
                 {!booksLoaded ? (
@@ -134,7 +133,7 @@ export default function NavBar() {
                       key={b.id}
                       type="button"
                       className="nav-suggest-item"
-                      onMouseDown={(e) => e.preventDefault()} // prevent blur cancel
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => goToBook(b.id)}
                     >
                       <div>

@@ -176,11 +176,28 @@ textarea:focus {
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   font-weight: 800;
   letter-spacing: 0.3px;
   font-size: 20px;
   color: var(--purple);
 }
+
+.brand-logo {
+  width: 28px;
+  height: 28px;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.brand-text {
+  line-height: 1;
+}
+
 
 .nav-links {
   display: flex;
@@ -458,6 +475,19 @@ textarea:focus {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.03);
 }
+
+/* make SVG icons look clean inside the stat icon box */
+.stat-icon svg {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.90);
+}
+
+/* optional: slightly better spacing for hero kicker */
+.hero-kicker {
+  letter-spacing: 0.2px;
+}
+
 
 .quick-actions {
   display: grid;

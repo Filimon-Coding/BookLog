@@ -5,6 +5,77 @@ import { getMyBooksApi } from "../api/myBooksApi";
 import type { BookDto, MyBookDto } from "../types/models";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+/* ===== Simple inline SVG icons (no libraries needed) ===== */
+function IconBooks() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M6 4h9a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2V6a2 2 0 0 1 2-2Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.95"
+      />
+      <path
+        d="M6 8h11"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.55"
+      />
+      <path
+        d="M6 12h11"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.55"
+      />
+    </svg>
+  );
+}
+
+function IconOpenBook() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 6c-2-1.5-4.5-2-7-2v14c2.5 0 5 .5 7 2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.95"
+      />
+      <path
+        d="M12 6c2-1.5 4.5-2 7-2v14c-2.5 0-5 .5-7 2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.95"
+      />
+      <path
+        d="M12 6v14"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.55"
+      />
+    </svg>
+  );
+}
+
+function IconBookmark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7 4h10a1 1 0 0 1 1 1v16l-6-3-6 3V5a1 1 0 0 1 1-1Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        opacity="0.95"
+      />
+    </svg>
+  );
+}
+
 export default function HomePage() {
   const [books, setBooks] = useState<BookDto[]>([]);
   const [myBooks, setMyBooks] = useState<MyBookDto[]>([]);
@@ -48,7 +119,8 @@ export default function HomePage() {
       <div>
         <div className="card hero">
           <div className="hero-inner">
-            <div className="hero-kicker">✨ Featured Collection</div>
+            {/* removed emoji for a cleaner look */}
+            <div className="hero-kicker">Featured Collection</div>
 
             <div className="hero-title">Discover Your Next Favorite Book</div>
 
@@ -145,7 +217,6 @@ export default function HomePage() {
 
         <div className="trending-row">
           {trending.map((b) => {
-            // coverImageUrl should be returned by GET /api/books
             const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
 
             return (
@@ -166,9 +237,12 @@ export default function HomePage() {
       <div className="right-stack">
         <div className="card card-pad">
           <div className="card-title">Your Reading Stats</div>
+
           <div className="stat-list">
             <div className="stat-item">
-              <div className="stat-icon">📚</div>
+              <div className="stat-icon">
+                <IconBooks />
+              </div>
               <div>
                 <div style={{ color: "rgba(255,255,255,0.70)", fontSize: 12 }}>Books Read</div>
                 <div style={{ fontWeight: 900 }}>{counts.finished}</div>
@@ -176,7 +250,9 @@ export default function HomePage() {
             </div>
 
             <div className="stat-item">
-              <div className="stat-icon">📖</div>
+              <div className="stat-icon">
+                <IconOpenBook />
+              </div>
               <div>
                 <div style={{ color: "rgba(255,255,255,0.70)", fontSize: 12 }}>
                   Currently Reading
@@ -186,7 +262,9 @@ export default function HomePage() {
             </div>
 
             <div className="stat-item">
-              <div className="stat-icon">📌</div>
+              <div className="stat-icon">
+                <IconBookmark />
+              </div>
               <div>
                 <div style={{ color: "rgba(255,255,255,0.70)", fontSize: 12 }}>Want to Read</div>
                 <div style={{ fontWeight: 900 }}>{counts.want}</div>
