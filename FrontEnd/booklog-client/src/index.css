@@ -33,7 +33,6 @@ body {
   color: var(--text);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
-  /* Background like the screenshot: dark with subtle purple/pink glow */
   background:
     radial-gradient(900px 520px at 18% -10%, rgba(168, 85, 247, 0.22), transparent 60%),
     radial-gradient(900px 520px at 82% 0%, rgba(236, 72, 153, 0.18), transparent 55%),
@@ -277,8 +276,7 @@ textarea:focus {
   color: rgba(255, 255, 255, 0.62);
 }
 
-
-/* ====== Home layout (matches screenshot) ====== */
+/* ====== Home layout ====== */
 .home-grid {
   display: grid;
   grid-template-columns: 1.65fr 0.85fr;
@@ -298,8 +296,7 @@ textarea:focus {
   position: absolute;
   inset: 0;
   opacity: 0.22;
-  background-image:
-    radial-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px);
   background-size: 26px 26px;
 }
 
@@ -391,30 +388,36 @@ textarea:focus {
   margin-top: 10px;
 }
 
+.book-tile {
+  display: grid;
+  gap: 6px;
+}
+
 .book-tile .cover {
   height: 112px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background:
-    radial-gradient(120px 90px at 30% 25%, rgba(168, 85, 247, 0.35), transparent 60%),
-    radial-gradient(140px 100px at 70% 70%, rgba(236, 72, 153, 0.25), transparent 60%),
-    rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.03);
   position: relative;
   overflow: hidden;
 }
 
-.book-tile .rating {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+.book-tile .cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* fallback if no cover */
+.cover-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    radial-gradient(120px 90px at 30% 25%, rgba(168, 85, 247, 0.35), transparent 60%),
+    radial-gradient(140px 100px at 70% 70%, rgba(236, 72, 153, 0.25), transparent 60%),
+    rgba(255, 255, 255, 0.03);
 }
 
 .book-tile .title {
@@ -456,36 +459,6 @@ textarea:focus {
   background: rgba(255, 255, 255, 0.03);
 }
 
-.challenge {
-  border: none;
-  background: linear-gradient(135deg, rgba(126, 34, 206, 0.75), rgba(219, 39, 119, 0.55));
-}
-
-.challenge-inner {
-  padding: 16px;
-}
-
-.goal-box {
-  margin-top: 12px;
-  text-align: center;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.18);
-  padding: 14px;
-}
-
-.goal-num {
-  font-size: 34px;
-  font-weight: 900;
-  margin: 0;
-}
-
-.goal-sub {
-  margin: 2px 0 0;
-  color: rgba(255, 255, 255, 0.80);
-  font-size: 12px;
-}
-
 .quick-actions {
   display: grid;
   gap: 10px;
@@ -499,25 +472,6 @@ textarea:focus {
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   background: rgba(255, 255, 255, 0.03);
-}
-
-.progress-row {
-  display: grid;
-  gap: 10px;
-}
-
-.bar {
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-
-.bar > div {
-  height: 100%;
-  width: 55%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--purple), var(--pink));
 }
 
 .tags {
@@ -608,7 +562,7 @@ textarea:focus {
   }
 
   .nav-search {
-    display: none; /* like many mobile navs */
+    display: none;
   }
 }
 

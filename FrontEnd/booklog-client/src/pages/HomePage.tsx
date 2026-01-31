@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getBooksApi } from "../api/booksApi";
 import { getMyBooksApi } from "../api/myBooksApi";
 import type { BookDto, MyBookDto } from "../types/models";
+import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
 export default function HomePage() {
   const [books, setBooks] = useState<BookDto[]>([]);
@@ -143,19 +144,25 @@ export default function HomePage() {
         </div>
 
         <div className="trending-row">
-          {trending.map((b) => (
-            <Link key={b.id} to={`/books/${b.id}`} className="book-tile">
-              <div className="cover">
-                <div className="rating">⭐ 4.{(b.id % 5) + 3}</div>
-              </div>
-              <div className="title">{b.title}</div>
-              <div className="author">{b.authorName}</div>
-            </Link>
-          ))}
+          {trending.map((b) => {
+            // coverImageUrl should be returned by GET /api/books
+            const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
+
+            return (
+              <Link key={b.id} to={`/books/${b.id}`} className="book-tile">
+                <div className="cover">
+                  {img ? <img src={img} alt={`${b.title} cover`} /> : <div className="cover-fallback" />}
+                </div>
+
+                <div className="title">{b.title}</div>
+                <div className="author">{b.authorName}</div>
+              </Link>
+            );
+          })}
         </div>
       </div>
 
-      {/* RIGHT (Reading Goal + Community removed) */}
+      {/* RIGHT */}
       <div className="right-stack">
         <div className="card card-pad">
           <div className="card-title">Your Reading Stats</div>
