@@ -1,180 +1,152 @@
-import { useEffect, useState } from "react";
-import {
-  getMyBooksApi,
-  removeFromMyBooksApi,
-  setMyBookStatusApi,
-} from "../api/myBooksApi";
+// src/pages/MyBooksPage.tsx
+import { useEffect, useMemo, useState } from "react";
+import { getMyBooksApi, removeFromMyBooksApi, setMyBookStatusApi } from "../api/myBooksApi";
 import type { BookStatus, MyBookDto } from "../types/models";
+
+const statuses: BookStatus[] = ["WantToRead", "Reading", "Finished"];
 
 export default function MyBooksPage() {
   const [items, setItems] = useState<MyBookDto[]>([]);
+  const [draftStatus, setDraftStatus] = useState<Record<number, BookStatus>>({});
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // draftStatuses stores the "selected" value before saving
-  const [draftStatuses, setDraftStatuses] = useState<Record<number, BookStatus>>(
-    {}
-  );
+  const [savingBookId, setSavingBookId] = useState<number | null>(null);
+  const [saveMsg, setSaveMsg] = useState<string | null>(null);
 
-  const [savingMap, setSavingMap] = useState<Record<number, boolean>>({});
-
-  useEffect(() => {
-    loadMyBooks();
-  }, []);
-
-  async function loadMyBooks() {
+  const load = async () => {
+    setError(null);
+    setLoading(true);
     try {
-      setError(null);
       const data = await getMyBooksApi();
       setItems(data);
-      setDraftStatuses({});
+      setDraftStatus({});
     } catch (e: any) {
-      setError(e?.message ?? "Failed to load MyBooks");
+      if (e?.response?.status === 401) setError("Please login to see MyBooks.");
+      else setError("Could not load MyBooks.");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
-  function getUiStatus(item: MyBookDto): BookStatus {
-    return draftStatuses[item.bookId] ?? item.status;
-  }
+  useEffect(() => {
+    load();
+  }, []);
 
-  function isDirty(item: MyBookDto): boolean {
-    const draft = draftStatuses[item.bookId];
-    return !!draft && draft !== item.status;
-  }
+  const isDirty = (bookId: number) => {
+    const current = items.find((x) => x.bookId === bookId)?.status;
+    const draft = draftStatus[bookId];
+    return draft !== undefined && draft !== current;
+  };
 
-  function setSaving(bookId: number, value: boolean) {
-    setSavingMap((prev) => ({ ...prev, [bookId]: value }));
-  }
+  const saveOne = async (bookId: number) => {
+    const status = draftStatus[bookId];
+    if (!status) return;
 
-  async function handleSave(item: MyBookDto) {
-    const bookId = item.bookId;
-    const draft = draftStatuses[bookId];
-
-    if (!draft || draft === item.status) return;
+    setSavingBookId(bookId);
+    setSaveMsg(null);
 
     try {
-      setError(null);
-      setSaving(bookId, true);
-
-      const updated = await setMyBookStatusApi(bookId, draft);
+      await setMyBookStatusApi(bookId, status);
 
       setItems((prev) =>
-        prev.map((x) => (x.bookId === bookId ? updated : x))
+        prev.map((x) => (x.bookId === bookId ? { ...x, status } : x))
       );
 
-      setDraftStatuses((prev) => {
+      setDraftStatus((prev) => {
         const copy = { ...prev };
         delete copy[bookId];
         return copy;
       });
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to save status");
+
+      setSaveMsg("Saved ✅");
+      setTimeout(() => setSaveMsg(null), 1500);
+    } catch {
+      setSaveMsg("Could not save. Try again.");
+      setTimeout(() => setSaveMsg(null), 2000);
     } finally {
-      setSaving(bookId, false);
+      setSavingBookId(null);
     }
-  }
+  };
 
-  async function handleRemove(bookId: number) {
+  const removeOne = async (bookId: number) => {
+    setError(null);
     try {
-      setError(null);
-      setSaving(bookId, true);
-
       await removeFromMyBooksApi(bookId);
       setItems((prev) => prev.filter((x) => x.bookId !== bookId));
-
-      setDraftStatuses((prev) => {
+      setDraftStatus((prev) => {
         const copy = { ...prev };
         delete copy[bookId];
         return copy;
       });
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to remove book");
-    } finally {
-      setSaving(bookId, false);
+    } catch {
+      setError("Could not remove book.");
     }
-  }
+  };
+
+  const sorted = useMemo(() => {
+    return [...items].sort((a, b) => a.book.title.localeCompare(b.book.title));
+  }, [items]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: "crimson" }}>{error}</p>;
 
   return (
-    <div style={{ padding: 16 }}>
+    <div>
       <h1>MyBooks</h1>
+      {saveMsg && <p>{saveMsg}</p>}
 
-      {error && <p style={{ color: "salmon" }}>{error}</p>}
+      <div style={{ display: "grid", gap: 12, maxWidth: 650 }}>
+        {sorted.map((x) => {
+          const currentDraft = draftStatus[x.bookId] ?? x.status;
 
-      {items.map((item) => {
-        const uiStatus = getUiStatus(item);
-        const dirty = isDirty(item);
-        const saving = !!savingMap[item.bookId];
+          return (
+            <div
+              key={x.bookId}
+              style={{
+                border: "1px solid #444",
+                borderRadius: 8,
+                padding: 12,
+                display: "grid",
+                gap: 8,
+              }}
+            >
+              <div>
+                <strong>{x.book.title}</strong>
+                <div>Author: {x.book.authorName}</div>
+              </div>
 
-        return (
-          <div
-            key={item.bookId}
-            style={{
-              border: "1px solid #444",
-              borderRadius: 8,
-              padding: 12,
-              marginBottom: 12,
-              maxWidth: 520,
-            }}
-          >
-            <h3 style={{ margin: 0 }}>{item.book.title}</h3>
-            <p style={{ marginTop: 6, opacity: 0.85 }}>
-              Author: {item.book.authorName}
-            </p>
+              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                <label>Status:</label>
+                <select
+                  value={currentDraft}
+                  onChange={(e) =>
+                    setDraftStatus((prev) => ({
+                      ...prev,
+                      [x.bookId]: e.target.value as BookStatus,
+                    }))
+                  }
+                >
+                  {statuses.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
 
-            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-              <label style={{ opacity: 0.9 }}>Status:</label>
+                <button
+                  onClick={() => saveOne(x.bookId)}
+                  disabled={!isDirty(x.bookId) || savingBookId === x.bookId}
+                >
+                  {savingBookId === x.bookId ? "Saving..." : "Save"}
+                </button>
 
-              <select
-                value={uiStatus}
-                disabled={saving}
-                onChange={(e) => {
-                  const newStatus = e.target.value as BookStatus;
-                  setDraftStatuses((prev) => ({
-                    ...prev,
-                    [item.bookId]: newStatus,
-                  }));
-                }}
-              >
-                <option value="WantToRead">WantToRead</option>
-                <option value="Reading">Reading</option>
-                <option value="Finished">Finished</option>
-              </select>
-
-              {/* Always visible Save button */}
-              <button
-                onClick={() => handleSave(item)}
-                disabled={saving || !dirty}
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: 6,
-                  cursor: saving || !dirty ? "not-allowed" : "pointer",
-                  opacity: saving || !dirty ? 0.7 : 1,
-                }}
-              >
-                {saving ? "Saving..." : dirty ? "Save" : "Saved"}
-              </button>
-
-              <button
-                onClick={() => handleRemove(item.bookId)}
-                disabled={saving}
-                style={{
-                  marginLeft: "auto",
-                  padding: "6px 12px",
-                  borderRadius: 6,
-                  cursor: saving ? "not-allowed" : "pointer",
-                }}
-              >
-                Remove
-              </button>
+                <button onClick={() => removeOne(x.bookId)}>Remove</button>
+              </div>
             </div>
-
-            {dirty && (
-              <p style={{ marginTop: 8, fontSize: 13, opacity: 0.8 }}>
-                Status changed — click <b>Save</b> to update the backend.
-              </p>
-            )}
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

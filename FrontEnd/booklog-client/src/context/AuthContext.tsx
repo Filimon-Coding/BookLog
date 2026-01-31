@@ -1,3 +1,4 @@
+// src/context/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { AuthResponseDto, Role, UserDto } from "../types/models";
 import { loginApi, registerApi } from "../api/authApi";
@@ -14,8 +15,13 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+function extractToken(data: AuthResponseDto): string | null {
+  return data.accessToken ?? data.token ?? null;
+}
+
 function saveAuth(data: AuthResponseDto) {
-  localStorage.setItem("booklog_token", data.accessToken);
+  const token = extractToken(data);
+  if (token) localStorage.setItem("booklog_token", token);
   localStorage.setItem("booklog_user", JSON.stringify(data.user));
 }
 
@@ -37,15 +43,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (username: string, password: string) => {
     const data = await loginApi(username, password);
+    const t = extractToken(data);
     saveAuth(data);
-    setToken(data.accessToken);
+    setToken(t);
     setUser(data.user);
   };
 
   const register = async (username: string, password: string, role: Role) => {
     const data = await registerApi(username, password, role);
+    const t = extractToken(data);
     saveAuth(data);
-    setToken(data.accessToken);
+    setToken(t);
     setUser(data.user);
   };
 

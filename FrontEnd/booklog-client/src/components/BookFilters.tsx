@@ -1,38 +1,26 @@
+// src/components/BookFilters.tsx
 type Props = {
-  search: string;
-  setSearch: (v: string) => void;
+  query: string;
+  setQuery: (v: string) => void;
   genre: string;
   setGenre: (v: string) => void;
-  status: string;
-  setStatus: (v: string) => void;
   genres: string[];
-  statuses: string[];
 };
 
-export default function BookFilters(props: Props) {
+export default function BookFilters({ query, setQuery, genre, setGenre, genres }: Props) {
   return (
-    <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14 }}>
       <input
-        style={{ padding: 8, minWidth: 260 }}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         placeholder="Search title/author..."
-        value={props.search}
-        onChange={(e) => props.setSearch(e.target.value)}
+        style={{ minWidth: 260 }}
       />
 
-      <select value={props.genre} onChange={(e) => props.setGenre(e.target.value)}>
-        <option value="">All genres</option>
-        {props.genres.map((g) => (
-          <option key={g} value={g}>
-            {g}
-          </option>
-        ))}
-      </select>
-
-      <select value={props.status} onChange={(e) => props.setStatus(e.target.value)}>
-        <option value="">All statuses</option>
-        {props.statuses.map((s) => (
-          <option key={s} value={s}>
-            {s}
+      <select value={genre} onChange={(e) => setGenre(e.target.value)}>
+        {genres.map((g) => (
+          <option key={g || "__all"} value={g}>
+            {g ? g : "All genres"}
           </option>
         ))}
       </select>

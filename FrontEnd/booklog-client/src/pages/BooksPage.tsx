@@ -1,159 +1,126 @@
+// src/pages/BooksPage.tsx
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { getBooksApi } from "../api/booksApi";
-import { getMyBooksApi, setMyBookStatusApi } from "../api/myBooksApi";
-import type { BookDto, BookStatus } from "../types/models";
-import BookCard from "../components/BookCard";
+import { addToMyBooksApi, getMyBooksApi } from "../api/myBooksApi";
+import type { BookDto } from "../types/models";
 import BookFilters from "../components/BookFilters";
-import { useAuth } from "../context/AuthContext";
 
 export default function BooksPage() {
-  const { isLoggedIn } = useAuth();
-
   const [books, setBooks] = useState<BookDto[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const [search, setSearch] = useState("");
-  const [genre, setGenre] = useState("");
-  const [status, setStatus] = useState("");
-
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // track which books are already in MyBooks
+  const [query, setQuery] = useState("");
+  const [genre, setGenre] = useState("");
+
+  // If user is logged in, we can mark which books are already in MyBooks
   const [myBookIds, setMyBookIds] = useState<Set<number>>(new Set());
-  const [addingMap, setAddingMap] = useState<Record<number, boolean>>({});
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [addingId, setAddingId] = useState<number | null>(null);
 
   useEffect(() => {
-    const run = async () => {
-      setLoading(true);
+    (async () => {
       setError(null);
-
+      setLoading(true);
       try {
         const data = await getBooksApi();
         setBooks(data);
-
-        // only fetch mybooks when logged in
-        if (isLoggedIn) {
-          const my = await getMyBooksApi();
-          setMyBookIds(new Set(my.map((x) => x.bookId)));
-        } else {
-          setMyBookIds(new Set());
-        }
-      } catch (e: any) {
-        setError(e?.message ?? "Failed to load books");
+      } catch {
+        setError("Could not load books.");
       } finally {
         setLoading(false);
       }
-    };
+    })();
+  }, []);
 
-    run();
-  }, [isLoggedIn]);
+  // Try fetch MyBooks (only works when logged in). If 401 -> ignore.
+  useEffect(() => {
+    (async () => {
+      try {
+        const my = await getMyBooksApi();
+        setMyBookIds(new Set(my.map((x) => x.bookId)));
+      } catch {
+        // not logged in (or server blocked) - ignore
+      }
+    })();
+  }, []);
 
   const genres = useMemo(() => {
     const set = new Set<string>();
-    books.forEach((b) => b.genre && set.add(b.genre));
-    return Array.from(set).sort();
-  }, [books]);
-
-  const statuses = useMemo(() => {
-    const set = new Set<string>();
-    books.forEach((b) => b.status && set.add(b.status));
-    return Array.from(set).sort();
+    books.forEach((b) => set.add(b.genre));
+    return ["", ...Array.from(set).sort()];
   }, [books]);
 
   const filtered = useMemo(() => {
-    const s = search.trim().toLowerCase();
+    const q = query.trim().toLowerCase();
     return books.filter((b) => {
-      const matchesSearch =
-        !s ||
-        b.title.toLowerCase().includes(s) ||
-        b.authorName.toLowerCase().includes(s);
+      const matchesQuery =
+        !q ||
+        b.title.toLowerCase().includes(q) ||
+        b.authorName.toLowerCase().includes(q);
 
       const matchesGenre = !genre || b.genre === genre;
-      const matchesStatus = !status || b.status === status;
-
-      return matchesSearch && matchesGenre && matchesStatus;
+      return matchesQuery && matchesGenre;
     });
-  }, [books, search, genre, status]);
+  }, [books, query, genre]);
 
-  function setAdding(bookId: number, value: boolean) {
-    setAddingMap((prev) => ({ ...prev, [bookId]: value }));
-  }
+  const addToMyBooks = async (bookId: number) => {
+    setActionError(null);
+    setAddingId(bookId);
 
-  async function handleAddToMyBooks(bookId: number) {
     try {
-      setError(null);
-      setAdding(bookId, true);
-
-      // default when adding from browse
-      const defaultStatus: BookStatus = "WantToRead";
-      await setMyBookStatusApi(bookId, defaultStatus);
-
-      // update UI instantly
-      setMyBookIds((prev) => {
-        const copy = new Set(prev);
-        copy.add(bookId);
-        return copy;
-      });
+      await addToMyBooksApi(bookId);
+      setMyBookIds((prev) => new Set(prev).add(bookId));
     } catch (e: any) {
-      setError(e?.message ?? "Failed to add to MyBooks");
+      if (e?.response?.status === 401) {
+        setActionError("You must be logged in to add books to MyBooks.");
+      } else {
+        setActionError("Could not add the book. Try again.");
+      }
     } finally {
-      setAdding(bookId, false);
+      setAddingId(null);
     }
-  }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: "crimson" }}>{error}</p>;
 
   return (
     <div>
-      <h2>Browse books</h2>
+      <h1>Browse</h1>
+
+      {actionError && <p style={{ color: "crimson" }}>{actionError}</p>}
 
       <BookFilters
-        search={search}
-        setSearch={setSearch}
+        query={query}
+        setQuery={setQuery}
         genre={genre}
         setGenre={setGenre}
-        status={status}
-        setStatus={setStatus}
         genres={genres}
-        statuses={statuses}
       />
 
-      {error && <p style={{ color: "salmon" }}>{error}</p>}
+      <ul style={{ display: "grid", gap: 10, paddingLeft: 18 }}>
+        {filtered.map((b) => {
+          const inMyBooks = myBookIds.has(b.id);
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div style={{ display: "grid", gap: 12 }}>
-          {filtered.map((b) => {
-            const alreadyInMyBooks = myBookIds.has(b.id);
-            const adding = !!addingMap[b.id];
+          return (
+            <li key={b.id} style={{ display: "flex", gap: 10, alignItems: "center" }}>
+              <span>
+                <Link to={`/books/${b.id}`}>{b.title}</Link> - {b.authorName}
+              </span>
 
-            return (
-              <div key={b.id} style={{ border: "1px solid #333", borderRadius: 8, padding: 12 }}>
-                <BookCard book={b} />
-
-                {isLoggedIn && (
-                  <div style={{ marginTop: 10, display: "flex", justifyContent: "flex-end" }}>
-                    <button
-                      onClick={() => handleAddToMyBooks(b.id)}
-                      disabled={alreadyInMyBooks || adding}
-                      style={{ padding: "6px 12px", borderRadius: 6 }}
-                    >
-                      {alreadyInMyBooks ? "In MyBooks" : adding ? "Adding..." : "Add to MyBooks"}
-                    </button>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-
-          {filtered.length === 0 && <p>No books matched your filters.</p>}
-        </div>
-      )}
-
-      {!isLoggedIn && (
-        <p style={{ marginTop: 12, opacity: 0.8 }}>
-          Log in to add books to your MyBooks list.
-        </p>
-      )}
+              <button
+                onClick={() => addToMyBooks(b.id)}
+                disabled={inMyBooks || addingId === b.id}
+                style={{ marginLeft: "auto" }}
+              >
+                {inMyBooks ? "Added" : addingId === b.id ? "Adding..." : "Add to MyBooks"}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

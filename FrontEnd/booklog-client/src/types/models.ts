@@ -1,4 +1,11 @@
-export type Role = "Admin" | "Reader" | "Author";
+// src/types/models.ts
+
+export type Role = "Admin" | "Author" | "Reader";
+
+export type BookVisibilityStatus = "Published" | "Hidden";
+
+export type BookStatus = "WantToRead" | "Reading" | "Finished";
+export type MyBookStatus = BookStatus;
 
 export type UserDto = {
   id: number;
@@ -6,21 +13,21 @@ export type UserDto = {
   role: Role;
 };
 
+// IMPORTANT: backend/frontend may use either token or accessToken
 export type AuthResponseDto = {
-  accessToken: string;
+  token?: string;
+  accessToken?: string;
   user: UserDto;
 };
-
-export type BookStatus = "WantToRead" | "Reading" | "Finished";
 
 export type BookDto = {
   id: number;
   title: string;
   authorName: string;
-  genre?: string;
-  status?: string; // optional if your backend stores a book status; MyBooks uses BookStatus instead
-  description?: string;
-  createdByUserId?: number; // needed for Author "own books"
+  genre: string;
+  description: string;
+  status: BookVisibilityStatus;
+  createdByUserId: number;
 };
 
 export type CommentDto = {
