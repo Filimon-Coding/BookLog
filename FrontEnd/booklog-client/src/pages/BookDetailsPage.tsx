@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getBookByIdApi } from "../api/booksApi";
 import { addCommentApi, deleteCommentApi, getCommentsForBookApi } from "../api/commentsApi";
@@ -6,6 +6,7 @@ import type { BookDto, CommentDto } from "../types/models";
 import { useAuth } from "../context/AuthContext";
 import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
+import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
 export default function BookDetailsPage() {
   const { id } = useParams();
@@ -37,6 +38,11 @@ export default function BookDetailsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookId]);
 
+  const coverUrl = useMemo(() => {
+    if (!book?.coverImageUrl) return "";
+    return resolveAssetUrl(book.coverImageUrl);
+  }, [book]);
+
   const addComment = async (content: string) => {
     await addCommentApi(bookId, content);
     await load();
@@ -51,28 +57,70 @@ export default function BookDetailsPage() {
   if (!Number.isFinite(bookId)) return <p>Invalid book id</p>;
 
   return (
-    <div>
+    <div style={{ display: "grid", gap: 14 }}>
       {loading ? (
         <p>Loading...</p>
       ) : !book ? (
         <p>Book not found.</p>
       ) : (
         <>
-          <h2>{book.title}</h2>
-          <div>Author: {book.authorName}</div>
-          {book.genre && <div>Genre: {book.genre}</div>}
-          {book.description && <p style={{ marginTop: 10 }}>{book.description}</p>}
+          <div
+            className="card card-pad"
+            style={{
+              display: "grid",
+              gridTemplateColumns: coverUrl ? "170px 1fr" : "1fr",
+              gap: 16,
+              alignItems: "start",
+            }}
+          >
+            {coverUrl && (
+              <img
+                src={coverUrl}
+                alt={`${book.title} cover`}
+                style={{
+                  width: 170,
+                  height: 240,
+                  objectFit: "cover",
+                  borderRadius: 14,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.03)",
+                }}
+              />
+            )}
 
-          <hr style={{ margin: "16px 0" }} />
+            <div>
+              <h2 style={{ margin: "0 0 6px 0" }}>{book.title}</h2>
+              <div style={{ color: "rgba(255,255,255,0.75)", marginBottom: 10 }}>
+                Author: <span style={{ color: "rgba(255,255,255,0.92)" }}>{book.authorName}</span>
+              </div>
 
-          <h3>Comments</h3>
-          <CommentList comments={comments} canDeleteAny={!!canDeleteAny} onDelete={deleteComment} />
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {book.genre && <span className="tag">{book.genre}</span>}
+                {book.status && <span className="tag">{book.status}</span>}
+              </div>
 
-          {isLoggedIn ? (
-            <CommentForm onSubmit={addComment} />
-          ) : (
-            <p style={{ marginTop: 12 }}>Log in to add a comment.</p>
-          )}
+              {book.description && (
+                <p style={{ marginTop: 12, color: "rgba(255,255,255,0.80)" }}>{book.description}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="card card-pad" style={{ display: "grid", gap: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h3 style={{ margin: 0 }}>Comments</h3>
+              <span style={{ color: "rgba(255,255,255,0.60)", fontSize: 12 }}>
+                {comments.length} total
+              </span>
+            </div>
+
+            <CommentList comments={comments} canDeleteAny={!!canDeleteAny} onDelete={deleteComment} />
+
+            {isLoggedIn ? (
+              <CommentForm onSubmit={addComment} />
+            ) : (
+              <p style={{ marginTop: 12, color: "rgba(255,255,255,0.70)" }}>Log in to add a comment.</p>
+            )}
+          </div>
         </>
       )}
     </div>

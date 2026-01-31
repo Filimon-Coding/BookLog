@@ -32,6 +32,7 @@ public class BooksController : ControllerBase
                 AuthorName = b.AuthorName,
                 Genre = b.Genre,
                 Description = b.Description,
+                CoverImageUrl = b.CoverImageUrl,   
                 Status = b.Status.ToString(),
                 CreatedByUserId = b.CreatedByUserId
             })
@@ -53,6 +54,7 @@ public class BooksController : ControllerBase
             AuthorName = b.AuthorName,
             Genre = b.Genre,
             Description = b.Description,
+            CoverImageUrl = b.CoverImageUrl,     
             Status = b.Status.ToString(),
             CreatedByUserId = b.CreatedByUserId
         });
@@ -73,6 +75,7 @@ public class BooksController : ControllerBase
             AuthorName = dto.AuthorName,
             Genre = dto.Genre,
             Description = dto.Description,
+            CoverImageUrl = dto.CoverImageUrl,   
             Status = status,
             CreatedByUserId = userId
         };
@@ -87,6 +90,7 @@ public class BooksController : ControllerBase
             AuthorName = book.AuthorName,
             Genre = book.Genre,
             Description = book.Description,
+            CoverImageUrl = book.CoverImageUrl,  
             Status = book.Status.ToString(),
             CreatedByUserId = book.CreatedByUserId
         });
@@ -112,6 +116,7 @@ public class BooksController : ControllerBase
         book.AuthorName = dto.AuthorName;
         book.Genre = dto.Genre;
         book.Description = dto.Description;
+        book.CoverImageUrl = dto.CoverImageUrl; 
         book.Status = status;
 
         await _db.SaveChangesAsync();
@@ -123,6 +128,7 @@ public class BooksController : ControllerBase
             AuthorName = book.AuthorName,
             Genre = book.Genre,
             Description = book.Description,
+            CoverImageUrl = book.CoverImageUrl,  
             Status = book.Status.ToString(),
             CreatedByUserId = book.CreatedByUserId
         });

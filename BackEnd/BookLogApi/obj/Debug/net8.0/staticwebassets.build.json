@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "IFvYBF7IC4mXVLm2oLqtK09sa2bKSrS1NcuRmBebVPA=",
+  "Hash": "d/a/jzEXqIFdClau2GGxOODbDSS9GWpq32AZIfC37MY=",
   "Source": "BookLogApi",
   "BasePath": "_content/BookLogApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "BookLogApi/wwwroot",
+      "Source": "BookLogApi",
+      "ContentRoot": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/",
+      "BasePath": "_content/BookLogApi",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

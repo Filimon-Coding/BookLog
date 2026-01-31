@@ -11,6 +11,9 @@ public class Book
     public string? Genre { get; set; }
     public string? Description { get; set; }
 
+    // image 
+    public string? CoverImageUrl { get; set; }
+
     public BookVisibilityStatus Status { get; set; } = BookVisibilityStatus.Published;
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

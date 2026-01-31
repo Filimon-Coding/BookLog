@@ -6,5 +6,8 @@ public class CreateBookDto
     public string AuthorName { get; set; } = "";
     public string? Genre { get; set; }
     public string? Description { get; set; }
+
+    public string? CoverImageUrl { get; set; }
+
     public string Status { get; set; } = "Published";
 }

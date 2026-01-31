@@ -76,6 +76,8 @@ builder.Services.AddScoped<JwtTokenService>();
 
 var app = builder.Build();
 
+app.UseStaticFiles(); // enables wwwroot files like /uploads/...
+
 app.UseSwagger();
 app.UseSwaggerUI();
 

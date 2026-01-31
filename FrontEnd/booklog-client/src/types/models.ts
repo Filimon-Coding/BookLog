@@ -28,7 +28,10 @@ export type BookDto = {
   description: string;
   status: BookVisibilityStatus;
   createdByUserId: number;
+
+  coverImageUrl?: string | null; // image upload
 };
+
 
 export type CommentDto = {
   id: number;

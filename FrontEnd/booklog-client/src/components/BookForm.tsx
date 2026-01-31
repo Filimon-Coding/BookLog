@@ -1,6 +1,7 @@
-// src/components/BookForm.tsx
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { BookDto } from "../types/models";
+import { uploadCoverApi } from "../api/uploadsApi";
+import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
 type Props = {
   initial?: Partial<BookDto>;
@@ -32,20 +33,75 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
   const [genre, setGenre] = useState(initial?.genre ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
 
+  // ✅ cover state
+  const [coverImageUrl, setCoverImageUrl] = useState<string>(initial?.coverImageUrl ?? "");
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
+
+  const [saving, setSaving] = useState(false);
+
   const genreOptions = useMemo(() => {
     const list = [...STANDARD_GENRES];
     if (genre && !list.includes(genre)) list.push(genre);
     return list.sort();
   }, [genre]);
 
-  const submit = async () => {
-    await onSave({
-      title: title.trim(),
-      authorName: authorName.trim(),
-      genre: genre.trim(),
-      description: description.trim(),
-    });
+  // Create local preview URL
+  useEffect(() => {
+    if (!coverFile) {
+      setPreviewUrl("");
+      return;
+    }
+    const url = URL.createObjectURL(coverFile);
+    setPreviewUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [coverFile]);
+
+  const pickFile = (file: File | null) => {
+    if (!file) return;
+
+    const okTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!okTypes.includes(file.type)) {
+      alert("Only JPG, PNG, WEBP allowed.");
+      return;
+    }
+
+    setCoverFile(file);
   };
+
+  const removeCover = () => {
+    setCoverFile(null);
+    setPreviewUrl("");
+    setCoverImageUrl("");
+  };
+
+  const submit = async () => {
+    setSaving(true);
+    try {
+      let finalCoverUrl = coverImageUrl;
+
+      // If user selected a new file -> upload first
+      if (coverFile) {
+        finalCoverUrl = await uploadCoverApi(coverFile);
+        setCoverImageUrl(finalCoverUrl);
+      }
+
+      await onSave({
+        title: title.trim(),
+        authorName: authorName.trim(),
+        genre: genre.trim(),
+        description: description.trim(),
+        coverImageUrl: finalCoverUrl || null,
+      });
+
+      setCoverFile(null);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const showExisting = !previewUrl && !!coverImageUrl;
+  const imgSrc = previewUrl ? previewUrl : resolveAssetUrl(coverImageUrl);
 
   return (
     <div style={{ display: "grid", gap: 10 }}>
@@ -63,9 +119,54 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
 
       <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
 
+      {/* ✅ Cover upload + preview */}
+      <div style={{ display: "grid", gap: 8 }}>
+        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)" }}>Book Cover</div>
+
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
+        />
+
+        {(previewUrl || showExisting) && (
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <img
+              src={imgSrc}
+              alt="Cover preview"
+              style={{
+                width: 120,
+                height: 170,
+                objectFit: "cover",
+                borderRadius: 14,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.03)",
+              }}
+            />
+
+            <div style={{ display: "grid", gap: 8 }}>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
+                {previewUrl ? "Preview (not published yet)" : "Current cover"}
+              </div>
+
+              <button type="button" className="btn" onClick={removeCover} disabled={saving}>
+                Remove cover
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
       <div style={{ display: "flex", gap: 10 }}>
-        <button onClick={submit}>{submitText}</button>
-        {onCancel && <button onClick={onCancel}>Cancel</button>}
+        <button className="btn btn-primary" onClick={submit} disabled={saving}>
+          {saving ? "Saving..." : submitText}
+        </button>
+
+        {onCancel && (
+          <button className="btn" onClick={onCancel} disabled={saving}>
+            Cancel
+          </button>
+        )}
       </div>
     </div>
   );
