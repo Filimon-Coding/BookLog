@@ -1,6 +1,5 @@
-// src/context/AuthContext.tsx
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import type { AuthResponseDto, Role, UserDto } from "../types/models";
+import React, { createContext, useContext, useMemo, useState } from "react";
+import type { Role, UserDto } from "../types/models";
 import { loginApi, registerApi } from "../api/authApi";
 
 type AuthContextValue = {
@@ -15,52 +14,57 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-function extractToken(data: AuthResponseDto): string | null {
-  return data.accessToken ?? data.token ?? null;
-}
+const TOKEN_KEY = "booklog_token";
+const USER_KEY = "booklog_user";
 
-function saveAuth(data: AuthResponseDto) {
-  const token = extractToken(data);
-  if (token) localStorage.setItem("booklog_token", token);
-  localStorage.setItem("booklog_user", JSON.stringify(data.user));
-}
-
-function clearAuth() {
-  localStorage.removeItem("booklog_token");
-  localStorage.removeItem("booklog_user");
+function safeJsonParse<T>(raw: string | null): T | null {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(localStorage.getItem("booklog_token"));
-  const [user, setUser] = useState<UserDto | null>(() => {
-    const raw = localStorage.getItem("booklog_user");
-    return raw ? (JSON.parse(raw) as UserDto) : null;
-  });
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
+  const [user, setUser] = useState<UserDto | null>(() => safeJsonParse<UserDto>(localStorage.getItem(USER_KEY)));
 
-  useEffect(() => {
-    setToken(localStorage.getItem("booklog_token"));
-  }, []);
+  const saveAuth = (newToken: string, newUser: UserDto) => {
+    setToken(newToken);
+    setUser(newUser);
+    localStorage.setItem(TOKEN_KEY, newToken);
+    localStorage.setItem(USER_KEY, JSON.stringify(newUser));
+  };
+
+  const clearAuth = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+  };
 
   const login = async (username: string, password: string) => {
-    const data = await loginApi(username, password);
-    const t = extractToken(data);
-    saveAuth(data);
-    setToken(t);
-    setUser(data.user);
+    const res = await loginApi(username, password);
+    const t = res.accessToken ?? res.token;
+    if (!t) throw new Error("No token returned from server.");
+    saveAuth(t, res.user);
   };
 
   const register = async (username: string, password: string, role: Role) => {
-    const data = await registerApi(username, password, role);
-    const t = extractToken(data);
-    saveAuth(data);
-    setToken(t);
-    setUser(data.user);
+    // backend only allows Reader/Author self-register, so keep it strict here too
+    if (role !== "Reader" && role !== "Author") {
+      throw new Error("Role must be Reader or Author.");
+    }
+
+    const res = await registerApi(username, password, role);
+    const t = res.accessToken ?? res.token;
+    if (!t) throw new Error("No token returned from server.");
+    saveAuth(t, res.user);
   };
 
   const logout = () => {
     clearAuth();
-    setToken(null);
-    setUser(null);
   };
 
   const hasRole = (roles: Role[]) => {
@@ -86,6 +90,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>.");
   return ctx;
 }

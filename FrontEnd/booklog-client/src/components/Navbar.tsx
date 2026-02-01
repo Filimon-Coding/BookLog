@@ -150,20 +150,26 @@ export default function NavBar() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {isLoggedIn ? (
-            <>
-              <span style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>
-                {user?.username} ({user?.role})
-              </span>
-              <button className="btn" onClick={logout}>
-                Logout
-              </button>
-            </>
-          ) : (
-            <Link to="/login" className="btn btn-primary">
+        {isLoggedIn ? (
+          <>
+            <span style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>
+              {user?.username} ({user?.role})
+            </span>
+            <button className="btn" onClick={logout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="btn btn-ghost">
               Login
             </Link>
-          )}
+            <Link to="/register" className="btn btn-primary">
+              Register
+            </Link>
+          </>
+        )}
+
         </div>
       </div>
     </header>

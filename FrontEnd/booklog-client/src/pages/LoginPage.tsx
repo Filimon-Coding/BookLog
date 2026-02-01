@@ -86,6 +86,13 @@ export default function LoginPage() {
             <button className="btn btn-primary" onClick={submit} disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </button>
+
+            <div style={{ marginTop: 10, fontSize: 12, color: "rgba(255,255,255,0.62)" }}>
+              New here?{" "}
+              <Link to="/register" style={{ color: "rgba(168,85,247,0.95)" }}>
+                Create an account
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -1,12 +1,20 @@
 {
   "Files": [
     {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/0f8b784bf5aa42eb8b814bf95ffdd443.jpeg",
+      "PackagePath": "staticwebassets/uploads/0f8b784bf5aa42eb8b814bf95ffdd443.jpeg"
+    },
+    {
       "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/5f57aa62164b4684980f6c14198f7da4.jpeg",
       "PackagePath": "staticwebassets/uploads/5f57aa62164b4684980f6c14198f7da4.jpeg"
     },
     {
       "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/6ec96fa16f9a437ea097be6a19dc8f66.jpeg",
       "PackagePath": "staticwebassets/uploads/6ec96fa16f9a437ea097be6a19dc8f66.jpeg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/a5380967d55944d697f3b4625efb9b26.jpeg",
+      "PackagePath": "staticwebassets/uploads/a5380967d55944d697f3b4625efb9b26.jpeg"
     },
     {
       "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/bb8de9539d7743ebaf89cccfd68f29f6.jpg",
