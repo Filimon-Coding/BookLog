@@ -56,11 +56,11 @@ export default function MyBooksPage() {
         return copy;
       });
 
-      setSaveMsg("Saved ✅");
-      setTimeout(() => setSaveMsg(null), 1500);
+      setSaveMsg("Saving ... ");
+      setTimeout(() => setSaveMsg(null), 3500);
     } catch {
       setSaveMsg("Could not save. Try again.");
-      setTimeout(() => setSaveMsg(null), 2000);
+      setTimeout(() => setSaveMsg(null), 3500);
     } finally {
       setSavingBookId(null);
     }
