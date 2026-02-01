@@ -2,7 +2,7 @@
 
 BookLog is a web-based book review platform where users can browse books, maintain a personal reading list (MyBooks), and post comments on books. Authors and admins can create, update, and delete book records. The application is built as a .NET 8 Web API backend with a React (Vite) frontend.
 
-![alt text](image-1.png)
+![alt text](image.png)
 
 ---
 

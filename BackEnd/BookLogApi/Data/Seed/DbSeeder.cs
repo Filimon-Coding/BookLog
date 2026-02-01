@@ -31,6 +31,8 @@ public static class DbSeeder
         // 3) Books (only add if empty)
         if (!await db.Books.AnyAsync())
         {
+            var defaultCover = "/uploads/1984.jpg";
+
             var b1 = new Book
             {
                 Title = "Clean Code",
@@ -38,7 +40,8 @@ public static class DbSeeder
                 Genre = "Programming",
                 Description = "A handbook of agile software craftsmanship.",
                 Status = BookVisibilityStatus.Published,
-                CreatedByUserId = author1.Id
+                CreatedByUserId = author1.Id,
+                CoverImageUrl = "/uploads/Cleancode.jpeg"
             };
 
             var b2 = new Book
@@ -48,7 +51,8 @@ public static class DbSeeder
                 Genre = "Programming",
                 Description = "Classic book about pragmatic software development.",
                 Status = BookVisibilityStatus.Published,
-                CreatedByUserId = author1.Id
+                CreatedByUserId = author1.Id,
+                CoverImageUrl = "/uploads/pragmatic-programmer-the.jpg"
             };
 
             var b3 = new Book
@@ -58,8 +62,14 @@ public static class DbSeeder
                 Genre = "Fiction",
                 Description = "Dystopian novel.",
                 Status = BookVisibilityStatus.Published,
-                CreatedByUserId = admin.Id   // admin created this one
+                CreatedByUserId = admin.Id, // admin created this one
+                CoverImageUrl = "/uploads/1984.jpg"
             };
+
+            // Safety fallback: if any cover is missing/null, it becomes defaultCover
+            b1.CoverImageUrl = string.IsNullOrWhiteSpace(b1.CoverImageUrl) ? defaultCover : b1.CoverImageUrl;
+            b2.CoverImageUrl = string.IsNullOrWhiteSpace(b2.CoverImageUrl) ? defaultCover : b2.CoverImageUrl;
+            b3.CoverImageUrl = string.IsNullOrWhiteSpace(b3.CoverImageUrl) ? defaultCover : b3.CoverImageUrl;
 
             db.Books.AddRange(b1, b2, b3);
             await db.SaveChangesAsync();
