@@ -16,20 +16,8 @@ function IconBooks() {
         strokeWidth="2"
         opacity="0.95"
       />
-      <path
-        d="M6 8h11"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        opacity="0.55"
-      />
-      <path
-        d="M6 12h11"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        opacity="0.55"
-      />
+      <path d="M6 8h11" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.55" />
+      <path d="M6 12h11" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.55" />
     </svg>
   );
 }
@@ -51,13 +39,7 @@ function IconOpenBook() {
         strokeWidth="2"
         opacity="0.95"
       />
-      <path
-        d="M12 6v14"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        opacity="0.55"
-      />
+      <path d="M12 6v14" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.55" />
     </svg>
   );
 }
@@ -119,9 +101,7 @@ export default function HomePage() {
       <div>
         <div className="card hero">
           <div className="hero-inner">
-            {/* removed emoji for a cleaner look */}
             <div className="hero-kicker">Featured Collection</div>
-
             <div className="hero-title">Discover Your Next Favorite Book</div>
 
             <p className="hero-sub">
@@ -168,9 +148,8 @@ export default function HomePage() {
         <div className="empty-box">
           {readingNow.length === 0 ? (
             <div>
-              <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>
-                Start tracking your reading
-              </div>
+              {/* hardcoded white -> now theme-safe */}
+              <div style={{ color: "var(--muted)", fontSize: 13 }}>Start tracking your reading</div>
               <div style={{ marginTop: 8 }}>
                 <Link to="/books" className="view-all">
                   Add a book
@@ -188,16 +167,14 @@ export default function HomePage() {
                     gap: 12,
                     padding: 12,
                     borderRadius: 14,
-                    border: "1px solid rgba(255,255,255,0.10)",
-                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid var(--border)",
+                    background: "var(--panel)",
                     textAlign: "left",
                   }}
                 >
                   <div>
                     <div style={{ fontWeight: 800, fontSize: 13 }}>{x.book.title}</div>
-                    <div style={{ color: "rgba(255,255,255,0.62)", fontSize: 12 }}>
-                      {x.book.authorName}
-                    </div>
+                    <div style={{ color: "var(--muted)", fontSize: 12 }}>{x.book.authorName}</div>
                   </div>
                   <Link to={`/books/${x.bookId}`} className="btn btn-ghost">
                     Open
@@ -218,7 +195,6 @@ export default function HomePage() {
         <div className="trending-row">
           {trending.map((b) => {
             const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
-
             return (
               <Link key={b.id} to={`/books/${b.id}`} className="book-tile">
                 <div className="cover">
@@ -244,7 +220,8 @@ export default function HomePage() {
                 <IconBooks />
               </div>
               <div>
-                <div style={{ color: "rgba(255,255,255,0.70)", fontSize: 12 }}>Books Read</div>
+                {/* hardcoded white -> now theme-safe */}
+                <div style={{ color: "var(--muted)", fontSize: 12 }}>Books Read</div>
                 <div style={{ fontWeight: 900 }}>{counts.finished}</div>
               </div>
             </div>
@@ -254,9 +231,7 @@ export default function HomePage() {
                 <IconOpenBook />
               </div>
               <div>
-                <div style={{ color: "rgba(255,255,255,0.70)", fontSize: 12 }}>
-                  Currently Reading
-                </div>
+                <div style={{ color: "var(--muted)", fontSize: 12 }}>Currently Reading</div>
                 <div style={{ fontWeight: 900 }}>{counts.reading}</div>
               </div>
             </div>
@@ -266,7 +241,7 @@ export default function HomePage() {
                 <IconBookmark />
               </div>
               <div>
-                <div style={{ color: "rgba(255,255,255,0.70)", fontSize: 12 }}>Want to Read</div>
+                <div style={{ color: "var(--muted)", fontSize: 12 }}>Want to Read</div>
                 <div style={{ fontWeight: 900 }}>{counts.want}</div>
               </div>
             </div>
@@ -278,15 +253,15 @@ export default function HomePage() {
           <div className="quick-actions">
             <Link to="/books" className="action-item">
               <span>Add a Book</span>
-              <span style={{ color: "rgba(255,255,255,0.55)" }}>›</span>
+              <span style={{ color: "var(--muted-2)" }}>›</span>
             </Link>
             <Link to="/mybooks" className="action-item">
               <span>View MyBooks</span>
-              <span style={{ color: "rgba(255,255,255,0.55)" }}>›</span>
+              <span style={{ color: "var(--muted-2)" }}>›</span>
             </Link>
             <div className="action-item" style={{ cursor: "not-allowed", opacity: 0.7 }}>
               <span>Find Friends</span>
-              <span style={{ color: "rgba(255,255,255,0.55)" }}>›</span>
+              <span style={{ color: "var(--muted-2)" }}>›</span>
             </div>
           </div>
         </div>

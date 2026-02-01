@@ -37,19 +37,31 @@ export default function AdminBooksPage() {
       <h3>Create new</h3>
       <BookForm onSave={create} />
 
-      <hr style={{ margin: "16px 0" }} />
+      <hr style={{ margin: "16px 0", borderColor: "var(--border)" }} />
 
       <h3>All books</h3>
       <div style={{ display: "grid", gap: 12 }}>
         {books.map((b) => (
-          <div key={b.id} style={{ border: "1px solid #ddd", padding: 12, borderRadius: 6 }}>
+          <div
+            key={b.id}
+            style={{
+              border: "1px solid var(--border)",
+              background: "var(--panel)",
+              padding: 12,
+              borderRadius: 12,
+            }}
+          >
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
               <div>
                 <b>{b.title}</b> — {b.authorName} {b.genre ? `(${b.genre})` : ""}
               </div>
               <div style={{ display: "flex", gap: 10 }}>
-                <button onClick={() => setEditing(b)}>Edit</button>
-                <button onClick={() => remove(b.id)}>Delete</button>
+                <button className="btn" onClick={() => setEditing(b)}>
+                  Edit
+                </button>
+                <button className="btn" onClick={() => remove(b.id)}>
+                  Delete
+                </button>
               </div>
             </div>
 

@@ -1,4 +1,3 @@
-// src/pages/MyBooksPage.tsx
 import { useEffect, useMemo, useState } from "react";
 import { getMyBooksApi, removeFromMyBooksApi, setMyBookStatusApi } from "../api/myBooksApi";
 import type { BookStatus, MyBookDto } from "../types/models";
@@ -49,9 +48,7 @@ export default function MyBooksPage() {
     try {
       await setMyBookStatusApi(bookId, status);
 
-      setItems((prev) =>
-        prev.map((x) => (x.bookId === bookId ? { ...x, status } : x))
-      );
+      setItems((prev) => prev.map((x) => (x.bookId === bookId ? { ...x, status } : x)));
 
       setDraftStatus((prev) => {
         const copy = { ...prev };
@@ -104,8 +101,9 @@ export default function MyBooksPage() {
             <div
               key={x.bookId}
               style={{
-                border: "1px solid #444",
-                borderRadius: 8,
+                border: "1px solid var(--border)",
+                background: "var(--panel)",
+                borderRadius: 12,
                 padding: 12,
                 display: "grid",
                 gap: 8,
@@ -113,11 +111,11 @@ export default function MyBooksPage() {
             >
               <div>
                 <strong>{x.book.title}</strong>
-                <div>Author: {x.book.authorName}</div>
+                <div style={{ color: "var(--muted)" }}>Author: {x.book.authorName}</div>
               </div>
 
-              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <label>Status:</label>
+              <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                <label style={{ color: "var(--muted)" }}>Status:</label>
                 <select
                   value={currentDraft}
                   onChange={(e) =>
@@ -135,13 +133,16 @@ export default function MyBooksPage() {
                 </select>
 
                 <button
+                  className="btn"
                   onClick={() => saveOne(x.bookId)}
                   disabled={!isDirty(x.bookId) || savingBookId === x.bookId}
                 >
                   {savingBookId === x.bookId ? "Saving..." : "Save"}
                 </button>
 
-                <button onClick={() => removeOne(x.bookId)}>Remove</button>
+                <button className="btn" onClick={() => removeOne(x.bookId)}>
+                  Remove
+                </button>
               </div>
             </div>
           );

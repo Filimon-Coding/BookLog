@@ -82,16 +82,17 @@ export default function BookDetailsPage() {
                   height: 240,
                   objectFit: "cover",
                   borderRadius: 14,
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid var(--border)",
+                  background: "var(--panel)",
                 }}
               />
             )}
 
             <div>
               <h2 style={{ margin: "0 0 6px 0" }}>{book.title}</h2>
-              <div style={{ color: "rgba(255,255,255,0.75)", marginBottom: 10 }}>
-                Author: <span style={{ color: "rgba(255,255,255,0.92)" }}>{book.authorName}</span>
+
+              <div style={{ color: "var(--muted)", marginBottom: 10 }}>
+                Author: <span style={{ color: "var(--text)" }}>{book.authorName}</span>
               </div>
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -100,7 +101,7 @@ export default function BookDetailsPage() {
               </div>
 
               {book.description && (
-                <p style={{ marginTop: 12, color: "rgba(255,255,255,0.80)" }}>{book.description}</p>
+                <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>
               )}
             </div>
           </div>
@@ -108,9 +109,7 @@ export default function BookDetailsPage() {
           <div className="card card-pad" style={{ display: "grid", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <h3 style={{ margin: 0 }}>Comments</h3>
-              <span style={{ color: "rgba(255,255,255,0.60)", fontSize: 12 }}>
-                {comments.length} total
-              </span>
+              <span style={{ color: "var(--muted)", fontSize: 12 }}>{comments.length} total</span>
             </div>
 
             <CommentList comments={comments} canDeleteAny={!!canDeleteAny} onDelete={deleteComment} />
@@ -118,7 +117,7 @@ export default function BookDetailsPage() {
             {isLoggedIn ? (
               <CommentForm onSubmit={addComment} />
             ) : (
-              <p style={{ marginTop: 12, color: "rgba(255,255,255,0.70)" }}>Log in to add a comment.</p>
+              <p style={{ marginTop: 12, color: "var(--muted)" }}>Log in to add a comment.</p>
             )}
           </div>
         </>

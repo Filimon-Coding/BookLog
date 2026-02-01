@@ -2,14 +2,30 @@
 
 /* ====== Theme tokens ====== */
 :root {
+  color-scheme: dark;
+
   --bg: #070811;
+
+  --bg-grad-1: rgba(168, 85, 247, 0.22);
+  --bg-grad-2: rgba(236, 72, 153, 0.18);
+  --bg-grad-3: rgba(96, 165, 250, 0.10);
+
   --panel: rgba(255, 255, 255, 0.03);
+  --panel-solid: rgba(10, 11, 18, 0.70);
+
   --card: rgba(255, 255, 255, 0.04);
   --card-strong: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.10);
 
+  --border: rgba(255, 255, 255, 0.10);
+  --border-weak: rgba(255, 255, 255, 0.08);
+
+  --text-strong: rgba(255, 255, 255, 0.98);
   --text: rgba(255, 255, 255, 0.92);
+  --text-soft: rgba(255, 255, 255, 0.86);
+
   --muted: rgba(255, 255, 255, 0.62);
+  --muted-2: rgba(255, 255, 255, 0.55);
+  --placeholder: rgba(255, 255, 255, 0.42);
 
   --purple: #a855f7;
   --pink: #ec4899;
@@ -17,6 +33,50 @@
 
   --radius: 16px;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+
+  --topbar-bg: rgba(8, 9, 14, 0.58);
+  --suggest-bg: rgba(12, 13, 20, 0.95);
+
+  --input-bg: rgba(0, 0, 0, 0.25);
+  --hover-bg: rgba(255, 255, 255, 0.04);
+  --hover-bg-strong: rgba(255, 255, 255, 0.06);
+}
+
+/* ✅ Light theme overrides */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f6f7fb;
+
+  --bg-grad-1: rgba(168, 85, 247, 0.16);
+  --bg-grad-2: rgba(236, 72, 153, 0.12);
+  --bg-grad-3: rgba(96, 165, 250, 0.10);
+
+  --panel: rgba(0, 0, 0, 0.03);
+  --panel-solid: rgba(255, 255, 255, 0.78);
+
+  --card: rgba(0, 0, 0, 0.03);
+  --card-strong: rgba(0, 0, 0, 0.05);
+
+  --border: rgba(0, 0, 0, 0.10);
+  --border-weak: rgba(0, 0, 0, 0.08);
+
+  --text-strong: rgba(17, 24, 39, 0.98);
+  --text: rgba(17, 24, 39, 0.92);
+  --text-soft: rgba(17, 24, 39, 0.86);
+
+  --muted: rgba(17, 24, 39, 0.62);
+  --muted-2: rgba(17, 24, 39, 0.55);
+  --placeholder: rgba(17, 24, 39, 0.42);
+
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+
+  --topbar-bg: rgba(255, 255, 255, 0.78);
+  --suggest-bg: rgba(255, 255, 255, 0.96);
+
+  --input-bg: rgba(255, 255, 255, 0.78);
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --hover-bg-strong: rgba(0, 0, 0, 0.06);
 }
 
 * {
@@ -34,9 +94,9 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
   background:
-    radial-gradient(900px 520px at 18% -10%, rgba(168, 85, 247, 0.22), transparent 60%),
-    radial-gradient(900px 520px at 82% 0%, rgba(236, 72, 153, 0.18), transparent 55%),
-    radial-gradient(900px 520px at 50% 110%, rgba(96, 165, 250, 0.10), transparent 55%),
+    radial-gradient(900px 520px at 18% -10%, var(--bg-grad-1), transparent 60%),
+    radial-gradient(900px 520px at 82% 0%, var(--bg-grad-2), transparent 55%),
+    radial-gradient(900px 520px at 50% 110%, var(--bg-grad-3), transparent 55%),
     var(--bg);
 }
 
@@ -50,7 +110,7 @@ a {
 }
 
 a:hover {
-  color: rgba(255, 255, 255, 0.98);
+  color: var(--text-strong);
 }
 
 /* ====== Layout ====== */
@@ -71,7 +131,7 @@ select,
 textarea {
   width: 100%;
   color: var(--text);
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 10px 12px;
@@ -85,7 +145,7 @@ textarea {
 
 input::placeholder,
 textarea::placeholder {
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--placeholder);
 }
 
 input:focus,
@@ -104,7 +164,7 @@ textarea:focus {
   padding: 10px 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--hover-bg);
   color: var(--text);
 
   cursor: pointer;
@@ -114,6 +174,10 @@ textarea:focus {
 .btn:hover {
   transform: translateY(-1px);
   border-color: rgba(255, 255, 255, 0.18);
+}
+
+:root[data-theme="light"] .btn:hover {
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
 .btn:disabled {
@@ -134,7 +198,7 @@ textarea:focus {
 }
 
 .btn-ghost:hover {
-  border-color: rgba(255, 255, 255, 0.10);
+  border-color: var(--border-weak);
   color: var(--text);
 }
 
@@ -153,7 +217,7 @@ textarea:focus {
 .card-title {
   margin: 0 0 12px 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.86);
+  color: var(--text-soft);
   letter-spacing: 0.2px;
 }
 
@@ -163,8 +227,8 @@ textarea:focus {
   top: 0;
   z-index: 50;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 9, 14, 0.58);
+  border-bottom: 1px solid var(--border-weak);
+  background: var(--topbar-bg);
   backdrop-filter: blur(14px);
 }
 
@@ -198,7 +262,6 @@ textarea:focus {
   line-height: 1;
 }
 
-
 .nav-links {
   display: flex;
   gap: 16px;
@@ -215,7 +278,7 @@ textarea:focus {
 .nav-link:hover,
 .nav-link.active {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--hover-bg);
 }
 
 .nav-search {
@@ -248,11 +311,11 @@ textarea:focus {
   right: 0;
   z-index: 60;
 
-  background: rgba(12, 13, 20, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--suggest-bg);
+  border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  box-shadow: var(--shadow);
   backdrop-filter: blur(12px);
 }
 
@@ -260,7 +323,7 @@ textarea:focus {
   width: 100%;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
   cursor: pointer;
 
   display: flex;
@@ -273,7 +336,7 @@ textarea:focus {
 }
 
 .nav-suggest-item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--hover-bg-strong);
 }
 
 .nav-suggest-title {
@@ -283,14 +346,27 @@ textarea:focus {
 
 .nav-suggest-sub {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--muted);
   margin-top: 2px;
 }
 
 .nav-suggest-empty {
   padding: 10px 12px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--muted);
+}
+
+/* ✅ New: actions container + theme button */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-toggle {
+  width: 42px;
+  padding: 10px 0;
+  justify-content: center;
 }
 
 /* ====== Home layout ====== */
@@ -326,7 +402,7 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: rgba(255, 255, 255, 0.86);
+  color: var(--text-soft);
   font-size: 12px;
   letter-spacing: 0.25px;
 }
@@ -344,6 +420,10 @@ textarea:focus {
   font-size: 14px;
 }
 
+:root[data-theme="light"] .hero-sub {
+  color: rgba(17, 24, 39, 0.72);
+}
+
 .mini-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -357,8 +437,8 @@ textarea:focus {
   align-items: center;
   padding: 14px 16px;
   border-radius: var(--radius);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .mini-stat .num {
@@ -394,8 +474,8 @@ textarea:focus {
   text-align: center;
   min-height: 160px;
   border-radius: var(--radius);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .trending-row {
@@ -413,8 +493,8 @@ textarea:focus {
 .book-tile .cover {
   height: 112px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--panel);
   position: relative;
   overflow: hidden;
 }
@@ -434,7 +514,7 @@ textarea:focus {
   background:
     radial-gradient(120px 90px at 30% 25%, rgba(168, 85, 247, 0.35), transparent 60%),
     radial-gradient(140px 100px at 70% 70%, rgba(236, 72, 153, 0.25), transparent 60%),
-    rgba(255, 255, 255, 0.03);
+    var(--panel);
 }
 
 .book-tile .title {
@@ -472,22 +552,21 @@ textarea:focus {
   border-radius: 12px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 /* make SVG icons look clean inside the stat icon box */
 .stat-icon svg {
   width: 18px;
   height: 18px;
-  color: rgba(255, 255, 255, 0.90);
+  color: var(--text);
 }
 
 /* optional: slightly better spacing for hero kicker */
 .hero-kicker {
   letter-spacing: 0.2px;
 }
-
 
 .quick-actions {
   display: grid;
@@ -500,8 +579,8 @@ textarea:focus {
   justify-content: space-between;
   padding: 10px 12px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 .tags {
@@ -514,9 +593,9 @@ textarea:focus {
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: var(--panel);
 }
 
 /* ====== Auth modal-style page ====== */
@@ -530,8 +609,8 @@ textarea:focus {
 .auth-card {
   width: min(420px, 100%);
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(10, 11, 18, 0.70);
+  border: 1px solid var(--border);
+  background: var(--panel-solid);
   box-shadow: var(--shadow);
   overflow: hidden;
 }
@@ -609,3 +688,62 @@ textarea:focus {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+/* ===== Theme-safe overrides (paste at bottom) ===== */
+.card-title { color: var(--text-soft); }
+
+.topbar {
+  border-bottom: 1px solid var(--border-weak);
+  background: var(--topbar-bg);
+}
+
+.nav-suggest {
+  background: var(--suggest-bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.nav-suggest-item { color: var(--text); }
+.nav-suggest-item:hover { background: var(--hover-bg-strong); }
+.nav-suggest-sub, .nav-suggest-empty { color: var(--muted); }
+
+.hero-kicker { color: var(--text-soft); }
+.hero-sub { color: var(--text-soft); }
+
+.mini-stat {
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.empty-box {
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.book-tile .cover {
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.stat-icon {
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.stat-icon svg { color: var(--text); }
+
+.action-item {
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.tag {
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.auth-card {
+  border: 1px solid var(--border);
+  background: var(--panel-solid);
+}
+

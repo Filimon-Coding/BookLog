@@ -33,7 +33,6 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
   const [genre, setGenre] = useState(initial?.genre ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
 
-  // ✅ cover state
   const [coverImageUrl, setCoverImageUrl] = useState<string>(initial?.coverImageUrl ?? "");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
@@ -46,7 +45,6 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
     return list.sort();
   }, [genre]);
 
-  // Create local preview URL
   useEffect(() => {
     if (!coverFile) {
       setPreviewUrl("");
@@ -80,7 +78,6 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
     try {
       let finalCoverUrl = coverImageUrl;
 
-      // If user selected a new file -> upload first
       if (coverFile) {
         finalCoverUrl = await uploadCoverApi(coverFile);
         setCoverImageUrl(finalCoverUrl);
@@ -119,9 +116,8 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
 
       <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
 
-      {/* ✅ Cover upload + preview */}
       <div style={{ display: "grid", gap: 8 }}>
-        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)" }}>Book Cover</div>
+        <div style={{ fontSize: 12, color: "var(--muted)" }}>Book Cover</div>
 
         <input
           type="file"
@@ -139,13 +135,13 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
                 height: 170,
                 objectFit: "cover",
                 borderRadius: 14,
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "rgba(255,255,255,0.03)",
+                border: "1px solid var(--border)",
+                background: "var(--panel)",
               }}
             />
 
             <div style={{ display: "grid", gap: 8 }}>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
+              <div style={{ fontSize: 12, color: "var(--muted-2)" }}>
                 {previewUrl ? "Preview (not published yet)" : "Current cover"}
               </div>
 

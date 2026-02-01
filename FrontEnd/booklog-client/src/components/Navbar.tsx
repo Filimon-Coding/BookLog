@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { getBooksApi } from "../api/booksApi";
 import type { BookDto } from "../types/models";
 
@@ -24,8 +25,40 @@ function SearchIcon() {
   );
 }
 
+function SunIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M21 13.2A7.8 7.8 0 0 1 10.8 3 6.8 6.8 0 1 0 21 13.2Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function NavBar() {
   const { isLoggedIn, user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const [q, setQ] = useState("");
@@ -34,7 +67,6 @@ export default function NavBar() {
   const [allBooks, setAllBooks] = useState<BookDto[]>([]);
   const [booksLoaded, setBooksLoaded] = useState(false);
 
-  // Load books once so navbar search can give live feedback
   useEffect(() => {
     (async () => {
       try {
@@ -60,7 +92,6 @@ export default function NavBar() {
   const suggestions = useMemo(() => {
     const term = q.trim().toLowerCase();
     if (!term) return [];
-
     return allBooks
       .filter(
         (b) => b.title.toLowerCase().includes(term) || b.authorName.toLowerCase().includes(term)
@@ -68,7 +99,7 @@ export default function NavBar() {
       .slice(0, 6);
   }, [q, allBooks]);
 
-  const submitSearch = (e: React.FormEvent) => {
+  const submitSearch = (e: FormEvent) => {
     e.preventDefault();
     const term = q.trim();
     navigate(term ? `/books?q=${encodeURIComponent(term)}` : "/books");
@@ -84,7 +115,6 @@ export default function NavBar() {
     <header className="topbar">
       <div className="container topbar-inner">
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          {/* ✅ Logo + Text */}
           <Link to="/" className="brand">
             <img className="brand-logo" src="/favicon.svg" alt="BookLog logo" />
             <span className="brand-text">BookLog</span>
@@ -114,10 +144,7 @@ export default function NavBar() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               onFocus={() => setOpen(true)}
-              onBlur={() => {
-                // small delay so clicking suggestions works
-                setTimeout(() => setOpen(false), 150);
-              }}
+              onBlur={() => setTimeout(() => setOpen(false), 150)}
               placeholder="Search books, authors..."
             />
 
@@ -140,7 +167,7 @@ export default function NavBar() {
                         <div className="nav-suggest-title">{b.title}</div>
                         <div className="nav-suggest-sub">{b.authorName}</div>
                       </div>
-                      <div style={{ color: "rgba(255,255,255,0.55)" }}>›</div>
+                      <div style={{ color: "var(--muted)" }}>›</div>
                     </button>
                   ))
                 )}
@@ -149,27 +176,36 @@ export default function NavBar() {
           </form>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        {isLoggedIn ? (
-          <>
-            <span style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>
-              {user?.username} ({user?.role})
-            </span>
-            <button className="btn" onClick={logout}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="btn btn-ghost">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary">
-              Register
-            </Link>
-          </>
-        )}
+        {/* ✅ Toggle sits between search and auth buttons */}
+        <div className="nav-actions">
+          <button
+            className="btn btn-ghost theme-toggle"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+          </button>
 
+          {isLoggedIn ? (
+            <>
+              <span style={{ color: "var(--muted)", fontSize: 13 }}>
+                {user?.username} ({user?.role})
+              </span>
+              <button className="btn" onClick={logout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-ghost">
+                Login
+              </Link>
+              <Link to="/register" className="btn btn-primary">
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

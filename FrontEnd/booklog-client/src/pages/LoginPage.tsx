@@ -47,7 +47,7 @@ export default function LoginPage() {
 
           <div className="form-grid">
             <div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
                 Email Address
               </div>
               <input
@@ -58,7 +58,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
                 Password
               </div>
               <input
@@ -87,7 +87,7 @@ export default function LoginPage() {
               {loading ? "Signing in..." : "Sign In"}
             </button>
 
-            <div style={{ marginTop: 10, fontSize: 12, color: "rgba(255,255,255,0.62)" }}>
+            <div style={{ marginTop: 10, fontSize: 12, color: "var(--muted)" }}>
               New here?{" "}
               <Link to="/register" style={{ color: "rgba(168,85,247,0.95)" }}>
                 Create an account

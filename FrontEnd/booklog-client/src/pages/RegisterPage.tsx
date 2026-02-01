@@ -69,7 +69,7 @@ export default function RegisterPage() {
 
           <div className="form-grid">
             <div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
                 Email / Username
               </div>
               <input
@@ -81,7 +81,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
                 Account Type
               </div>
               <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
@@ -89,13 +89,13 @@ export default function RegisterPage() {
                 <option value="Author">Author</option>
               </select>
 
-              <div style={{ marginTop: 6, fontSize: 12, color: "rgba(255,255,255,0.55)" }}>
+              <div style={{ marginTop: 6, fontSize: 12, color: "var(--muted-2)" }}>
                 Authors can create and manage their own books.
               </div>
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
                 Password
               </div>
               <input
@@ -108,7 +108,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.70)", marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
                 Confirm Password
               </div>
               <input
@@ -124,7 +124,7 @@ export default function RegisterPage() {
               {loading ? "Creating..." : "Create account"}
             </button>
 
-            <div style={{ marginTop: 8, fontSize: 12, color: "rgba(255,255,255,0.62)" }}>
+            <div style={{ marginTop: 8, fontSize: 12, color: "var(--muted)" }}>
               Already have an account?{" "}
               <Link to="/login" style={{ color: "rgba(168,85,247,0.95)" }}>
                 Login
