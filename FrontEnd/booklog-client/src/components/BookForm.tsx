@@ -141,7 +141,7 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
             />
 
             <div style={{ display: "grid", gap: 8 }}>
-              <div style={{ fontSize: 12, color: "var(--muted-2)" }}>
+              <div style={{ fontSize: 12, color: "var(--muted)" }}>
                 {previewUrl ? "Preview (not published yet)" : "Current cover"}
               </div>
 

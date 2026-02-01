@@ -7,11 +7,7 @@ function extractErrorMessage(err: any): string {
   const data = err?.response?.data;
 
   if (typeof data === "string") return data;
-
-  // Identity errors often come back as array of strings
   if (Array.isArray(data)) return data.join(", ");
-
-  // Sometimes it can be { errors: [...] } or similar shapes
   if (data?.errors && Array.isArray(data.errors)) return data.errors.join(", ");
 
   return "Registration failed. Please try again.";
@@ -69,9 +65,7 @@ export default function RegisterPage() {
 
           <div className="form-grid">
             <div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
-                Email / Username
-              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Email / Username</div>
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -81,9 +75,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
-                Account Type
-              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Account Type</div>
               <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
                 <option value="Reader">Reader</option>
                 <option value="Author">Author</option>
@@ -95,9 +87,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
-                Password
-              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Password</div>
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -108,9 +98,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
-                Confirm Password
-              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Confirm Password</div>
               <input
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}

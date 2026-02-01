@@ -2,81 +2,85 @@
 
 /* ====== Theme tokens ====== */
 :root {
-  color-scheme: dark;
-
+  /* core */
   --bg: #070811;
-
   --bg-grad-1: rgba(168, 85, 247, 0.22);
   --bg-grad-2: rgba(236, 72, 153, 0.18);
   --bg-grad-3: rgba(96, 165, 250, 0.10);
 
   --panel: rgba(255, 255, 255, 0.03);
-  --panel-solid: rgba(10, 11, 18, 0.70);
+  --panel-2: rgba(255, 255, 255, 0.05);
 
   --card: rgba(255, 255, 255, 0.04);
   --card-strong: rgba(255, 255, 255, 0.06);
 
   --border: rgba(255, 255, 255, 0.10);
-  --border-weak: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.18);
 
-  --text-strong: rgba(255, 255, 255, 0.98);
   --text: rgba(255, 255, 255, 0.92);
-  --text-soft: rgba(255, 255, 255, 0.86);
+  --text-strong: rgba(255, 255, 255, 0.98);
+  --text-soft: rgba(255, 255, 255, 0.82);
 
   --muted: rgba(255, 255, 255, 0.62);
   --muted-2: rgba(255, 255, 255, 0.55);
   --placeholder: rgba(255, 255, 255, 0.42);
 
+  --input-bg: rgba(0, 0, 0, 0.25);
+
+  --topbar-bg: rgba(8, 9, 14, 0.58);
+  --suggest-bg: rgba(12, 13, 20, 0.95);
+
+  --hero-text: rgba(255, 255, 255, 0.98);
+  --hero-kicker: rgba(255, 255, 255, 0.86);
+  --hero-sub: rgba(255, 255, 255, 0.82);
+
+  --modal-bg: rgba(10, 11, 18, 0.70);
+
+  /* brand */
   --purple: #a855f7;
   --pink: #ec4899;
   --blue: #60a5fa;
 
   --radius: 16px;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-
-  --topbar-bg: rgba(8, 9, 14, 0.58);
-  --suggest-bg: rgba(12, 13, 20, 0.95);
-
-  --input-bg: rgba(0, 0, 0, 0.25);
-  --hover-bg: rgba(255, 255, 255, 0.04);
-  --hover-bg-strong: rgba(255, 255, 255, 0.06);
 }
 
-/* ✅ Light theme overrides */
+/* ====== Light theme overrides ====== */
 :root[data-theme="light"] {
-  color-scheme: light;
-
   --bg: #f6f7fb;
+  --bg-grad-1: rgba(168, 85, 247, 0.10);
+  --bg-grad-2: rgba(236, 72, 153, 0.08);
+  --bg-grad-3: rgba(96, 165, 250, 0.08);
 
-  --bg-grad-1: rgba(168, 85, 247, 0.16);
-  --bg-grad-2: rgba(236, 72, 153, 0.12);
-  --bg-grad-3: rgba(96, 165, 250, 0.10);
+  --panel: rgba(17, 24, 39, 0.03);
+  --panel-2: rgba(17, 24, 39, 0.06);
 
-  --panel: rgba(0, 0, 0, 0.03);
-  --panel-solid: rgba(255, 255, 255, 0.78);
+  --card: rgba(255, 255, 255, 0.72);
+  --card-strong: rgba(255, 255, 255, 0.92);
 
-  --card: rgba(0, 0, 0, 0.03);
-  --card-strong: rgba(0, 0, 0, 0.05);
+  --border: rgba(17, 24, 39, 0.12);
+  --border-strong: rgba(17, 24, 39, 0.18);
 
-  --border: rgba(0, 0, 0, 0.10);
-  --border-weak: rgba(0, 0, 0, 0.08);
-
-  --text-strong: rgba(17, 24, 39, 0.98);
   --text: rgba(17, 24, 39, 0.92);
-  --text-soft: rgba(17, 24, 39, 0.86);
+  --text-strong: rgba(17, 24, 39, 0.98);
+  --text-soft: rgba(17, 24, 39, 0.80);
 
   --muted: rgba(17, 24, 39, 0.62);
   --muted-2: rgba(17, 24, 39, 0.55);
   --placeholder: rgba(17, 24, 39, 0.42);
 
-  --shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  --input-bg: rgba(255, 255, 255, 0.85);
 
-  --topbar-bg: rgba(255, 255, 255, 0.78);
-  --suggest-bg: rgba(255, 255, 255, 0.96);
+  --topbar-bg: rgba(255, 255, 255, 0.72);
+  --suggest-bg: rgba(255, 255, 255, 0.92);
 
-  --input-bg: rgba(255, 255, 255, 0.78);
-  --hover-bg: rgba(0, 0, 0, 0.04);
-  --hover-bg-strong: rgba(0, 0, 0, 0.06);
+  --hero-text: rgba(17, 24, 39, 0.95);
+  --hero-kicker: rgba(17, 24, 39, 0.70);
+  --hero-sub: rgba(17, 24, 39, 0.72);
+
+  --modal-bg: rgba(255, 255, 255, 0.86);
+
+  --shadow: 0 18px 50px rgba(17, 24, 39, 0.10);
 }
 
 * {
@@ -164,7 +168,7 @@ textarea:focus {
   padding: 10px 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--hover-bg);
+  background: var(--card);
   color: var(--text);
 
   cursor: pointer;
@@ -173,11 +177,7 @@ textarea:focus {
 
 .btn:hover {
   transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.18);
-}
-
-:root[data-theme="light"] .btn:hover {
-  border-color: rgba(0, 0, 0, 0.18);
+  border-color: var(--border-strong);
 }
 
 .btn:disabled {
@@ -189,6 +189,7 @@ textarea:focus {
 .btn-primary {
   border: none;
   background: linear-gradient(90deg, var(--purple), var(--pink));
+  color: white;
 }
 
 .btn-ghost {
@@ -198,7 +199,7 @@ textarea:focus {
 }
 
 .btn-ghost:hover {
-  border-color: var(--border-weak);
+  border-color: var(--border);
   color: var(--text);
 }
 
@@ -227,7 +228,7 @@ textarea:focus {
   top: 0;
   z-index: 50;
 
-  border-bottom: 1px solid var(--border-weak);
+  border-bottom: 1px solid var(--border);
   background: var(--topbar-bg);
   backdrop-filter: blur(14px);
 }
@@ -255,7 +256,7 @@ textarea:focus {
   height: 28px;
   display: block;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
 .brand-text {
@@ -278,7 +279,7 @@ textarea:focus {
 .nav-link:hover,
 .nav-link.active {
   color: var(--text);
-  background: var(--hover-bg);
+  background: var(--panel-2);
 }
 
 .nav-search {
@@ -336,7 +337,7 @@ textarea:focus {
 }
 
 .nav-suggest-item:hover {
-  background: var(--hover-bg-strong);
+  background: var(--panel-2);
 }
 
 .nav-suggest-title {
@@ -356,7 +357,6 @@ textarea:focus {
   color: var(--muted);
 }
 
-/* ✅ New: actions container + theme button */
 .nav-actions {
   display: flex;
   align-items: center;
@@ -365,8 +365,8 @@ textarea:focus {
 
 .theme-toggle {
   width: 42px;
-  padding: 10px 0;
-  justify-content: center;
+  height: 38px;
+  padding: 0;
 }
 
 /* ====== Home layout ====== */
@@ -382,6 +382,7 @@ textarea:focus {
   overflow: hidden;
   border: none;
   background: linear-gradient(135deg, rgba(126, 34, 206, 0.95), rgba(219, 39, 119, 0.70));
+  color: var(--hero-text);
 }
 
 .hero::before {
@@ -402,9 +403,9 @@ textarea:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-soft);
+  color: var(--hero-kicker);
   font-size: 12px;
-  letter-spacing: 0.25px;
+  letter-spacing: 0.2px;
 }
 
 .hero-title {
@@ -415,13 +416,9 @@ textarea:focus {
 
 .hero-sub {
   margin: 0 0 16px;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--hero-sub);
   max-width: 560px;
   font-size: 14px;
-}
-
-:root[data-theme="light"] .hero-sub {
-  color: rgba(17, 24, 39, 0.72);
 }
 
 .mini-stats {
@@ -556,16 +553,10 @@ textarea:focus {
   background: var(--panel);
 }
 
-/* make SVG icons look clean inside the stat icon box */
 .stat-icon svg {
   width: 18px;
   height: 18px;
-  color: var(--text);
-}
-
-/* optional: slightly better spacing for hero kicker */
-.hero-kicker {
-  letter-spacing: 0.2px;
+  color: var(--text-strong);
 }
 
 .quick-actions {
@@ -593,7 +584,7 @@ textarea:focus {
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 12px;
-  color: var(--text);
+  color: var(--text-soft);
   border: 1px solid var(--border);
   background: var(--panel);
 }
@@ -610,7 +601,7 @@ textarea:focus {
   width: min(420px, 100%);
   border-radius: 18px;
   border: 1px solid var(--border);
-  background: var(--panel-solid);
+  background: var(--modal-bg);
   box-shadow: var(--shadow);
   overflow: hidden;
 }
@@ -688,62 +679,3 @@ textarea:focus {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-/* ===== Theme-safe overrides (paste at bottom) ===== */
-.card-title { color: var(--text-soft); }
-
-.topbar {
-  border-bottom: 1px solid var(--border-weak);
-  background: var(--topbar-bg);
-}
-
-.nav-suggest {
-  background: var(--suggest-bg);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-}
-
-.nav-suggest-item { color: var(--text); }
-.nav-suggest-item:hover { background: var(--hover-bg-strong); }
-.nav-suggest-sub, .nav-suggest-empty { color: var(--muted); }
-
-.hero-kicker { color: var(--text-soft); }
-.hero-sub { color: var(--text-soft); }
-
-.mini-stat {
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-
-.empty-box {
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-
-.book-tile .cover {
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-
-.stat-icon {
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-
-.stat-icon svg { color: var(--text); }
-
-.action-item {
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-
-.tag {
-  color: var(--text);
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-
-.auth-card {
-  border: 1px solid var(--border);
-  background: var(--panel-solid);
-}
-

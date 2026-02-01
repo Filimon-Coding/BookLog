@@ -5,7 +5,6 @@ import { getMyBooksApi } from "../api/myBooksApi";
 import type { BookDto, MyBookDto } from "../types/models";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
-/* ===== Simple inline SVG icons (no libraries needed) ===== */
 function IconBooks() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -71,7 +70,6 @@ export default function HomePage() {
         setBooks([]);
       }
 
-      // If user isn't logged in -> likely 401, ignore
       try {
         const m = await getMyBooksApi();
         setMyBooks(m);
@@ -90,10 +88,7 @@ export default function HomePage() {
 
   const trending = useMemo(() => books.slice(0, 6), [books]);
 
-  const readingNow = useMemo(
-    () => myBooks.filter((x) => x.status === "Reading").slice(0, 3),
-    [myBooks]
-  );
+  const readingNow = useMemo(() => myBooks.filter((x) => x.status === "Reading").slice(0, 3), [myBooks]);
 
   return (
     <div className="home-grid">
@@ -102,11 +97,11 @@ export default function HomePage() {
         <div className="card hero">
           <div className="hero-inner">
             <div className="hero-kicker">Featured Collection</div>
+
             <div className="hero-title">Discover Your Next Favorite Book</div>
 
             <p className="hero-sub">
-              Explore curated collections, track your reading progress, and join a community of
-              passionate readers.
+              Explore curated collections, track your reading progress, and join a community of passionate readers.
             </p>
 
             <Link to="/books" className="btn" style={{ background: "white", color: "#111827" }}>
@@ -148,7 +143,6 @@ export default function HomePage() {
         <div className="empty-box">
           {readingNow.length === 0 ? (
             <div>
-              {/* hardcoded white -> now theme-safe */}
               <div style={{ color: "var(--muted)", fontSize: 13 }}>Start tracking your reading</div>
               <div style={{ marginTop: 8 }}>
                 <Link to="/books" className="view-all">
@@ -195,12 +189,10 @@ export default function HomePage() {
         <div className="trending-row">
           {trending.map((b) => {
             const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
+
             return (
               <Link key={b.id} to={`/books/${b.id}`} className="book-tile">
-                <div className="cover">
-                  {img ? <img src={img} alt={`${b.title} cover`} /> : <div className="cover-fallback" />}
-                </div>
-
+                <div className="cover">{img ? <img src={img} alt={`${b.title} cover`} /> : <div className="cover-fallback" />}</div>
                 <div className="title">{b.title}</div>
                 <div className="author">{b.authorName}</div>
               </Link>
@@ -220,7 +212,6 @@ export default function HomePage() {
                 <IconBooks />
               </div>
               <div>
-                {/* hardcoded white -> now theme-safe */}
                 <div style={{ color: "var(--muted)", fontSize: 12 }}>Books Read</div>
                 <div style={{ fontWeight: 900 }}>{counts.finished}</div>
               </div>

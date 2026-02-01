@@ -18,7 +18,6 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(username, password);
-      // (optional) later you can store token longer if remember=true
       nav("/");
     } catch {
       setError("Login failed. Check username/password.");
@@ -47,20 +46,12 @@ export default function LoginPage() {
 
           <div className="form-grid">
             <div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
-                Email Address
-              </div>
-              <input
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="your@email.com"
-              />
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Email Address</div>
+              <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="your@email.com" />
             </div>
 
             <div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>
-                Password
-              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Password</div>
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -86,13 +77,6 @@ export default function LoginPage() {
             <button className="btn btn-primary" onClick={submit} disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </button>
-
-            <div style={{ marginTop: 10, fontSize: 12, color: "var(--muted)" }}>
-              New here?{" "}
-              <Link to="/register" style={{ color: "rgba(168,85,247,0.95)" }}>
-                Create an account
-              </Link>
-            </div>
           </div>
         </div>
       </div>

@@ -90,7 +90,6 @@ export default function BookDetailsPage() {
 
             <div>
               <h2 style={{ margin: "0 0 6px 0" }}>{book.title}</h2>
-
               <div style={{ color: "var(--muted)", marginBottom: 10 }}>
                 Author: <span style={{ color: "var(--text)" }}>{book.authorName}</span>
               </div>
@@ -100,9 +99,7 @@ export default function BookDetailsPage() {
                 {book.status && <span className="tag">{book.status}</span>}
               </div>
 
-              {book.description && (
-                <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>
-              )}
+              {book.description && <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>}
             </div>
           </div>
 
