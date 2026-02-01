@@ -8,10 +8,14 @@ export default function CommentForm({ onSubmit }: { onSubmit: (content: string) 
     const text = content.trim();
     if (!text) return;
 
+    const ok = window.confirm("Post this comment?");
+    if (!ok) return;
+
     setSaving(true);
     try {
       await onSubmit(text);
       setContent("");
+      alert("Comment posted.");
     } finally {
       setSaving(false);
     }

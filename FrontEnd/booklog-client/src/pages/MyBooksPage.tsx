@@ -38,48 +38,55 @@ export default function MyBooksPage() {
     return draft !== undefined && draft !== current;
   };
 
-  const saveOne = async (bookId: number) => {
-    const status = draftStatus[bookId];
-    if (!status) return;
+    const saveOne = async (bookId: number) => {
+      const status = draftStatus[bookId];
+      if (!status) return;
 
-    setSavingBookId(bookId);
-    setSaveMsg(null);
+      const ok = window.confirm("Save this status change?");
+      if (!ok) return;
 
-    try {
-      await setMyBookStatusApi(bookId, status);
+      setSavingBookId(bookId);
+      setSaveMsg(null);
 
-      setItems((prev) => prev.map((x) => (x.bookId === bookId ? { ...x, status } : x)));
+      try {
+        await setMyBookStatusApi(bookId, status);
 
-      setDraftStatus((prev) => {
-        const copy = { ...prev };
-        delete copy[bookId];
-        return copy;
-      });
+        setItems((prev) => prev.map((x) => (x.bookId === bookId ? { ...x, status } : x)));
 
-      setSaveMsg("Saving ... ");
-      setTimeout(() => setSaveMsg(null), 3500);
-    } catch {
-      setSaveMsg("Could not save. Try again.");
-      setTimeout(() => setSaveMsg(null), 3500);
-    } finally {
-      setSavingBookId(null);
-    }
-  };
+        setDraftStatus((prev) => {
+          const copy = { ...prev };
+          delete copy[bookId];
+          return copy;
+        });
 
-  const removeOne = async (bookId: number) => {
-    setError(null);
-    try {
-      await removeFromMyBooksApi(bookId);
-      setItems((prev) => prev.filter((x) => x.bookId !== bookId));
-      setDraftStatus((prev) => {
-        const copy = { ...prev };
-        delete copy[bookId];
-        return copy;
-      });
-    } catch {
-      setError("Could not remove book.");
-    }
-  };
+        alert("Status saved.");
+      } catch {
+        alert("Could not save. Try again.");
+      } finally {
+        setSavingBookId(null);
+      }
+    };
+
+    const removeOne = async (bookId: number) => {
+      const ok = window.confirm("Remove this book from MyBooks?");
+      if (!ok) return;
+
+      setError(null);
+      try {
+        await removeFromMyBooksApi(bookId);
+        setItems((prev) => prev.filter((x) => x.bookId !== bookId));
+        setDraftStatus((prev) => {
+          const copy = { ...prev };
+          delete copy[bookId];
+          return copy;
+        });
+
+        alert("Removed from MyBooks.");
+      } catch {
+        setError("Could not remove book.");
+      }
+    };
+
 
   const sorted = useMemo(() => {
     return [...items].sort((a, b) => a.book.title.localeCompare(b.book.title));

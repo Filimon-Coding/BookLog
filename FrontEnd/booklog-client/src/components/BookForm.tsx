@@ -27,13 +27,20 @@ const STANDARD_GENRES = [
   "Children",
 ];
 
-export default function BookForm({ initial, onSave, onCancel, submitText = "Save" }: Props) {
+export default function BookForm({
+  initial,
+  onSave,
+  onCancel,
+  submitText = "Save",
+}: Props) {
   const [title, setTitle] = useState(initial?.title ?? "");
   const [authorName, setAuthorName] = useState(initial?.authorName ?? "");
   const [genre, setGenre] = useState(initial?.genre ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
 
-  const [coverImageUrl, setCoverImageUrl] = useState<string>(initial?.coverImageUrl ?? "");
+  const [coverImageUrl, setCoverImageUrl] = useState<string>(
+    initial?.coverImageUrl ?? ""
+  );
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
@@ -74,6 +81,12 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
   };
 
   const submit = async () => {
+    const isEdit = typeof initial?.id === "number";
+    const ok = window.confirm(
+      isEdit ? "Save changes to this book?" : "Create this book?"
+    );
+    if (!ok) return;
+
     setSaving(true);
     try {
       let finalCoverUrl = coverImageUrl;
@@ -91,7 +104,11 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
         coverImageUrl: finalCoverUrl || null,
       });
 
+      alert(isEdit ? "Book updated." : "Book created.");
       setCoverFile(null);
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong while saving. Please try again.");
     } finally {
       setSaving(false);
     }
@@ -102,8 +119,17 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
 
   return (
     <div style={{ display: "grid", gap: 10 }}>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
-      <input value={authorName} onChange={(e) => setAuthorName(e.target.value)} placeholder="Author name" />
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Title"
+      />
+
+      <input
+        value={authorName}
+        onChange={(e) => setAuthorName(e.target.value)}
+        placeholder="Author name"
+      />
 
       <select value={genre} onChange={(e) => setGenre(e.target.value)}>
         <option value="">Select genre...</option>
@@ -114,7 +140,11 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
         ))}
       </select>
 
-      <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Description"
+      />
 
       <div style={{ display: "grid", gap: 8 }}>
         <div style={{ fontSize: 12, color: "var(--muted)" }}>Book Cover</div>
@@ -145,7 +175,12 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
                 {previewUrl ? "Preview (not published yet)" : "Current cover"}
               </div>
 
-              <button type="button" className="btn" onClick={removeCover} disabled={saving}>
+              <button
+                type="button"
+                className="btn"
+                onClick={removeCover}
+                disabled={saving}
+              >
                 Remove cover
               </button>
             </div>

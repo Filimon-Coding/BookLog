@@ -24,7 +24,6 @@ export default function BookDetailsPage() {
   const [loading, setLoading] = useState(false);
 
   const canDeleteAny = user?.role === "Admin";
-  const currentUserId = user?.id;
 
   const load = async () => {
     setLoading(true);
@@ -55,12 +54,12 @@ export default function BookDetailsPage() {
   };
 
   const deleteComment = async (commentId: number) => {
-    await deleteCommentApi(commentId); // backend will enforce owner/admin rules
+    await deleteCommentApi(commentId); // backend enforces owner/admin
     await load();
   };
 
   const updateComment = async (commentId: number, content: string) => {
-    await updateCommentApi(commentId, content); // backend will enforce owner/admin rules
+    await updateCommentApi(commentId, content); // backend enforces owner
     await load();
   };
 
@@ -109,9 +108,7 @@ export default function BookDetailsPage() {
                 {book.status && <span className="tag">{book.status}</span>}
               </div>
 
-              {book.description && (
-                <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>
-              )}
+              {book.description && <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>}
             </div>
           </div>
 
@@ -123,7 +120,7 @@ export default function BookDetailsPage() {
 
             <CommentList
               comments={comments}
-              currentUserId={currentUserId}
+              currentUserId={user?.id}
               canDeleteAny={!!canDeleteAny}
               onDelete={deleteComment}
               onUpdate={updateComment}

@@ -19,12 +19,3 @@ export async function updateCommentApi(commentId: number, content: string): Prom
 export async function deleteCommentApi(commentId: number): Promise<void> {
   await http.delete(`/comments/${commentId}`);
 }
-
-const commentsApi = {
-  getCommentsForBookApi,
-  addCommentApi,
-  updateCommentApi,
-  deleteCommentApi,
-};
-
-export default commentsApi;

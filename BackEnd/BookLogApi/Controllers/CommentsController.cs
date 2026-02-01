@@ -41,7 +41,7 @@ public class CommentsController : ControllerBase
         return Ok(comments);
     }
 
-    // POST /api/books/{bookId}/comments  (only logged in)
+    // POST /api/books/{bookId}/comments  (any logged-in user)
     [Authorize]
     [HttpPost("books/{bookId:int}/comments")]
     public async Task<ActionResult<CommentDto>> Add(int bookId, CreateCommentDto dto)
@@ -79,9 +79,7 @@ public class CommentsController : ControllerBase
         });
     }
 
-    // PUT /api/comments/{id}  (owner can edit own comment, admin can edit any if you want)
-    // NOTE: Requirement says user/author can edit own comments. Admin edit not required,
-    // but allowing admin edit is harmless. If you want to block admin edit, remove isAdmin check.
+    // PUT /api/comments/{id}  (owner can edit own comment)
     [Authorize]
     [HttpPut("comments/{id:int}")]
     public async Task<ActionResult<CommentDto>> Update(int id, UpdateCommentDto dto)
@@ -97,9 +95,9 @@ public class CommentsController : ControllerBase
         if (comment == null) return NotFound();
 
         var userId = User.GetUserId();
-        var isAdmin = User.IsInRole("Admin");
 
-        if (!isAdmin && comment.UserId != userId)
+        // Owner only (all roles)
+        if (comment.UserId != userId)
             return Forbid();
 
         comment.Content = text;

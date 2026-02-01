@@ -9,7 +9,7 @@ export default function CommentList({
   onUpdate,
 }: {
   comments: CommentDto[];
-  currentUserId?: number;
+  currentUserId?: number | string;
   canDeleteAny: boolean;
   onDelete: (commentId: number) => Promise<void> | void;
   onUpdate: (commentId: number, content: string) => Promise<void> | void;
@@ -17,6 +17,11 @@ export default function CommentList({
   const [editingId, setEditingId] = useState<number | null>(null);
   const [draft, setDraft] = useState("");
   const [saving, setSaving] = useState(false);
+
+  const isOwner = (c: CommentDto) => {
+    if (currentUserId == null) return false;
+    return String(c.userId) === String(currentUserId);
+  };
 
   const startEdit = (c: CommentDto) => {
     setEditingId(c.id);
@@ -34,9 +39,13 @@ export default function CommentList({
     const text = draft.trim();
     if (!text) return;
 
+    const ok = window.confirm("Save changes to this comment?");
+    if (!ok) return;
+
     setSaving(true);
     try {
       await onUpdate(editingId, text);
+      alert("Comment updated.");
       setEditingId(null);
       setDraft("");
     } finally {
@@ -47,15 +56,17 @@ export default function CommentList({
   const doDelete = async (id: number) => {
     const ok = window.confirm("Delete this comment?");
     if (!ok) return;
+
     await onDelete(id);
+    alert("Comment deleted.");
   };
 
   return (
     <div style={{ display: "grid", gap: 10 }}>
       {comments.map((c) => {
-        const isOwner = currentUserId != null && c.userId === currentUserId;
-        const canEdit = isOwner;
-        const canDelete = canDeleteAny || isOwner;
+        const owner = isOwner(c);
+        const canEdit = owner;                // owner only
+        const canDelete = canDeleteAny || owner; // admin OR owner
         const isEditing = editingId === c.id;
 
         return (
@@ -74,7 +85,7 @@ export default function CommentList({
                 <span style={{ color: "var(--muted)", fontSize: 12 }}>
                   {new Date(c.createdAt).toLocaleString()}
                 </span>
-                {isOwner && (
+                {owner && (
                   <span style={{ marginLeft: 8, fontSize: 12, color: "var(--muted-2)" }}>(you)</span>
                 )}
               </div>

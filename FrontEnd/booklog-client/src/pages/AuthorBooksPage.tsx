@@ -32,10 +32,15 @@ export default function AuthorBooksPage() {
     await load();
   };
 
-  const remove = async (id: number) => {
-    await deleteBookApi(id);
-    await load();
-  };
+    const remove = async (id: number) => {
+      const ok = window.confirm("Delete this book?");
+      if (!ok) return;
+
+      await deleteBookApi(id);
+      alert("Book deleted.");
+      await load();
+    };
+
 
   return (
     <div>

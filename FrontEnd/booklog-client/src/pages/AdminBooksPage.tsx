@@ -26,9 +26,14 @@ export default function AdminBooksPage() {
   };
 
   const remove = async (id: number) => {
+    const ok = window.confirm("Delete this book?");
+    if (!ok) return;
+
     await deleteBookApi(id);
+    alert("Book deleted.");
     await load();
   };
+
 
   return (
     <div>

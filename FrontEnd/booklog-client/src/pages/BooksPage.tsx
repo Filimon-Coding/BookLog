@@ -74,12 +74,16 @@ export default function BooksPage() {
   }, [books, query, genre]);
 
   const addToMyBooks = async (bookId: number) => {
+    const ok = window.confirm("Add this book to MyBooks?");
+    if (!ok) return;
+
     setActionError(null);
     setAddingId(bookId);
 
     try {
       await addToMyBooksApi(bookId);
       setMyBookIds((prev) => new Set(prev).add(bookId));
+      alert("Book added to MyBooks.");
     } catch (e: any) {
       if (e?.response?.status === 401) {
         setActionError("You must be logged in to add books to MyBooks.");
@@ -90,6 +94,7 @@ export default function BooksPage() {
       setAddingId(null);
     }
   };
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "crimson" }}>{error}</p>;
