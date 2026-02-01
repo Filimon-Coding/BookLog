@@ -34,7 +34,6 @@ export default function AdminBooksPage() {
     await load();
   };
 
-
   return (
     <div>
       <h2>Admin: Manage Books</h2>
@@ -56,11 +55,12 @@ export default function AdminBooksPage() {
               borderRadius: 12,
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-              <div>
+            <div className="row-wrap">
+              <div className="row-title">
                 <b>{b.title}</b> — {b.authorName} {b.genre ? `(${b.genre})` : ""}
               </div>
-              <div style={{ display: "flex", gap: 10 }}>
+
+              <div className="row-actions">
                 <button className="btn" onClick={() => setEditing(b)}>
                   Edit
                 </button>

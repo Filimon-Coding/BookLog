@@ -27,20 +27,13 @@ const STANDARD_GENRES = [
   "Children",
 ];
 
-export default function BookForm({
-  initial,
-  onSave,
-  onCancel,
-  submitText = "Save",
-}: Props) {
+export default function BookForm({ initial, onSave, onCancel, submitText = "Save" }: Props) {
   const [title, setTitle] = useState(initial?.title ?? "");
   const [authorName, setAuthorName] = useState(initial?.authorName ?? "");
   const [genre, setGenre] = useState(initial?.genre ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
 
-  const [coverImageUrl, setCoverImageUrl] = useState<string>(
-    initial?.coverImageUrl ?? ""
-  );
+  const [coverImageUrl, setCoverImageUrl] = useState<string>(initial?.coverImageUrl ?? "");
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
@@ -75,16 +68,18 @@ export default function BookForm({
   };
 
   const removeCover = () => {
+    const ok = window.confirm("Remove the cover image?");
+    if (!ok) return;
+
     setCoverFile(null);
     setPreviewUrl("");
     setCoverImageUrl("");
+    alert("Cover removed (remember to Save).");
   };
 
   const submit = async () => {
     const isEdit = typeof initial?.id === "number";
-    const ok = window.confirm(
-      isEdit ? "Save changes to this book?" : "Create this book?"
-    );
+    const ok = window.confirm(isEdit ? "Save changes to this book?" : "Create this book?");
     if (!ok) return;
 
     setSaving(true);
@@ -104,11 +99,8 @@ export default function BookForm({
         coverImageUrl: finalCoverUrl || null,
       });
 
-      alert(isEdit ? "Book updated." : "Book created.");
       setCoverFile(null);
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong while saving. Please try again.");
+      alert(isEdit ? "Book updated." : "Book created.");
     } finally {
       setSaving(false);
     }
@@ -119,17 +111,8 @@ export default function BookForm({
 
   return (
     <div style={{ display: "grid", gap: 10 }}>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-      />
-
-      <input
-        value={authorName}
-        onChange={(e) => setAuthorName(e.target.value)}
-        placeholder="Author name"
-      />
+      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
+      <input value={authorName} onChange={(e) => setAuthorName(e.target.value)} placeholder="Author name" />
 
       <select value={genre} onChange={(e) => setGenre(e.target.value)}>
         <option value="">Select genre...</option>
@@ -140,11 +123,7 @@ export default function BookForm({
         ))}
       </select>
 
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-      />
+      <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
 
       <div style={{ display: "grid", gap: 8 }}>
         <div style={{ fontSize: 12, color: "var(--muted)" }}>Book Cover</div>
@@ -156,7 +135,7 @@ export default function BookForm({
         />
 
         {(previewUrl || showExisting) && (
-          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <div className="cover-row">
             <img
               src={imgSrc}
               alt="Cover preview"
@@ -175,12 +154,7 @@ export default function BookForm({
                 {previewUrl ? "Preview (not published yet)" : "Current cover"}
               </div>
 
-              <button
-                type="button"
-                className="btn"
-                onClick={removeCover}
-                disabled={saving}
-              >
+              <button type="button" className="btn" onClick={removeCover} disabled={saving}>
                 Remove cover
               </button>
             </div>
@@ -188,7 +162,7 @@ export default function BookForm({
         )}
       </div>
 
-      <div style={{ display: "flex", gap: 10 }}>
+      <div className="form-actions">
         <button className="btn btn-primary" onClick={submit} disabled={saving}>
           {saving ? "Saving..." : submitText}
         </button>
