@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BnjuL47xIzpL4/heCmgp648BTglqJTQPd0CeZWkKbO0=",
+  "Hash": "xqtWbuhKAcIYUWEjVyjnXeL35l0dhJ+XgiBByaZMQ7E=",
   "Source": "BookLogApi",
   "BasePath": "_content/BookLogApi",
   "Mode": "Default",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/1984.jpg"
+    },
+    {
+      "Identity": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/2f4e14c02f1442918b59287ccb187639.jpg",
+      "SourceId": "BookLogApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/",
+      "BasePath": "_content/BookLogApi",
+      "RelativePath": "uploads/2f4e14c02f1442918b59287ccb187639.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/2f4e14c02f1442918b59287ccb187639.jpg"
     },
     {
       "Identity": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/459b1cf2fedd4ab5927702877706121c.jpeg",
@@ -224,6 +243,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/Cleancode.jpeg"
+    },
+    {
+      "Identity": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/d4cbdc4728ed46cb96ffb1a762bf867d.jpg",
+      "SourceId": "BookLogApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/",
+      "BasePath": "_content/BookLogApi",
+      "RelativePath": "uploads/d4cbdc4728ed46cb96ffb1a762bf867d.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/d4cbdc4728ed46cb96ffb1a762bf867d.jpg"
     },
     {
       "Identity": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/d77f3ee60e344031afe5de7c8d53bc4e.jpeg",

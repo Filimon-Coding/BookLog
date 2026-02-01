@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getBookByIdApi } from "../api/booksApi";
-import { addCommentApi, deleteCommentApi, getCommentsForBookApi } from "../api/commentsApi";
+import {
+  addCommentApi,
+  deleteCommentApi,
+  getCommentsForBookApi,
+  updateCommentApi,
+} from "../api/commentsApi";
 import type { BookDto, CommentDto } from "../types/models";
 import { useAuth } from "../context/AuthContext";
 import CommentList from "../components/CommentList";
@@ -19,6 +24,7 @@ export default function BookDetailsPage() {
   const [loading, setLoading] = useState(false);
 
   const canDeleteAny = user?.role === "Admin";
+  const currentUserId = user?.id;
 
   const load = async () => {
     setLoading(true);
@@ -49,8 +55,12 @@ export default function BookDetailsPage() {
   };
 
   const deleteComment = async (commentId: number) => {
-    if (!canDeleteAny) return;
-    await deleteCommentApi(commentId);
+    await deleteCommentApi(commentId); // backend will enforce owner/admin rules
+    await load();
+  };
+
+  const updateComment = async (commentId: number, content: string) => {
+    await updateCommentApi(commentId, content); // backend will enforce owner/admin rules
     await load();
   };
 
@@ -99,7 +109,9 @@ export default function BookDetailsPage() {
                 {book.status && <span className="tag">{book.status}</span>}
               </div>
 
-              {book.description && <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>}
+              {book.description && (
+                <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>
+              )}
             </div>
           </div>
 
@@ -109,7 +121,13 @@ export default function BookDetailsPage() {
               <span style={{ color: "var(--muted)", fontSize: 12 }}>{comments.length} total</span>
             </div>
 
-            <CommentList comments={comments} canDeleteAny={!!canDeleteAny} onDelete={deleteComment} />
+            <CommentList
+              comments={comments}
+              currentUserId={currentUserId}
+              canDeleteAny={!!canDeleteAny}
+              onDelete={deleteComment}
+              onUpdate={updateComment}
+            />
 
             {isLoggedIn ? (
               <CommentForm onSubmit={addComment} />
