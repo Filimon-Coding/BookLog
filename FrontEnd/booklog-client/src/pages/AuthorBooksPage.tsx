@@ -23,8 +23,16 @@ export default function AuthorBooksPage() {
   }, [books, user]);
 
   const create = async (data: Partial<BookDto>) => {
-    await createBookApi(data);
-    await load();
+    const ok = window.confirm("Create this book?");
+    if (!ok) return;
+
+    try {
+      await createBookApi(data);
+      await load(); // UI update is your success feedback (no extra alert)
+    } catch (e: any) {
+      const msg = e?.response?.data || "Could not create book.";
+      alert(msg);
+    }
   };
 
   const update = async (data: Partial<BookDto>) => {
@@ -33,19 +41,27 @@ export default function AuthorBooksPage() {
     const ok = window.confirm("Save changes to this book?");
     if (!ok) return;
 
-    await updateBookApi(editing.id, data);
-    setEditing(null);
-    alert("Book updated.");
-    await load();
+    try {
+      await updateBookApi(editing.id, data);
+      setEditing(null);
+      await load();
+    } catch (e: any) {
+      const msg = e?.response?.data || "Could not update book.";
+      alert(msg);
+    }
   };
 
   const remove = async (id: number) => {
     const ok = window.confirm("Delete this book?");
     if (!ok) return;
 
-    await deleteBookApi(id);
-    alert("Book deleted.");
-    await load();
+    try {
+      await deleteBookApi(id);
+      await load();
+    } catch (e: any) {
+      const msg = e?.response?.data || "Could not delete book.";
+      alert(msg);
+    }
   };
 
   return (
@@ -101,7 +117,7 @@ export default function AuthorBooksPage() {
           );
         })}
 
-        {myBooks.length === 0 && <p>No books found (backend must expose ownership info).</p>}
+        {myBooks.length === 0 && <p>No books found.</p>}
       </div>
     </div>
   );

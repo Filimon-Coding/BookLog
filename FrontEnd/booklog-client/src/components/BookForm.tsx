@@ -28,6 +28,8 @@ const STANDARD_GENRES = [
 ];
 
 export default function BookForm({ initial, onSave, onCancel, submitText = "Save" }: Props) {
+  const isEdit = typeof initial?.id === "number";
+
   const [title, setTitle] = useState(initial?.title ?? "");
   const [authorName, setAuthorName] = useState(initial?.authorName ?? "");
   const [genre, setGenre] = useState(initial?.genre ?? "");
@@ -38,6 +40,30 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
   const [saving, setSaving] = useState(false);
+
+  // --- required field validation state ---
+  const [submitted, setSubmitted] = useState(false);
+  const [touched, setTouched] = useState({
+    title: false,
+    authorName: false,
+    genre: false,
+  });
+
+  const titleTrim = title.trim();
+  const authorTrim = authorName.trim();
+  const genreTrim = genre.trim();
+
+  const errors = useMemo(() => {
+    return {
+      title: !titleTrim ? "Title required" : "",
+      authorName: !authorTrim ? "Author name required" : "",
+      genre: !genreTrim ? "Genre required" : "",
+    };
+  }, [titleTrim, authorTrim, genreTrim]);
+
+  const showTitleError = (submitted || touched.title) && !!errors.title;
+  const showAuthorError = (submitted || touched.authorName) && !!errors.authorName;
+  const showGenreError = (submitted || touched.genre) && !!errors.genre;
 
   const genreOptions = useMemo(() => {
     const list = [...STANDARD_GENRES];
@@ -74,33 +100,53 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
     setCoverFile(null);
     setPreviewUrl("");
     setCoverImageUrl("");
-    alert("Cover removed (remember to Save).");
+    // NOTE: no success alert here (avoid extra popups)
   };
 
   const submit = async () => {
-    const isEdit = typeof initial?.id === "number";
-    const ok = window.confirm(isEdit ? "Save changes to this book?" : "Create this book?");
-    if (!ok) return;
+    setSubmitted(true);
+
+    // block submit if required fields missing
+    if (errors.title || errors.authorName || errors.genre) {
+      setTouched({ title: true, authorName: true, genre: true });
+      return;
+    }
 
     setSaving(true);
     try {
       let finalCoverUrl = coverImageUrl;
 
+      // upload cover if chosen
       if (coverFile) {
         finalCoverUrl = await uploadCoverApi(coverFile);
         setCoverImageUrl(finalCoverUrl);
       }
 
+      // IMPORTANT: no confirm(), no success alert() here
       await onSave({
-        title: title.trim(),
-        authorName: authorName.trim(),
-        genre: genre.trim(),
+        title: titleTrim,
+        authorName: authorTrim,
+        genre: genreTrim,
         description: description.trim(),
         coverImageUrl: finalCoverUrl || null,
       });
 
-      setCoverFile(null);
-      alert(isEdit ? "Book updated." : "Book created.");
+      // after create: clear the form to avoid accidental double create
+      if (!isEdit) {
+        setTitle("");
+        setAuthorName("");
+        setGenre("");
+        setDescription("");
+        setCoverFile(null);
+        setPreviewUrl("");
+        setCoverImageUrl("");
+        setSubmitted(false);
+        setTouched({ title: false, authorName: false, genre: false });
+      } else {
+        // edit mode: just reset submit state
+        setCoverFile(null);
+        setSubmitted(false);
+      }
     } finally {
       setSaving(false);
     }
@@ -111,22 +157,66 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
 
   return (
     <div style={{ display: "grid", gap: 10 }}>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
-      <input value={authorName} onChange={(e) => setAuthorName(e.target.value)} placeholder="Author name" />
+      {/* Title */}
+      <div className="field">
+        <div className="field-label">
+          Title <span className="required">*</span>
+        </div>
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, title: true }))}
+          placeholder="Title"
+          className={showTitleError ? "input-error" : ""}
+          aria-invalid={showTitleError}
+        />
+        {showTitleError && <div className="field-error">{errors.title}</div>}
+      </div>
 
-      <select value={genre} onChange={(e) => setGenre(e.target.value)}>
-        <option value="">Select genre...</option>
-        {genreOptions.map((g) => (
-          <option key={g} value={g}>
-            {g}
-          </option>
-        ))}
-      </select>
+      {/* Author */}
+      <div className="field">
+        <div className="field-label">
+          Author name <span className="required">*</span>
+        </div>
+        <input
+          value={authorName}
+          onChange={(e) => setAuthorName(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, authorName: true }))}
+          placeholder="Author name"
+          className={showAuthorError ? "input-error" : ""}
+          aria-invalid={showAuthorError}
+        />
+        {showAuthorError && <div className="field-error">{errors.authorName}</div>}
+      </div>
 
-      <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+      {/* Genre */}
+      <div className="field">
+        <div className="field-label">
+          Genre <span className="required">*</span>
+        </div>
+        <select
+          value={genre}
+          onChange={(e) => setGenre(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, genre: true }))}
+          className={showGenreError ? "input-error" : ""}
+          aria-invalid={showGenreError}
+        >
+          <option value="">Select genre...</option>
+          {genreOptions.map((g) => (
+            <option key={g} value={g}>
+              {g}
+            </option>
+          ))}
+        </select>
+        {showGenreError && <div className="field-error">{errors.genre}</div>}
+      </div>
 
+      {/* Description (optional) */}
+      <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description (optional)" />
+
+      {/* Cover */}
       <div style={{ display: "grid", gap: 8 }}>
-        <div style={{ fontSize: 12, color: "var(--muted)" }}>Book Cover</div>
+        <div style={{ fontSize: 12, color: "var(--muted)" }}>Book Cover (optional)</div>
 
         <input
           type="file"
@@ -162,6 +252,7 @@ export default function BookForm({ initial, onSave, onCancel, submitText = "Save
         )}
       </div>
 
+      {/* Actions */}
       <div className="form-actions">
         <button className="btn btn-primary" onClick={submit} disabled={saving}>
           {saving ? "Saving..." : submitText}

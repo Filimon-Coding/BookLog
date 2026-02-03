@@ -16,8 +16,16 @@ export default function AdminBooksPage() {
   }, []);
 
   const create = async (data: Partial<BookDto>) => {
-    await createBookApi(data);
-    await load();
+    const ok = window.confirm("Create this book?");
+    if (!ok) return;
+
+    try {
+      await createBookApi(data);
+      await load();
+    } catch (e: any) {
+      const msg = e?.response?.data || "Could not create book.";
+      alert(msg);
+    }
   };
 
   const update = async (data: Partial<BookDto>) => {
@@ -26,19 +34,27 @@ export default function AdminBooksPage() {
     const ok = window.confirm("Save changes to this book?");
     if (!ok) return;
 
-    await updateBookApi(editing.id, data);
-    setEditing(null);
-    alert("Book updated.");
-    await load();
+    try {
+      await updateBookApi(editing.id, data);
+      setEditing(null);
+      await load();
+    } catch (e: any) {
+      const msg = e?.response?.data || "Could not update book.";
+      alert(msg);
+    }
   };
 
   const remove = async (id: number) => {
     const ok = window.confirm("Delete this book?");
     if (!ok) return;
 
-    await deleteBookApi(id);
-    alert("Book deleted.");
-    await load();
+    try {
+      await deleteBookApi(id);
+      await load();
+    } catch (e: any) {
+      const msg = e?.response?.data || "Could not delete book.";
+      alert(msg);
+    }
   };
 
   return (
