@@ -5,6 +5,7 @@ import { getBooksApi } from "../api/booksApi";
 import { addToMyBooksApi, getMyBooksApi } from "../api/myBooksApi";
 import type { BookDto } from "../types/models";
 import BookFilters from "../components/BookFilters";
+import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
 export default function BooksPage() {
   const [books, setBooks] = useState<BookDto[]>([]);
@@ -18,8 +19,8 @@ export default function BooksPage() {
   const [myBookIds, setMyBookIds] = useState<Set<number>>(new Set());
   const [actionError, setActionError] = useState<string | null>(null);
   const [addingId, setAddingId] = useState<number | null>(null);
-  const [searchParams] = useSearchParams();
 
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     (async () => {
@@ -37,10 +38,9 @@ export default function BooksPage() {
   }, []);
 
   useEffect(() => {
-  const q = searchParams.get("q") || "";
-  setQuery(q);
-}, [searchParams]);
-
+    const q = searchParams.get("q") || "";
+    setQuery(q);
+  }, [searchParams]);
 
   // Try fetch MyBooks (only works when logged in). If 401 -> ignore.
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function BooksPage() {
         const my = await getMyBooksApi();
         setMyBookIds(new Set(my.map((x) => x.bookId)));
       } catch {
-        // not logged in (or server blocked) - ignore
+        // not logged in - ignore
       }
     })();
   }, []);
@@ -95,7 +95,6 @@ export default function BooksPage() {
     }
   };
 
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "crimson" }}>{error}</p>;
 
@@ -113,27 +112,44 @@ export default function BooksPage() {
         genres={genres}
       />
 
-      <ul style={{ display: "grid", gap: 10, paddingLeft: 18 }}>
+      <div className="booklist">
         {filtered.map((b) => {
           const inMyBooks = myBookIds.has(b.id);
+          const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
 
           return (
-            <li key={b.id} style={{ display: "flex", gap: 10, alignItems: "center" }}>
-              <span>
-                <Link to={`/books/${b.id}`}>{b.title}</Link> - {b.authorName}
-              </span>
+            <div key={b.id} className="bookrow card">
+              <Link to={`/books/${b.id}`} className="bookcover" aria-label={`Open ${b.title}`}>
+                {img ? <img src={img} alt={`${b.title} cover`} /> : <div className="cover-fallback" />}
+              </Link>
 
-              <button
-                onClick={() => addToMyBooks(b.id)}
-                disabled={inMyBooks || addingId === b.id}
-                style={{ marginLeft: "auto" }}
-              >
-                {inMyBooks ? "Added" : addingId === b.id ? "Adding..." : "Add to MyBooks"}
-              </button>
-            </li>
+              <div className="bookmeta">
+                <Link to={`/books/${b.id}`} className="booktitle">
+                  {b.title}
+                </Link>
+
+                <div className="bookauthor">by {b.authorName}</div>
+
+                <div className="bookmeta-row">
+                  {b.genre ? <span className="tag">{b.genre}</span> : null}
+                  {b.status ? <span className="tag">{b.status}</span> : null}
+                </div>
+              </div>
+
+              <div className="bookaction">
+                <button
+                  className={`btn ${inMyBooks ? "btn-ghost" : "btn-primary"}`}
+                  onClick={() => addToMyBooks(b.id)}
+                  disabled={inMyBooks || addingId === b.id}
+                  title={inMyBooks ? "Already in MyBooks" : "Add to MyBooks"}
+                >
+                  {inMyBooks ? "Added" : addingId === b.id ? "Adding..." : "Add to MyBooks"}
+                </button>
+              </div>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }

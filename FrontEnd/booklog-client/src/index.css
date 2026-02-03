@@ -932,3 +932,234 @@ textarea:focus {
     display: none;
   }
 }
+
+/* ====== Browse: iOS-like book list rows ====== */
+.booklist {
+  display: grid;
+  gap: 12px;
+}
+
+.bookrow {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+}
+
+.bookcover {
+  width: 54px;
+  height: 76px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  display: block;
+}
+
+.bookcover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bookmeta {
+  min-width: 0;
+}
+
+.booktitle {
+  display: block;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bookauthor {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bookmeta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.bookaction {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Mobile: stack button below to avoid crammed layout */
+@media (max-width: 520px) {
+  .bookrow {
+    grid-template-columns: 54px 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+  }
+
+  .bookaction {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+
+  .bookaction .btn {
+    width: 100%;
+  }
+}
+
+/* ====== Search suggestions (smaller book rows) ====== */
+.nav-suggest {
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.nav-suggest-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 34px 1fr 16px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-suggest-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-suggest-cover {
+  width: 34px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+}
+
+.nav-suggest-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nav-suggest-cover-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(236, 72, 153, 0.14));
+}
+
+.nav-suggest-text {
+  min-width: 0;
+}
+
+.nav-suggest-title {
+  font-weight: 900;
+  font-size: 13px;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-suggest-sub {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-suggest-arrow {
+  color: var(--muted-2);
+  font-size: 18px;
+  line-height: 1;
+  justify-self: end;
+}
+
+.nav-suggest-empty {
+  padding: 12px;
+  color: var(--muted);
+}
+
+/* ====== Shared fallback (if not already in your css) ====== */
+.cover-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(236, 72, 153, 0.14));
+}
+
+/* ====== MyBooks row actions (status + buttons) ====== */
+.mybookrow {
+  grid-template-columns: 64px 1fr 320px;
+}
+
+.mybook-actions {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.mybook-controls {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+}
+
+.mybook-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mybook-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* Admin/Author rows keep same shape as Browse rows, just nicer button spacing */
+.adminrow .bookaction {
+  display: flex;
+  gap: 10px;
+}
+
+/* Mobile tweaks */
+@media (max-width: 720px) {
+  .mybookrow {
+    grid-template-columns: 54px 1fr;
+  }
+
+  .mybook-actions {
+    grid-column: 1 / -1;
+    justify-items: stretch;
+  }
+
+  .mybook-buttons {
+    justify-content: stretch;
+  }
+
+  .mybook-buttons .btn {
+    width: 100%;
+  }
+}
+

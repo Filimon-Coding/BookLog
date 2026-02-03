@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getBooksApi } from "../api/booksApi";
 import type { BookDto } from "../types/models";
+import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
 function SearchIcon() {
   return (
@@ -114,6 +115,45 @@ export default function NavBar() {
     setMobileOpen(false);
   };
 
+  const renderSuggest = () => {
+    if (!openSuggest || !q.trim()) return null;
+
+    return (
+      <div className="nav-suggest">
+        {!booksLoaded ? (
+          <div className="nav-suggest-empty">Loading...</div>
+        ) : suggestions.length === 0 ? (
+          <div className="nav-suggest-empty">No matches</div>
+        ) : (
+          suggestions.map((b) => {
+            const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
+
+            return (
+              <button
+                key={b.id}
+                type="button"
+                className="nav-suggest-item"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => goToBook(b.id)}
+              >
+                <div className="nav-suggest-cover">
+                  {img ? <img src={img} alt="" /> : <div className="nav-suggest-cover-fallback" />}
+                </div>
+
+                <div className="nav-suggest-text">
+                  <div className="nav-suggest-title">{b.title}</div>
+                  <div className="nav-suggest-sub">{b.authorName}</div>
+                </div>
+
+                <div className="nav-suggest-arrow">›</div>
+              </button>
+            );
+          })
+        )}
+      </div>
+    );
+  };
+
   // --- role links
   const navItems = useMemo(() => {
     return [
@@ -127,13 +167,11 @@ export default function NavBar() {
   // --- mobile menu
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // close menu when route changes
   useEffect(() => {
     setMobileOpen(false);
     setOpenSuggest(false);
   }, [location.pathname, location.search]);
 
-  // close menu if screen becomes desktop again
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth > 860) setMobileOpen(false);
@@ -142,7 +180,6 @@ export default function NavBar() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // escape to close
   useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -177,7 +214,6 @@ export default function NavBar() {
           </nav>
         </div>
 
-        {/* Desktop search (hidden on small screens via CSS) */}
         <div className="nav-search">
           <form className="nav-search-box" onSubmit={submitSearch}>
             <span className="nav-search-icon">
@@ -193,36 +229,11 @@ export default function NavBar() {
               placeholder="Search books, authors..."
             />
 
-            {openSuggest && q.trim() && (
-              <div className="nav-suggest">
-                {!booksLoaded ? (
-                  <div className="nav-suggest-empty">Loading...</div>
-                ) : suggestions.length === 0 ? (
-                  <div className="nav-suggest-empty">No matches</div>
-                ) : (
-                  suggestions.map((b) => (
-                    <button
-                      key={b.id}
-                      type="button"
-                      className="nav-suggest-item"
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => goToBook(b.id)}
-                    >
-                      <div>
-                        <div className="nav-suggest-title">{b.title}</div>
-                        <div className="nav-suggest-sub">{b.authorName}</div>
-                      </div>
-                      <div style={{ color: "var(--muted-2)" }}>›</div>
-                    </button>
-                  ))
-                )}
-              </div>
-            )}
+            {renderSuggest()}
           </form>
         </div>
 
         <div className="nav-actions">
-          {/* Always visible */}
           <button
             type="button"
             className="btn btn-ghost theme-toggle"
@@ -233,7 +244,6 @@ export default function NavBar() {
             {theme === "dark" ? <SunIcon /> : <MoonIcon />}
           </button>
 
-          {/* Desktop auth (hidden on small screens via CSS) */}
           <div className="nav-auth desktop-only">
             {isLoggedIn ? (
               <>
@@ -256,7 +266,6 @@ export default function NavBar() {
             )}
           </div>
 
-          {/* Mobile burger */}
           <button
             type="button"
             className="btn btn-ghost nav-burger mobile-only"
@@ -269,7 +278,6 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* Mobile dropdown menu */}
       {mobileOpen && (
         <>
           <button className="nav-overlay" aria-label="Close menu overlay" onClick={() => setMobileOpen(false)} />
@@ -299,31 +307,7 @@ export default function NavBar() {
                   placeholder="Search books, authors..."
                 />
 
-                {openSuggest && q.trim() && (
-                  <div className="nav-suggest">
-                    {!booksLoaded ? (
-                      <div className="nav-suggest-empty">Loading...</div>
-                    ) : suggestions.length === 0 ? (
-                      <div className="nav-suggest-empty">No matches</div>
-                    ) : (
-                      suggestions.map((b) => (
-                        <button
-                          key={b.id}
-                          type="button"
-                          className="nav-suggest-item"
-                          onMouseDown={(e) => e.preventDefault()}
-                          onClick={() => goToBook(b.id)}
-                        >
-                          <div>
-                            <div className="nav-suggest-title">{b.title}</div>
-                            <div className="nav-suggest-sub">{b.authorName}</div>
-                          </div>
-                          <div style={{ color: "var(--muted-2)" }}>›</div>
-                        </button>
-                      ))
-                    )}
-                  </div>
-                )}
+                {renderSuggest()}
               </form>
 
               <div className="nav-mobile-divider" />

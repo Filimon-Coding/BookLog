@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { getMyBooksApi, removeFromMyBooksApi, setMyBookStatusApi } from "../api/myBooksApi";
 import type { BookStatus, MyBookDto } from "../types/models";
+import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
 const statuses: BookStatus[] = ["WantToRead", "Reading", "Finished"];
 
@@ -38,55 +40,54 @@ export default function MyBooksPage() {
     return draft !== undefined && draft !== current;
   };
 
-    const saveOne = async (bookId: number) => {
-      const status = draftStatus[bookId];
-      if (!status) return;
+  const saveOne = async (bookId: number) => {
+    const status = draftStatus[bookId];
+    if (!status) return;
 
-      const ok = window.confirm("Save this status change?");
-      if (!ok) return;
+    const ok = window.confirm("Save this status change?");
+    if (!ok) return;
 
-      setSavingBookId(bookId);
-      setSaveMsg(null);
+    setSavingBookId(bookId);
+    setSaveMsg(null);
 
-      try {
-        await setMyBookStatusApi(bookId, status);
+    try {
+      await setMyBookStatusApi(bookId, status);
 
-        setItems((prev) => prev.map((x) => (x.bookId === bookId ? { ...x, status } : x)));
+      setItems((prev) => prev.map((x) => (x.bookId === bookId ? { ...x, status } : x)));
 
-        setDraftStatus((prev) => {
-          const copy = { ...prev };
-          delete copy[bookId];
-          return copy;
-        });
+      setDraftStatus((prev) => {
+        const copy = { ...prev };
+        delete copy[bookId];
+        return copy;
+      });
 
-        alert("Status saved.");
-      } catch {
-        alert("Could not save. Try again.");
-      } finally {
-        setSavingBookId(null);
-      }
-    };
+      alert("Status saved.");
+    } catch {
+      alert("Could not save. Try again.");
+    } finally {
+      setSavingBookId(null);
+    }
+  };
 
-    const removeOne = async (bookId: number) => {
-      const ok = window.confirm("Remove this book from MyBooks?");
-      if (!ok) return;
+  const removeOne = async (bookId: number) => {
+    const ok = window.confirm("Remove this book from MyBooks?");
+    if (!ok) return;
 
-      setError(null);
-      try {
-        await removeFromMyBooksApi(bookId);
-        setItems((prev) => prev.filter((x) => x.bookId !== bookId));
-        setDraftStatus((prev) => {
-          const copy = { ...prev };
-          delete copy[bookId];
-          return copy;
-        });
+    setError(null);
+    try {
+      await removeFromMyBooksApi(bookId);
+      setItems((prev) => prev.filter((x) => x.bookId !== bookId));
+      setDraftStatus((prev) => {
+        const copy = { ...prev };
+        delete copy[bookId];
+        return copy;
+      });
 
-        alert("Removed from MyBooks.");
-      } catch {
-        setError("Could not remove book.");
-      }
-    };
-
+      alert("Removed from MyBooks.");
+    } catch {
+      setError("Could not remove book.");
+    }
+  };
 
   const sorted = useMemo(() => {
     return [...items].sort((a, b) => a.book.title.localeCompare(b.book.title));
@@ -100,56 +101,57 @@ export default function MyBooksPage() {
       <h1>MyBooks</h1>
       {saveMsg && <p>{saveMsg}</p>}
 
-      <div style={{ display: "grid", gap: 12, maxWidth: 650 }}>
+      <div className="booklist">
         {sorted.map((x) => {
           const currentDraft = draftStatus[x.bookId] ?? x.status;
+          const img = x.book.coverImageUrl ? resolveAssetUrl(x.book.coverImageUrl) : "";
 
           return (
-            <div
-              key={x.bookId}
-              style={{
-                border: "1px solid var(--border)",
-                background: "var(--panel)",
-                borderRadius: 12,
-                padding: 12,
-                display: "grid",
-                gap: 8,
-              }}
-            >
-              <div>
-                <strong>{x.book.title}</strong>
-                <div style={{ color: "var(--muted)" }}>Author: {x.book.authorName}</div>
+            <div key={x.bookId} className="bookrow card mybookrow">
+              <Link to={`/books/${x.bookId}`} className="bookcover" aria-label={`Open ${x.book.title}`}>
+                {img ? <img src={img} alt={`${x.book.title} cover`} /> : <div className="cover-fallback" />}
+              </Link>
+
+              <div className="bookmeta">
+                <Link to={`/books/${x.bookId}`} className="booktitle">
+                  {x.book.title}
+                </Link>
+                <div className="bookauthor">by {x.book.authorName}</div>
               </div>
 
-              <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-                <label style={{ color: "var(--muted)" }}>Status:</label>
-                <select
-                  value={currentDraft}
-                  onChange={(e) =>
-                    setDraftStatus((prev) => ({
-                      ...prev,
-                      [x.bookId]: e.target.value as BookStatus,
-                    }))
-                  }
-                >
-                  {statuses.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
+              <div className="bookaction mybook-actions">
+                <div className="mybook-controls">
+                  <label className="mybook-label">Status</label>
+                  <select
+                    value={currentDraft}
+                    onChange={(e) =>
+                      setDraftStatus((prev) => ({
+                        ...prev,
+                        [x.bookId]: e.target.value as BookStatus,
+                      }))
+                    }
+                  >
+                    {statuses.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                <button
-                  className="btn"
-                  onClick={() => saveOne(x.bookId)}
-                  disabled={!isDirty(x.bookId) || savingBookId === x.bookId}
-                >
-                  {savingBookId === x.bookId ? "Saving..." : "Save"}
-                </button>
+                <div className="mybook-buttons">
+                  <button
+                    className="btn"
+                    onClick={() => saveOne(x.bookId)}
+                    disabled={!isDirty(x.bookId) || savingBookId === x.bookId}
+                  >
+                    {savingBookId === x.bookId ? "Saving..." : "Save"}
+                  </button>
 
-                <button className="btn" onClick={() => removeOne(x.bookId)}>
-                  Remove
-                </button>
+                  <button className="btn" onClick={() => removeOne(x.bookId)}>
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
           );

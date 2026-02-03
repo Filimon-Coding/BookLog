@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import type { BookDto } from "../types/models";
 import { createBookApi, deleteBookApi, getBooksApi, updateBookApi } from "../api/booksApi";
 import BookForm from "../components/BookForm";
+import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
 export default function AdminBooksPage() {
   const [books, setBooks] = useState<BookDto[]>([]);
@@ -20,8 +22,13 @@ export default function AdminBooksPage() {
 
   const update = async (data: Partial<BookDto>) => {
     if (!editing) return;
+
+    const ok = window.confirm("Save changes to this book?");
+    if (!ok) return;
+
     await updateBookApi(editing.id, data);
     setEditing(null);
+    alert("Book updated.");
     await load();
   };
 
@@ -44,39 +51,48 @@ export default function AdminBooksPage() {
       <hr style={{ margin: "16px 0", borderColor: "var(--border)" }} />
 
       <h3>All books</h3>
-      <div style={{ display: "grid", gap: 12 }}>
-        {books.map((b) => (
-          <div
-            key={b.id}
-            style={{
-              border: "1px solid var(--border)",
-              background: "var(--panel)",
-              padding: 12,
-              borderRadius: 12,
-            }}
-          >
-            <div className="row-wrap">
-              <div className="row-title">
-                <b>{b.title}</b> — {b.authorName} {b.genre ? `(${b.genre})` : ""}
+
+      <div className="booklist">
+        {books.map((b) => {
+          const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
+
+          return (
+            <div key={b.id} className="card" style={{ padding: 12 }}>
+              <div className="bookrow adminrow" style={{ padding: 0 }}>
+                <Link to={`/books/${b.id}`} className="bookcover" aria-label={`Open ${b.title}`}>
+                  {img ? <img src={img} alt={`${b.title} cover`} /> : <div className="cover-fallback" />}
+                </Link>
+
+                <div className="bookmeta">
+                  <Link to={`/books/${b.id}`} className="booktitle">
+                    {b.title}
+                  </Link>
+                  <div className="bookauthor">by {b.authorName}</div>
+                  {b.genre ? (
+                    <div className="bookmeta-row">
+                      <span className="tag">{b.genre}</span>
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="bookaction">
+                  <button className="btn" onClick={() => setEditing(b)}>
+                    Edit
+                  </button>
+                  <button className="btn" onClick={() => remove(b.id)}>
+                    Delete
+                  </button>
+                </div>
               </div>
 
-              <div className="row-actions">
-                <button className="btn" onClick={() => setEditing(b)}>
-                  Edit
-                </button>
-                <button className="btn" onClick={() => remove(b.id)}>
-                  Delete
-                </button>
-              </div>
+              {editing?.id === b.id && (
+                <div style={{ marginTop: 12 }}>
+                  <BookForm initial={b} onSave={update} onCancel={() => setEditing(null)} />
+                </div>
+              )}
             </div>
-
-            {editing?.id === b.id && (
-              <div style={{ marginTop: 12 }}>
-                <BookForm initial={b} onSave={update} onCancel={() => setEditing(null)} />
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
