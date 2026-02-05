@@ -759,6 +759,19 @@ textarea:focus {
   font-size: 12px;
 }
 
+/* ====== Form validation (red errors) ====== */
+.form-error {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #ff4d4f; /* red */
+}
+
+.input-error {
+  border-color: #ff4d4f !important;
+  box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.18);
+}
+
+
 /* ====== Small utilities (used by pages/components) ====== */
 .row-wrap {
   display: flex;

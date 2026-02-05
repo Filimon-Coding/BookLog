@@ -43,7 +43,7 @@ public class MyBooksController : ControllerBase
                     AuthorName = x.Book.AuthorName,
                     Genre = x.Book.Genre,
                     Description = x.Book.Description,
-                    CoverImageUrl = x.Book.CoverImageUrl,   // ✅ FIX
+                    CoverImageUrl = x.Book.CoverImageUrl,   
                     Status = x.Book.Status.ToString(),
                     CreatedByUserId = x.Book.CreatedByUserId
                 }
@@ -96,7 +96,7 @@ public class MyBooksController : ControllerBase
                 AuthorName = book.AuthorName,
                 Genre = book.Genre,
                 Description = book.Description,
-                CoverImageUrl = book.CoverImageUrl,      // ✅ FIX
+                CoverImageUrl = book.CoverImageUrl,      
                 Status = book.Status.ToString(),
                 CreatedByUserId = book.CreatedByUserId
             }
