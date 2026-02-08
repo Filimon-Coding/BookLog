@@ -100,8 +100,12 @@ export default function BooksPage() {
 
   return (
     <div>
-      <h1>Browse</h1>
-
+      <div className="page-head">
+        <h1 className="page-title">MyBooks</h1>
+        <p className="page-subtitle">
+          Your personal reading list. Track what you want to read, what you’re reading, and what you finished.
+        </p>
+      </div>
       {actionError && <p style={{ color: "crimson" }}>{actionError}</p>}
 
       <BookFilters

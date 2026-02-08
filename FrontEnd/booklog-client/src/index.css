@@ -804,6 +804,32 @@ textarea:focus {
   gap: 10px;
 }
 
+/* ====== Page header subtitle text ====== */
+.page-head {
+  margin: 4px 0 14px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 0.2px;
+}
+
+.page-subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  max-width: 760px;
+}
+
+@media (max-width: 520px) {
+  .page-title {
+    font-size: 28px;
+  }
+}
+
+
 /* Browse filters layout */
 .filters {
   display: flex;

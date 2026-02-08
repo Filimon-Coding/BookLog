@@ -98,7 +98,15 @@ export default function MyBooksPage() {
 
   return (
     <div>
-      <h1>MyBooks</h1>
+
+      <div className="page-head">
+          <h1 className="page-title">MyBooks</h1>
+          <p className="page-subtitle">
+            Your personal reading list. Track what you want to read, what you’re reading, and what you finished.
+          </p>
+      </div>
+
+      
       {saveMsg && <p>{saveMsg}</p>}
 
       <div className="booklist">

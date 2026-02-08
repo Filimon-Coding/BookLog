@@ -66,7 +66,13 @@ export default function AuthorBooksPage() {
 
   return (
     <div>
-      <h2>Author: My Books</h2>
+      <div className="page-head">
+        <h1 className="page-title">Author: My books</h1>
+        <p className="page-subtitle">
+         Here you can create your book, Make sure to include Title, Author and genre. 
+        </p>
+      </div>
+            
 
       <h3>Create new</h3>
       <BookForm onSave={create} />
@@ -74,7 +80,12 @@ export default function AuthorBooksPage() {
       <hr style={{ margin: "16px 0", borderColor: "var(--border)" }} />
 
       <h3>My books</h3>
-
+        <div className="page-head">
+          <h1 className="page-title">My books</h1>
+          <p className="page-subtitle">
+            Here are all the books you’ve published. You can edit or delete your books from this list.
+          </p>
+        </div>
       <div className="booklist">
         {myBooks.map((b) => {
           const img = b.coverImageUrl ? resolveAssetUrl(b.coverImageUrl) : "";
