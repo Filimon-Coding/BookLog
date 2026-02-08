@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getBookByIdApi } from "../api/booksApi";
+import { addToMyBooksApi, getMyBooksApi } from "../api/myBooksApi";
 import {
   addCommentApi,
   deleteCommentApi,
   getCommentsForBookApi,
   updateCommentApi,
 } from "../api/commentsApi";
-import type { BookDto, CommentDto } from "../types/models";
+import type { BookDto, BookStatus, CommentDto } from "../types/models";
 import { useAuth } from "../context/AuthContext";
 import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
@@ -17,13 +18,35 @@ export default function BookDetailsPage() {
   const { id } = useParams();
   const bookId = Number(id);
 
+  const navigate = useNavigate();
+
   const { isLoggedIn, user } = useAuth();
 
   const [book, setBook] = useState<BookDto | null>(null);
   const [comments, setComments] = useState<CommentDto[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [myStatus, setMyStatus] = useState<BookStatus | null>(null);
+  const [myBusy, setMyBusy] = useState(false);
+
   const canDeleteAny = user?.role === "Admin";
+
+  const loadMyStatus = async () => {
+    if (!isLoggedIn) {
+      setMyStatus(null);
+      return;
+    }
+
+    try {
+      const list = await getMyBooksApi();
+      const mine = list.find((x) => x.bookId === bookId);
+      setMyStatus(mine?.status ?? null);
+    } catch {
+      // If the user is not logged in (401) or something else happens,
+      // we just don't show a status.
+      setMyStatus(null);
+    }
+  };
 
   const load = async () => {
     setLoading(true);
@@ -43,6 +66,12 @@ export default function BookDetailsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookId]);
 
+  useEffect(() => {
+    if (!Number.isFinite(bookId)) return;
+    loadMyStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookId, isLoggedIn]);
+
   const coverUrl = useMemo(() => {
     if (!book?.coverImageUrl) return "";
     return resolveAssetUrl(book.coverImageUrl);
@@ -61,6 +90,41 @@ export default function BookDetailsPage() {
   const updateComment = async (commentId: number, content: string) => {
     await updateCommentApi(commentId, content); // backend enforces owner
     await load();
+  };
+
+  const addToMyBooks = async () => {
+    if (!book) return;
+
+    if (!isLoggedIn) {
+      const ok = window.confirm("You need to login to use MyBooks. Go to login page?");
+      if (ok) navigate("/login");
+      return;
+    }
+
+    if (myStatus) {
+      return;
+    }
+
+    const confirmMsg =
+      `Add this to MyBooks?\n\n` +
+      `Title: ${book.title}\n` +
+      `Author: ${book.authorName}\n` +
+      `Genre: ${book.genre || "(none)"}\n\n` +
+      `Status: WantToRead`;
+
+    const ok = window.confirm(confirmMsg);
+    if (!ok) return;
+
+    setMyBusy(true);
+    try {
+      await addToMyBooksApi(bookId);
+      setMyStatus("WantToRead");
+    } catch (e: any) {
+      if (e?.response?.status === 401) alert("Please login again.");
+      else alert("Could not add to MyBooks.");
+    } finally {
+      setMyBusy(false);
+    }
   };
 
   if (!Number.isFinite(bookId)) return <p>Invalid book id</p>;
@@ -97,9 +161,29 @@ export default function BookDetailsPage() {
               />
             )}
 
-            <div>
-              <h2 style={{ margin: "0 0 6px 0" }}>{book.title}</h2>
-              <div style={{ color: "var(--muted)", marginBottom: 10 }}>
+            <div style={{ display: "grid", gap: 10 }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: 10,
+                }}
+              >
+                <h2 style={{ margin: 0 }}>{book.title}</h2>
+
+                <button
+                  className={`btn ${myStatus ? "" : "btn-primary"}`}
+                  onClick={addToMyBooks}
+                  disabled={myBusy || !!myStatus}
+                  title={myStatus ? "This book is already in your MyBooks list" : "Add to MyBooks"}
+                >
+                  {myBusy ? "Adding..." : myStatus ? `In MyBooks (${myStatus})` : "Add to MyBooks"}
+                </button>
+              </div>
+
+              <div style={{ color: "var(--muted)", marginBottom: 0 }}>
                 Author: <span style={{ color: "var(--text)" }}>{book.authorName}</span>
               </div>
 
@@ -108,7 +192,9 @@ export default function BookDetailsPage() {
                 {book.status && <span className="tag">{book.status}</span>}
               </div>
 
-              {book.description && <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>}
+              {book.description && (
+                <p style={{ marginTop: 12, color: "var(--text-soft)" }}>{book.description}</p>
+              )}
             </div>
           </div>
 
