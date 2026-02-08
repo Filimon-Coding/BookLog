@@ -46,8 +46,8 @@ export default function LoginPage() {
 
           <div className="form-grid">
             <div>
-              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Email Address</div>
-              <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="your@email.com" />
+              <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 6 }}>Username</div>
+              <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="UserName" />
             </div>
 
             <div>
