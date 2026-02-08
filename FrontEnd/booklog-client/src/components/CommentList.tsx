@@ -65,7 +65,7 @@ export default function CommentList({
     <div style={{ display: "grid", gap: 10 }}>
       {comments.map((c) => {
         const owner = isOwner(c);
-        const canEdit = owner;                // owner only
+        const canEdit = owner; // owner only
         const canDelete = canDeleteAny || owner; // admin OR owner
         const isEditing = editingId === c.id;
 
@@ -86,13 +86,15 @@ export default function CommentList({
                   {new Date(c.createdAt).toLocaleString()}
                 </span>
                 {owner && (
-                  <span style={{ marginLeft: 8, fontSize: 12, color: "var(--muted-2)" }}>(you)</span>
+                  <span style={{ marginLeft: 8, fontSize: 12, color: "var(--muted-2)" }}>
+                    (you)
+                  </span>
                 )}
               </div>
 
               <div style={{ display: "flex", gap: 8 }}>
                 {canEdit && !isEditing && (
-                  <button className="btn btn-ghost" onClick={() => startEdit(c)}>
+                  <button className="btn btn-primary" onClick={() => startEdit(c)}>
                     Edit
                   </button>
                 )}
