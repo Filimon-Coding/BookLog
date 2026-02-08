@@ -250,22 +250,6 @@ export default function HomePage() {
               <span>View MyBooks</span>
               <span style={{ color: "var(--muted-2)" }}>›</span>
             </Link>
-            <div className="action-item" style={{ cursor: "not-allowed", opacity: 0.7 }}>
-              <span>Find Friends</span>
-              <span style={{ color: "var(--muted-2)" }}>›</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="card card-pad">
-          <div className="card-title">Trending Topics</div>
-          <div className="tags">
-            <span className="tag">#Fantasy</span>
-            <span className="tag">#SciFi</span>
-            <span className="tag">#Romance</span>
-            <span className="tag">#Thriller</span>
-            <span className="tag">#Mystery</span>
-            <span className="tag">#Biography</span>
           </div>
         </div>
       </div>
