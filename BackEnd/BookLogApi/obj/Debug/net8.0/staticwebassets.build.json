@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xfAggYWf/D66jiaHmpVkzzM7/HCNCX05t7jGNDijRW0=",
+  "Hash": "+pH0NFIy2Y/rSzOEuObR847wT7EyjvU4XQ1hmQx0xxE=",
   "Source": "BookLogApi",
   "BasePath": "_content/BookLogApi",
   "Mode": "Default",
@@ -262,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/b02a9b69cae14234b614b057ddb3991f.jpeg"
+    },
+    {
+      "Identity": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/b6e0413b96484b0e87e897f30bbf1bf0.png",
+      "SourceId": "BookLogApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/",
+      "BasePath": "_content/BookLogApi",
+      "RelativePath": "uploads/b6e0413b96484b0e87e897f30bbf1bf0.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/b6e0413b96484b0e87e897f30bbf1bf0.png"
     },
     {
       "Identity": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/bb8de9539d7743ebaf89cccfd68f29f6.jpg",

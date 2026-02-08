@@ -1,5 +1,6 @@
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/bin/Debug/net8.0/appsettings.Development.json
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/bin/Debug/net8.0/appsettings.json
+/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/bin/Debug/net8.0/BookLogApi.staticwebassets.runtime.json
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/bin/Debug/net8.0/BookLogApi
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/bin/Debug/net8.0/BookLogApi.deps.json
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/bin/Debug/net8.0/BookLogApi.runtimeconfig.json
@@ -136,4 +137,3 @@
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/obj/Debug/net8.0/BookLogApi.pdb
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/obj/Debug/net8.0/BookLogApi.genruntimeconfig.cache
 /home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/obj/Debug/net8.0/ref/BookLogApi.dll
-/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/bin/Debug/net8.0/BookLogApi.staticwebassets.runtime.json

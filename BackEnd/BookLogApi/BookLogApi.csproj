@@ -21,6 +21,11 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
+
+     <Compile Remove="BookLogApi.Tests\**\*.cs" /> 
+      <None Remove="BookLogApi.Tests\**\*" />
+  <Content Remove="BookLogApi.Tests\**\*" />
+
   </ItemGroup>
 
 </Project>
