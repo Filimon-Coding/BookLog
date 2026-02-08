@@ -149,7 +149,7 @@ export default function MyBooksPage() {
 
                 <div className="mybook-buttons">
                   <button
-                    className="btn"
+                    className="btn btn-primary"
                     onClick={() => saveOne(x.bookId)}
                     disabled={!isDirty(x.bookId) || savingBookId === x.bookId}
                   >

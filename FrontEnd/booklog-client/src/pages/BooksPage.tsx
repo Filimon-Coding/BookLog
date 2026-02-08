@@ -101,9 +101,9 @@ export default function BooksPage() {
   return (
     <div>
       <div className="page-head">
-        <h1 className="page-title">MyBooks</h1>
+        <h1 className="page-title">Browser</h1>
         <p className="page-subtitle">
-          Your personal reading list. Track what you want to read, what you’re reading, and what you finished.
+          Here are all the books in BookLog database. Use search or genres to find something you like.
         </p>
       </div>
       {actionError && <p style={{ color: "crimson" }}>{actionError}</p>}
