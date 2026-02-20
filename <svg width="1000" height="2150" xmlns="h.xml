@@ -1,0 +1,350 @@
+<svg width="1000" height="2150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; fill: #2c3e50; }
+      .subtitle { font-family: 'Arial', sans-serif; font-size: 12px; fill: #7f8c8d; }
+      .folder-text { font-family: 'Consolas', 'Courier New', monospace; font-size: 14px; fill: #27ae60; font-weight: bold; }
+      .file-text { font-family: 'Consolas', 'Courier New', monospace; font-size: 14px; fill: #3498db; }
+      .icon { font-family: 'Arial', sans-serif; font-size: 16px; }
+      .line { stroke: #bdc3c7; stroke-width: 1.5; }
+      .background { fill: #f8f9fa; }
+      .header-bg { fill: #ecf0f1; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="2150" class="background"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1000" height="60" class="header-bg"/>
+  <text x="20" y="25" class="title">📁 File Tree: BackEnd</text>
+  <text x="20" y="45" class="subtitle">Generated: 2/14/2026, 6:09:20 PM | FileTree Pro Extension</text>
+
+  <!-- Tree Structure -->
+    <line x1="15" y1="80" x2="25" y2="80" class="line"/>
+    <text x="30" y="85" class="icon">📁</text>
+    <text x="55" y="85" class="folder-text">BookLogApi/</text>
+    <line x1="45" y1="100" x2="45" y2="110" class="line"/>
+    <line x1="45" y1="110" x2="55" y2="110" class="line"/>
+    <text x="60" y="115" class="icon">📁</text>
+    <text x="85" y="115" class="folder-text">BookLogApi.Tests/</text>
+    <line x1="75" y1="130" x2="75" y2="140" class="line"/>
+    <line x1="75" y1="140" x2="85" y2="140" class="line"/>
+    <text x="90" y="145" class="icon">📄</text>
+    <text x="115" y="145" class="file-text">BookLogApi.Tests.csproj</text>
+    <line x1="75" y1="165" x2="75" y2="175" class="line"/>
+    <line x1="75" y1="175" x2="85" y2="175" class="line"/>
+    <text x="90" y="180" class="icon">📄</text>
+    <text x="115" y="180" class="file-text">BooksControllerTests.cs</text>
+    <line x1="75" y1="200" x2="75" y2="210" class="line"/>
+    <line x1="75" y1="210" x2="85" y2="210" class="line"/>
+    <text x="90" y="215" class="icon">📄</text>
+    <text x="115" y="215" class="file-text">GlobalUsings.cs</text>
+    <line x1="45" y1="270" x2="45" y2="280" class="line"/>
+    <line x1="45" y1="280" x2="55" y2="280" class="line"/>
+    <text x="60" y="285" class="icon">📁</text>
+    <text x="85" y="285" class="folder-text">Controllers/</text>
+    <line x1="75" y1="300" x2="75" y2="310" class="line"/>
+    <line x1="75" y1="310" x2="85" y2="310" class="line"/>
+    <text x="90" y="315" class="icon">📄</text>
+    <text x="115" y="315" class="file-text">AuthController.cs</text>
+    <line x1="75" y1="335" x2="75" y2="345" class="line"/>
+    <line x1="75" y1="345" x2="85" y2="345" class="line"/>
+    <text x="90" y="350" class="icon">📄</text>
+    <text x="115" y="350" class="file-text">BooksController.cs</text>
+    <line x1="75" y1="370" x2="75" y2="380" class="line"/>
+    <line x1="75" y1="380" x2="85" y2="380" class="line"/>
+    <text x="90" y="385" class="icon">📄</text>
+    <text x="115" y="385" class="file-text">CommentsController.cs</text>
+    <line x1="75" y1="405" x2="75" y2="415" class="line"/>
+    <line x1="75" y1="415" x2="85" y2="415" class="line"/>
+    <text x="90" y="420" class="icon">📄</text>
+    <text x="115" y="420" class="file-text">MyBooksController.cs</text>
+    <line x1="75" y1="440" x2="75" y2="450" class="line"/>
+    <line x1="75" y1="450" x2="85" y2="450" class="line"/>
+    <text x="90" y="455" class="icon">📄</text>
+    <text x="115" y="455" class="file-text">UploadsController.cs</text>
+    <line x1="45" y1="510" x2="45" y2="520" class="line"/>
+    <line x1="45" y1="520" x2="55" y2="520" class="line"/>
+    <text x="60" y="525" class="icon">📁</text>
+    <text x="85" y="525" class="folder-text">DTOs/</text>
+    <line x1="75" y1="540" x2="75" y2="550" class="line"/>
+    <line x1="75" y1="550" x2="85" y2="550" class="line"/>
+    <text x="90" y="555" class="icon">📁</text>
+    <text x="115" y="555" class="folder-text">Auth/</text>
+    <line x1="105" y1="570" x2="105" y2="580" class="line"/>
+    <line x1="105" y1="580" x2="115" y2="580" class="line"/>
+    <text x="120" y="585" class="icon">📄</text>
+    <text x="145" y="585" class="file-text">AuthResponseDto.cs</text>
+    <line x1="105" y1="605" x2="105" y2="615" class="line"/>
+    <line x1="105" y1="615" x2="115" y2="615" class="line"/>
+    <text x="120" y="620" class="icon">📄</text>
+    <text x="145" y="620" class="file-text">LoginRequestDto.cs</text>
+    <line x1="105" y1="640" x2="105" y2="650" class="line"/>
+    <line x1="105" y1="650" x2="115" y2="650" class="line"/>
+    <text x="120" y="655" class="icon">📄</text>
+    <text x="145" y="655" class="file-text">RegisterRequestDto.cs</text>
+    <line x1="105" y1="675" x2="105" y2="685" class="line"/>
+    <line x1="105" y1="685" x2="115" y2="685" class="line"/>
+    <text x="120" y="690" class="icon">📄</text>
+    <text x="145" y="690" class="file-text">UserDto.cs</text>
+    <line x1="75" y1="745" x2="75" y2="755" class="line"/>
+    <line x1="75" y1="755" x2="85" y2="755" class="line"/>
+    <text x="90" y="760" class="icon">📁</text>
+    <text x="115" y="760" class="folder-text">Books/</text>
+    <line x1="105" y1="775" x2="105" y2="785" class="line"/>
+    <line x1="105" y1="785" x2="115" y2="785" class="line"/>
+    <text x="120" y="790" class="icon">📄</text>
+    <text x="145" y="790" class="file-text">BookDto.cs</text>
+    <line x1="105" y1="810" x2="105" y2="820" class="line"/>
+    <line x1="105" y1="820" x2="115" y2="820" class="line"/>
+    <text x="120" y="825" class="icon">📄</text>
+    <text x="145" y="825" class="file-text">CreateBookDto.cs</text>
+    <line x1="105" y1="845" x2="105" y2="855" class="line"/>
+    <line x1="105" y1="855" x2="115" y2="855" class="line"/>
+    <text x="120" y="860" class="icon">📄</text>
+    <text x="145" y="860" class="file-text">UpdateBookDto.cs</text>
+    <line x1="75" y1="915" x2="75" y2="925" class="line"/>
+    <line x1="75" y1="925" x2="85" y2="925" class="line"/>
+    <text x="90" y="930" class="icon">📁</text>
+    <text x="115" y="930" class="folder-text">Comments/</text>
+    <line x1="105" y1="945" x2="105" y2="955" class="line"/>
+    <line x1="105" y1="955" x2="115" y2="955" class="line"/>
+    <text x="120" y="960" class="icon">📄</text>
+    <text x="145" y="960" class="file-text">CommentDto.cs</text>
+    <line x1="105" y1="980" x2="105" y2="990" class="line"/>
+    <line x1="105" y1="990" x2="115" y2="990" class="line"/>
+    <text x="120" y="995" class="icon">📄</text>
+    <text x="145" y="995" class="file-text">CreateCommentDto.cs</text>
+    <line x1="105" y1="1015" x2="105" y2="1025" class="line"/>
+    <line x1="105" y1="1025" x2="115" y2="1025" class="line"/>
+    <text x="120" y="1030" class="icon">📄</text>
+    <text x="145" y="1030" class="file-text">UpdateCommentDto.cs</text>
+    <line x1="75" y1="1085" x2="75" y2="1095" class="line"/>
+    <line x1="75" y1="1095" x2="85" y2="1095" class="line"/>
+    <text x="90" y="1100" class="icon">📁</text>
+    <text x="115" y="1100" class="folder-text">MyBooks/</text>
+    <line x1="105" y1="1115" x2="105" y2="1125" class="line"/>
+    <line x1="105" y1="1125" x2="115" y2="1125" class="line"/>
+    <text x="120" y="1130" class="icon">📄</text>
+    <text x="145" y="1130" class="file-text">MyBookDto.cs</text>
+    <line x1="105" y1="1150" x2="105" y2="1160" class="line"/>
+    <line x1="105" y1="1160" x2="115" y2="1160" class="line"/>
+    <text x="120" y="1165" class="icon">📄</text>
+    <text x="145" y="1165" class="file-text">SetMyBookStatusDto.cs</text>
+    <line x1="45" y1="1255" x2="45" y2="1265" class="line"/>
+    <line x1="45" y1="1265" x2="55" y2="1265" class="line"/>
+    <text x="60" y="1270" class="icon">📁</text>
+    <text x="85" y="1270" class="folder-text">Data/</text>
+    <line x1="75" y1="1285" x2="75" y2="1295" class="line"/>
+    <line x1="75" y1="1295" x2="85" y2="1295" class="line"/>
+    <text x="90" y="1300" class="icon">📁</text>
+    <text x="115" y="1300" class="folder-text">Seed/</text>
+    <line x1="105" y1="1315" x2="105" y2="1325" class="line"/>
+    <line x1="105" y1="1325" x2="115" y2="1325" class="line"/>
+    <text x="120" y="1330" class="icon">📄</text>
+    <text x="145" y="1330" class="file-text">DbSeeder.cs</text>
+    <line x1="75" y1="1385" x2="75" y2="1395" class="line"/>
+    <line x1="75" y1="1395" x2="85" y2="1395" class="line"/>
+    <text x="90" y="1400" class="icon">📄</text>
+    <text x="115" y="1400" class="file-text">ApplicationDbContext.cs</text>
+    <line x1="45" y1="1455" x2="45" y2="1465" class="line"/>
+    <line x1="45" y1="1465" x2="55" y2="1465" class="line"/>
+    <text x="60" y="1470" class="icon">📁</text>
+    <text x="85" y="1470" class="folder-text">Helpers/</text>
+    <line x1="75" y1="1485" x2="75" y2="1495" class="line"/>
+    <line x1="75" y1="1495" x2="85" y2="1495" class="line"/>
+    <text x="90" y="1500" class="icon">📄</text>
+    <text x="115" y="1500" class="file-text">ClaimsPrincipalExtensions.cs</text>
+    <line x1="45" y1="1555" x2="45" y2="1565" class="line"/>
+    <line x1="45" y1="1565" x2="55" y2="1565" class="line"/>
+    <text x="60" y="1570" class="icon">📁</text>
+    <text x="85" y="1570" class="folder-text">Migrations/</text>
+    <line x1="75" y1="1585" x2="75" y2="1595" class="line"/>
+    <line x1="75" y1="1595" x2="85" y2="1595" class="line"/>
+    <text x="90" y="1600" class="icon">📄</text>
+    <text x="115" y="1600" class="file-text">20260130181721_InitialCreate.Designer.cs</text>
+    <line x1="75" y1="1620" x2="75" y2="1630" class="line"/>
+    <line x1="75" y1="1630" x2="85" y2="1630" class="line"/>
+    <text x="90" y="1635" class="icon">📄</text>
+    <text x="115" y="1635" class="file-text">20260130181721_InitialCreate.cs</text>
+    <line x1="75" y1="1655" x2="75" y2="1665" class="line"/>
+    <line x1="75" y1="1665" x2="85" y2="1665" class="line"/>
+    <text x="90" y="1670" class="icon">📄</text>
+    <text x="115" y="1670" class="file-text">20260131084304_AddCoverImageUrlToBook.Designer.cs</text>
+    <line x1="75" y1="1690" x2="75" y2="1700" class="line"/>
+    <line x1="75" y1="1700" x2="85" y2="1700" class="line"/>
+    <text x="90" y="1705" class="icon">📄</text>
+    <text x="115" y="1705" class="file-text">20260131084304_AddCoverImageUrlToBook.cs</text>
+    <line x1="75" y1="1725" x2="75" y2="1735" class="line"/>
+    <line x1="75" y1="1735" x2="85" y2="1735" class="line"/>
+    <text x="90" y="1740" class="icon">📄</text>
+    <text x="115" y="1740" class="file-text">ApplicationDbContextModelSnapshot.cs</text>
+    <line x1="45" y1="1795" x2="45" y2="1805" class="line"/>
+    <line x1="45" y1="1805" x2="55" y2="1805" class="line"/>
+    <text x="60" y="1810" class="icon">📁</text>
+    <text x="85" y="1810" class="folder-text">Properties/</text>
+    <line x1="75" y1="1825" x2="75" y2="1835" class="line"/>
+    <line x1="75" y1="1835" x2="85" y2="1835" class="line"/>
+    <text x="90" y="1840" class="icon">⚙️</text>
+    <text x="115" y="1840" class="file-text">launchSettings.json</text>
+    <line x1="45" y1="1895" x2="45" y2="1905" class="line"/>
+    <line x1="45" y1="1905" x2="55" y2="1905" class="line"/>
+    <text x="60" y="1910" class="icon">📁</text>
+    <text x="85" y="1910" class="folder-text">Services/</text>
+    <line x1="75" y1="1925" x2="75" y2="1935" class="line"/>
+    <line x1="75" y1="1935" x2="85" y2="1935" class="line"/>
+    <text x="90" y="1940" class="icon">📄</text>
+    <text x="115" y="1940" class="file-text">JwtTokenService.cs</text>
+    <line x1="45" y1="1995" x2="45" y2="2005" class="line"/>
+    <line x1="45" y1="2005" x2="55" y2="2005" class="line"/>
+    <text x="60" y="2010" class="icon">📁</text>
+    <text x="85" y="2010" class="folder-text">models/</text>
+    <line x1="75" y1="2025" x2="75" y2="2035" class="line"/>
+    <line x1="75" y1="2035" x2="85" y2="2035" class="line"/>
+    <text x="90" y="2040" class="icon">📁</text>
+    <text x="115" y="2040" class="folder-text">Enums/</text>
+    <line x1="105" y1="2055" x2="105" y2="2065" class="line"/>
+    <line x1="105" y1="2065" x2="115" y2="2065" class="line"/>
+    <text x="120" y="2070" class="icon">📄</text>
+    <text x="145" y="2070" class="file-text">BookVisibilityStatus.cs</text>
+    <line x1="105" y1="2090" x2="105" y2="2100" class="line"/>
+    <line x1="105" y1="2100" x2="115" y2="2100" class="line"/>
+    <text x="120" y="2105" class="icon">📄</text>
+    <text x="145" y="2105" class="file-text">MyBookStatus.cs</text>
+    <line x1="75" y1="2160" x2="75" y2="2170" class="line"/>
+    <line x1="75" y1="2170" x2="85" y2="2170" class="line"/>
+    <text x="90" y="2175" class="icon">📄</text>
+    <text x="115" y="2175" class="file-text">ApplicationUser.cs</text>
+    <line x1="75" y1="2195" x2="75" y2="2205" class="line"/>
+    <line x1="75" y1="2205" x2="85" y2="2205" class="line"/>
+    <text x="90" y="2210" class="icon">📄</text>
+    <text x="115" y="2210" class="file-text">Book.cs</text>
+    <line x1="75" y1="2230" x2="75" y2="2240" class="line"/>
+    <line x1="75" y1="2240" x2="85" y2="2240" class="line"/>
+    <text x="90" y="2245" class="icon">📄</text>
+    <text x="115" y="2245" class="file-text">Comment.cs</text>
+    <line x1="75" y1="2265" x2="75" y2="2275" class="line"/>
+    <line x1="75" y1="2275" x2="85" y2="2275" class="line"/>
+    <text x="90" y="2280" class="icon">📄</text>
+    <text x="115" y="2280" class="file-text">myBook.cs</text>
+    <line x1="45" y1="2335" x2="45" y2="2345" class="line"/>
+    <line x1="45" y1="2345" x2="55" y2="2345" class="line"/>
+    <text x="60" y="2350" class="icon">📁</text>
+    <text x="85" y="2350" class="folder-text">wwwroot/</text>
+    <line x1="75" y1="2365" x2="75" y2="2375" class="line"/>
+    <line x1="75" y1="2375" x2="85" y2="2375" class="line"/>
+    <text x="90" y="2380" class="icon">📁</text>
+    <text x="115" y="2380" class="folder-text">uploads/</text>
+    <line x1="105" y1="2395" x2="105" y2="2405" class="line"/>
+    <line x1="105" y1="2405" x2="115" y2="2405" class="line"/>
+    <text x="120" y="2410" class="icon">🖼️</text>
+    <text x="145" y="2410" class="file-text">0f8b784bf5aa42eb8b814bf95ffdd443.jpeg</text>
+    <line x1="105" y1="2430" x2="105" y2="2440" class="line"/>
+    <line x1="105" y1="2440" x2="115" y2="2440" class="line"/>
+    <text x="120" y="2445" class="icon">🖼️</text>
+    <text x="145" y="2445" class="file-text">1984.jpg</text>
+    <line x1="105" y1="2465" x2="105" y2="2475" class="line"/>
+    <line x1="105" y1="2475" x2="115" y2="2475" class="line"/>
+    <text x="120" y="2480" class="icon">🖼️</text>
+    <text x="145" y="2480" class="file-text">282cb0327da44c178e06fb490d29563e.jpg</text>
+    <line x1="105" y1="2500" x2="105" y2="2510" class="line"/>
+    <line x1="105" y1="2510" x2="115" y2="2510" class="line"/>
+    <text x="120" y="2515" class="icon">🖼️</text>
+    <text x="145" y="2515" class="file-text">2f4e14c02f1442918b59287ccb187639.jpg</text>
+    <line x1="105" y1="2535" x2="105" y2="2545" class="line"/>
+    <line x1="105" y1="2545" x2="115" y2="2545" class="line"/>
+    <text x="120" y="2550" class="icon">🖼️</text>
+    <text x="145" y="2550" class="file-text">459b1cf2fedd4ab5927702877706121c.jpeg</text>
+    <line x1="105" y1="2570" x2="105" y2="2580" class="line"/>
+    <line x1="105" y1="2580" x2="115" y2="2580" class="line"/>
+    <text x="120" y="2585" class="icon">🖼️</text>
+    <text x="145" y="2585" class="file-text">5f57aa62164b4684980f6c14198f7da4.jpeg</text>
+    <line x1="105" y1="2605" x2="105" y2="2615" class="line"/>
+    <line x1="105" y1="2615" x2="115" y2="2615" class="line"/>
+    <text x="120" y="2620" class="icon">🖼️</text>
+    <text x="145" y="2620" class="file-text">67e99112f62f43daba8ae3142012a835.png</text>
+    <line x1="105" y1="2640" x2="105" y2="2650" class="line"/>
+    <line x1="105" y1="2650" x2="115" y2="2650" class="line"/>
+    <text x="120" y="2655" class="icon">🖼️</text>
+    <text x="145" y="2655" class="file-text">6ec96fa16f9a437ea097be6a19dc8f66.jpeg</text>
+    <line x1="105" y1="2675" x2="105" y2="2685" class="line"/>
+    <line x1="105" y1="2685" x2="115" y2="2685" class="line"/>
+    <text x="120" y="2690" class="icon">🖼️</text>
+    <text x="145" y="2690" class="file-text">7dc9bd572ac842479774953cd4c7b0c2.jpeg</text>
+    <line x1="105" y1="2710" x2="105" y2="2720" class="line"/>
+    <line x1="105" y1="2720" x2="115" y2="2720" class="line"/>
+    <text x="120" y="2725" class="icon">🖼️</text>
+    <text x="145" y="2725" class="file-text">8544600983594d9c8ba0c9d3b6548981.jpg</text>
+    <line x1="105" y1="2745" x2="105" y2="2755" class="line"/>
+    <line x1="105" y1="2755" x2="115" y2="2755" class="line"/>
+    <text x="120" y="2760" class="icon">🖼️</text>
+    <text x="145" y="2760" class="file-text">950574cedbce4be487b58316854b498f.png</text>
+    <line x1="105" y1="2780" x2="105" y2="2790" class="line"/>
+    <line x1="105" y1="2790" x2="115" y2="2790" class="line"/>
+    <text x="120" y="2795" class="icon">🖼️</text>
+    <text x="145" y="2795" class="file-text">Cleancode.jpeg</text>
+    <line x1="105" y1="2815" x2="105" y2="2825" class="line"/>
+    <line x1="105" y1="2825" x2="115" y2="2825" class="line"/>
+    <text x="120" y="2830" class="icon">🖼️</text>
+    <text x="145" y="2830" class="file-text">a5380967d55944d697f3b4625efb9b26.jpeg</text>
+    <line x1="105" y1="2850" x2="105" y2="2860" class="line"/>
+    <line x1="105" y1="2860" x2="115" y2="2860" class="line"/>
+    <text x="120" y="2865" class="icon">🖼️</text>
+    <text x="145" y="2865" class="file-text">b02a9b69cae14234b614b057ddb3991f.jpeg</text>
+    <line x1="105" y1="2885" x2="105" y2="2895" class="line"/>
+    <line x1="105" y1="2895" x2="115" y2="2895" class="line"/>
+    <text x="120" y="2900" class="icon">🖼️</text>
+    <text x="145" y="2900" class="file-text">b6e0413b96484b0e87e897f30bbf1bf0.png</text>
+    <line x1="105" y1="2920" x2="105" y2="2930" class="line"/>
+    <line x1="105" y1="2930" x2="115" y2="2930" class="line"/>
+    <text x="120" y="2935" class="icon">🖼️</text>
+    <text x="145" y="2935" class="file-text">bb8de9539d7743ebaf89cccfd68f29f6.jpg</text>
+    <line x1="105" y1="2955" x2="105" y2="2965" class="line"/>
+    <line x1="105" y1="2965" x2="115" y2="2965" class="line"/>
+    <text x="120" y="2970" class="icon">🖼️</text>
+    <text x="145" y="2970" class="file-text">d4cbdc4728ed46cb96ffb1a762bf867d.jpg</text>
+    <line x1="105" y1="2990" x2="105" y2="3000" class="line"/>
+    <line x1="105" y1="3000" x2="115" y2="3000" class="line"/>
+    <text x="120" y="3005" class="icon">🖼️</text>
+    <text x="145" y="3005" class="file-text">d6e9481bfa03497599f88a92e12a419e.png</text>
+    <line x1="105" y1="3025" x2="105" y2="3035" class="line"/>
+    <line x1="105" y1="3035" x2="115" y2="3035" class="line"/>
+    <text x="120" y="3040" class="icon">🖼️</text>
+    <text x="145" y="3040" class="file-text">d77f3ee60e344031afe5de7c8d53bc4e.jpeg</text>
+    <line x1="105" y1="3060" x2="105" y2="3070" class="line"/>
+    <line x1="105" y1="3070" x2="115" y2="3070" class="line"/>
+    <text x="120" y="3075" class="icon">🖼️</text>
+    <text x="145" y="3075" class="file-text">df0f0495d06e451da2c2b48cabade2c6.jpeg</text>
+    <line x1="105" y1="3095" x2="105" y2="3105" class="line"/>
+    <line x1="105" y1="3105" x2="115" y2="3105" class="line"/>
+    <text x="120" y="3110" class="icon">🖼️</text>
+    <text x="145" y="3110" class="file-text">pragmatic-programmer-the.jpg</text>
+    <line x1="45" y1="3200" x2="45" y2="3210" class="line"/>
+    <line x1="45" y1="3210" x2="55" y2="3210" class="line"/>
+    <text x="60" y="3215" class="icon">📄</text>
+    <text x="85" y="3215" class="file-text">BookLogApi.csproj</text>
+    <line x1="45" y1="3235" x2="45" y2="3245" class="line"/>
+    <line x1="45" y1="3245" x2="55" y2="3245" class="line"/>
+    <text x="60" y="3250" class="icon">📄</text>
+    <text x="85" y="3250" class="file-text">BookLogApi.http</text>
+    <line x1="45" y1="3270" x2="45" y2="3280" class="line"/>
+    <line x1="45" y1="3280" x2="55" y2="3280" class="line"/>
+    <text x="60" y="3285" class="icon">📄</text>
+    <text x="85" y="3285" class="file-text">Program.cs</text>
+    <line x1="45" y1="3305" x2="45" y2="3315" class="line"/>
+    <line x1="45" y1="3315" x2="55" y2="3315" class="line"/>
+    <text x="60" y="3320" class="icon">⚙️</text>
+    <text x="85" y="3320" class="file-text">appsettings.Development.json</text>
+    <line x1="45" y1="3340" x2="45" y2="3350" class="line"/>
+    <line x1="45" y1="3350" x2="55" y2="3350" class="line"/>
+    <text x="60" y="3355" class="icon">⚙️</text>
+    <text x="85" y="3355" class="file-text">appsettings.json</text>
+    <line x1="45" y1="3375" x2="45" y2="3385" class="line"/>
+    <line x1="45" y1="3385" x2="55" y2="3385" class="line"/>
+    <text x="60" y="3390" class="icon">📄</text>
+    <text x="85" y="3390" class="file-text">booklog.db</text>
+    <line x1="15" y1="3455" x2="25" y2="3455" class="line"/>
+    <text x="30" y="3460" class="icon">📄</text>
+    <text x="55" y="3460" class="file-text">fil.txt</text>
+</svg>
