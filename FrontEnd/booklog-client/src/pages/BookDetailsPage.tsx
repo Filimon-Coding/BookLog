@@ -14,6 +14,13 @@ import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+
+// BookDetailsPage.tsx
+// This page shows detailed information about one specific book.
+// It gets the book id from the URL and fetches the book data + comments from the API.
+// Users can add a comment and (if allowed) delete their own comment.
+// It also may allow adding/changing status in MyBooks from this page.
+
 export default function BookDetailsPage() {
   const { id } = useParams();
   const bookId = Number(id);

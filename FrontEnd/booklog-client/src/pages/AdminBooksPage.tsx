@@ -5,6 +5,12 @@ import { createBookApi, deleteBookApi, getBooksApi, updateBookApi } from "../api
 import BookForm from "../components/BookForm";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+// AdminBooksPage.tsx
+// This page is for admins to manage all books in the system.
+// It loads the full book list from the API and shows tools to edit/delete any book.
+// Admin can also create new books and usually handle cover uploads through the form.
+// It includes simple loading/error handling while talking to the backend.
+
 export default function AdminBooksPage() {
   const [books, setBooks] = useState<BookDto[]>([]);
   const [editing, setEditing] = useState<BookDto | null>(null);

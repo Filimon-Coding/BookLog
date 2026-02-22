@@ -10,12 +10,17 @@ import AuthorBooksPage from "../pages/AuthorBooksPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProtectedRoute from "./ProtectedRoute";
 
+// AppRouter.tsx
+// This file is basically the “map” for all pages in the app (which URL opens which page).
+// It also uses ProtectedRoute on some routes to check if the user is logged in and has the right role.
+
 export default function AppRouter() {
   return (
+    
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/books" element={<BooksPage />} />
-      <Route path="/books/:id" element={<BookDetailsPage />} />
+      <Route path="/books/:id" element={<BookDetailsPage />} /> 
 
       <Route
         path="/mybooks"

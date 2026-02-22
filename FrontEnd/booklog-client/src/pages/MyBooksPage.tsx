@@ -4,6 +4,12 @@ import { getMyBooksApi, removeFromMyBooksApi, setMyBookStatusApi } from "../api/
 import type { BookStatus, MyBookDto } from "../types/models";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+// MyBooksPage.tsx
+// This page shows the user’s personal reading list (MyBooks).
+// It loads the list from the API and groups it by status like WantToRead / Reading / Finished.
+// The user can change status for a book, and the page updates the list after the change.
+// It also handles basic loading and error messages while fetching data.
+
 const statuses: BookStatus[] = ["WantToRead", "Reading", "Finished"];
 
 export default function MyBooksPage() {

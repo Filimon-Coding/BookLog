@@ -1,4 +1,3 @@
-// src/pages/BooksPage.tsx
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { getBooksApi } from "../api/booksApi";
@@ -6,6 +5,12 @@ import { addToMyBooksApi, getMyBooksApi } from "../api/myBooksApi";
 import type { BookDto } from "../types/models";
 import BookFilters from "../components/BookFilters";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
+
+// BooksPage.tsx
+// This page is for browsing all books in the app.
+// It fetches the book list from the API and shows them as cards/list items.
+// It also handles search/filtering (for example by title/author/genre) and updates what is shown.
+// Basic loading + error state is shown while the data is being fetched.
 
 export default function BooksPage() {
   const [books, setBooks] = useState<BookDto[]>([]);

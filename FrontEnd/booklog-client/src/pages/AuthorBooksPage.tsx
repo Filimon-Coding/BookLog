@@ -6,6 +6,12 @@ import { useAuth } from "../context/AuthContext";
 import BookForm from "../components/BookForm";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+// AuthorBooksPage.tsx
+// This page is the “Author dashboard” where an author can manage their own books.
+// It fetches the logged-in author’s books from the API and shows them in a list/table.
+// The author can usually create a new book, edit an existing one, and delete their own books.
+// It also handles simple loading/error states while waiting for the API response.
+
 export default function AuthorBooksPage() {
   const { user } = useAuth();
   const [books, setBooks] = useState<BookDto[]>([]);

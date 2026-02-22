@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+// NotFound response page 
+
 export default function NotFoundPage() {
   return (
     <div>

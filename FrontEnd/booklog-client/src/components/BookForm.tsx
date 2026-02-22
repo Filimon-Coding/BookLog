@@ -3,6 +3,12 @@ import type { BookDto } from "../types/models";
 import { uploadCoverApi } from "../api/uploadsApi";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+// BookForm.tsx
+// This component is used for both creating a new book and editing an existing book.
+// It keeps the form fields in state, validates simple things, and sends POST/PUT to the API.
+// If a cover image is used, it handles file selection + preview, and uploads it as multipart.
+// After saving, it usually redirects back or refreshes the list so the changes show up.
+
 type Props = {
   initial?: Partial<BookDto>;
   onSave: (payload: Partial<BookDto>) => void | Promise<void>;

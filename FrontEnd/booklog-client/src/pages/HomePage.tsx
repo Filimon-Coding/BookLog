@@ -5,6 +5,12 @@ import { getMyBooksApi } from "../api/myBooksApi";
 import type { BookDto, MyBookDto } from "../types/models";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+// HomePage.tsx
+// This is the landing page of the app, showing a quick overview + some “featured” books.
+// It loads book data and the user’s MyBooks list when the page opens (useEffect + API calls).
+// useMemo is used to calculate stats/trending lists so it doesn’t redo the same work every render.
+// It also shows a “Continue Reading” section based on MyBooks status = "Reading".
+
 function IconBooks() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">

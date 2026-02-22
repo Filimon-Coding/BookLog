@@ -3,6 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import type { Role } from "../types/models";
 import { useAuth } from "../context/AuthContext";
 
+// RegisterPage.tsx
+// This page lets a new user create an account by filling in a simple register form.
+// When the user submits, it sends the data to the auth API to create the user.
+// If it works, we usually redirect to login (or log in directly if the API returns a token).
+// If something fails (like weak password / email already used), it shows an error message.
+
 function extractErrorMessage(err: any): string {
   const data = err?.response?.data;
 

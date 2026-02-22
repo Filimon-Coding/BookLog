@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookLogApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+272e5c208b9a2f824bda3822c533035f446308d8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e3b88018bbea8112572522cb4cd9bd4e328a6c5")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookLogApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookLogApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

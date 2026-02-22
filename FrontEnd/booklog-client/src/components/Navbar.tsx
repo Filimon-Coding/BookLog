@@ -5,6 +5,12 @@ import { getBooksApi } from "../api/booksApi";
 import type { BookDto } from "../types/models";
 import { resolveAssetUrl } from "../utils/resolveAssetUrl";
 
+// NavBar.tsx
+// This component is the top navigation bar shown on most pages.
+// It shows links based on if the user is logged in, and can also hide/show admin/author links by role.
+// It usually contains search input (or triggers search) and a logout button.
+// Logout clears the saved token/user info so protected pages are blocked again.
+
 function SearchIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">

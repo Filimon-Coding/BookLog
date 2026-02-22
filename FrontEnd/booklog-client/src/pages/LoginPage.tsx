@@ -2,6 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+// LoginPage.tsx
+// This page is the login screen where the user enters email/username and password.
+// When the form is submitted it calls the auth API and gets back a JWT token.
+// If login works, the token/user info is saved (so ProtectedRoute can use it) and we redirect.
+// If login fails, it shows a simple error message to the user.
+
 export default function LoginPage() {
   const { login } = useAuth();
   const nav = useNavigate();
