@@ -2,6 +2,12 @@ using BookLogApi.Models.Enums;
 
 namespace BookLogApi.Models;
 
+// Program.cs
+// This file is where the backend “gets started” and all the main setup happens.
+// Here we register things like the database, login/roles (Identity), and JWT token auth.
+// It also turns on Swagger for testing the API, and sets up middleware for requests.
+// At startup it runs database setup/seed so roles/users exist when we run the app.
+
 public class Book
 {
     public int Id { get; set; }

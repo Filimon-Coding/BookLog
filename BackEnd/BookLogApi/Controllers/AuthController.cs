@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookLogApi.Controllers;
 
+// AuthController.cs
+// This controller handles login and register requests from the frontend.
+// It uses Identity to create users and check passwords during login.
+// When login is successful, it generates a JWT token and sends it back to the client.
+// The token is then used to access protected endpoints in the API.
+
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase

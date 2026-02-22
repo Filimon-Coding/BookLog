@@ -13,6 +13,13 @@ using Xunit;
 
 namespace BookLogApi.Tests;
 
+// BooksControllerTests.cs
+// This file contains unit tests for the BooksController.
+// It checks if the main endpoints (get, create, update, delete) work as expected.
+// The tests simulate API calls and verify that correct results are returned.
+// This helps make sure the controller logic works before running the full app.
+// If something breaks in the controller, these tests should catch it.
+
 public class BooksControllerTests
 {
     // -----------------------------

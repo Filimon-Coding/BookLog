@@ -3,6 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+// ApplicationDbContext.cs
+// This file is the main “database class” for the backend using Entity Framework Core.
+// It tells EF which tables we have (like Books, Comments, MyBooks) and how they connect.
+// Identity also plugs into this context, so users/roles get stored in the same database.
+// When controllers query or save data, they normally do it through this DbContext.
+
 namespace BookLogApi.Data;
 
 public class ApplicationDbContext

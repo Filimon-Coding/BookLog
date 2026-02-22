@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+// Program.cs
+// This is the main startup file for the backend (.NET 8 Web API).
+// It configures services like DbContext, Identity, JWT authentication, and Swagger.
+// It also sets up middleware (CORS, authentication, authorization, static files).
+// When the app starts, it applies migrations and seeds default roles/users.
+
 var builder = WebApplication.CreateBuilder(args);
 
 // JSON enums as strings (helps frontend)

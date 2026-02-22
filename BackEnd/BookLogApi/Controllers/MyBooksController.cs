@@ -10,6 +10,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookLogApi.Controllers;
 
+// MyBooksController.cs
+// This controller is for the user’s personal reading list (MyBooks).
+// It lets the user add a book to their list and set status like WantToRead / Reading / Finished.
+// The endpoints are protected, so it uses the logged-in user info from the JWT token.
+// It basically connects the “MyBooks” page in the frontend with the database.
+
+
 [ApiController]
 [Authorize]
 [Route("api/mybooks")]

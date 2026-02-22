@@ -9,6 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookLogApi.Controllers;
 
+
+// BooksController.cs
+// This controller handles the main book 
+// API (get/create/update/delete books) and talks to the database.
+
 [ApiController]
 [Route("api/books")]
 public class BooksController : ControllerBase

@@ -1,5 +1,11 @@
 /* src/index.css */
 
+/* index.css */
+/* This file contains the global styles for the whole frontend app. */
+/* It sets basic things like font, colors, layout defaults and resets. */
+/* These styles apply to all pages unless they are overridden by component-specific CSS. */
+
+
 /* ====== Theme tokens ====== */
 :root {
   color-scheme: dark;
