@@ -98,7 +98,7 @@ export default function AdminBooksPage() {
                 </div>
 
                 <div className="bookaction">
-                  <button className="btn" onClick={() => setEditing(b)}>
+                  <button className="btn btn-primary" onClick={() => setEditing(b)}>
                     Edit
                   </button>
                   <button className="btn" onClick={() => remove(b.id)}>

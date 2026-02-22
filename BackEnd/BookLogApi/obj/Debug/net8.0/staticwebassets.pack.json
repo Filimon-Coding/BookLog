@@ -1,0 +1,65 @@
+{
+  "Files": [
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/1984.jpg",
+      "PackagePath": "staticwebassets/uploads/1984.jpg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/Atomic.jpg",
+      "PackagePath": "staticwebassets/uploads/Atomic.jpg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/Cleancode.jpeg",
+      "PackagePath": "staticwebassets/uploads/Cleancode.jpeg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/CoverNotFound.png",
+      "PackagePath": "staticwebassets/uploads/CoverNotFound.png"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/DeepWork.jpg",
+      "PackagePath": "staticwebassets/uploads/DeepWork.jpg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/Dune.jpg",
+      "PackagePath": "staticwebassets/uploads/Dune.jpg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/Hobbit.jpeg",
+      "PackagePath": "staticwebassets/uploads/Hobbit.jpeg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/Sapiens.jpg",
+      "PackagePath": "staticwebassets/uploads/Sapiens.jpg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/TheAlchemist.jpg",
+      "PackagePath": "staticwebassets/uploads/TheAlchemist.jpg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/Thinking.jpg",
+      "PackagePath": "staticwebassets/uploads/Thinking.jpg"
+    },
+    {
+      "Id": "/home/neov/Documents/MinCodingLinuxV/Prosjekter/5thSemester/ITPE3200Webapplikasjoner/BookLog/BackEnd/BookLogApi/wwwroot/uploads/pragmatic-programmer-the.jpg",
+      "PackagePath": "staticwebassets/uploads/pragmatic-programmer-the.jpg"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.BookLogApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.BookLogApi.props",
+      "PackagePath": "build\\BookLogApi.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.BookLogApi.props",
+      "PackagePath": "buildMultiTargeting\\BookLogApi.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.BookLogApi.props",
+      "PackagePath": "buildTransitive\\BookLogApi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
