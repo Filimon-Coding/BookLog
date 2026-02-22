@@ -32,12 +32,13 @@ BookLog is a web-based book review platform where users can browse books, mainta
   - Author: create/update/delete own books
   - Reader: browse books, manage MyBooks, comment
 
-- | Username | Password  |
-- | -------- | --------- |
-- | admin    | Admin123! |
-- | author1  | Test123!  |
-- | reader1  | Test123!  |
+### Seed Accounts
 
+| Username | Password   |
+|----------|------------|
+| admin    | Admin123!  |
+| author1  | Test123!   |
+| reader1  | Test123!   |
 
 - CRUD for books
 - Comments on books
